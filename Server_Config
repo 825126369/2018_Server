@@ -1,0 +1,6 @@
+				环境配置
+操作系统：Ubuntu
+C++开发环境：Eclipse+CDT
+数据库：MariaDB（类似MYSQL）
+网络库：libev（精简）
+
