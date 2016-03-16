@@ -66,7 +66,7 @@ void NetManager::NetSendMsg(int client_fd,char* msg)
 }
 void NetManager::closeNet()
 {
-	//close(client_fd);
+	close(client_fd);
 	cout<<"客户端Socket关闭"<<endl;
 }
 
