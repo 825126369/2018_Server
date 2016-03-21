@@ -9,25 +9,35 @@
 #define SRC_NETMANAGER_NETMANAGER_H_
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <vector>
+#include "NetDefine.h"
+#include <arpa/inet.h>
+#include <iostream>
+#include <unistd.h>
+#include <string.h>
+#include <cerrno>
+#include <cstdlib>
+#include "NetUtility.h"
+#include <cstdio>
+#include <queue>
+using namespace std;
 namespace basic {
 
 class NetManager {
 public:
-	NetManager();
-	virtual ~NetManager();
-	int InitNet(const char* ipStr,int port,int maxConnectCout);
-	void closeNet();
-	void NetAcceptClient();
-	void NetReceiveMsg();
-	void NetSendMsg();
-	void NetSendMsg(int client_fd,char* msg);
+	 NetManager();
+	 virtual ~NetManager();
 
+	int InitNet(const char* ipStr,const int port,const int maxConnectCout);
+	int CloseNet();
+	int NetAcceptClient(socket_class& client);
+	int NetReceiveMsg(const socket_class& client);
+	int NetSendMsg(const socket_class& client,const char* msg);
 
 
 private:
-	struct sockaddr_in  server_addr;
-	int server_fd;
-
+	socket_class Server;
+	vector<socket_class> client_list;
 };
 
 } /* namespace basic */

@@ -6,12 +6,6 @@
  */
 
 #include "NetManager.h"
-#include <arpa/inet.h>
-#include <iostream>
-#include <unistd.h>
-#include <string.h>
-#include <cerrno>
-using namespace std;
 
 namespace basic {
 
@@ -23,69 +17,110 @@ NetManager::~NetManager() {
 	// TODO Auto-generated destructor stub
 }
 
-int NetManager::InitNet(const char* ipStr,int port,int maxConnectCout)
+int NetManager::InitNet(const char* ipStr,const int port,const int maxConnectCout)
 {
+	Server={};
+	//memset(&Server,0,sizeof(Server));
 	//生成SOCKet描数字
-	server_fd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+	if((Server._fd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))==-1)
+	{
+		xk_Debug::LogSystemError("Init Server_fd Error:");
+		return -1;
+	}
+	/*int reuse=1;
+    if (setsockopt(Server._fd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse))==-1)
+    {
+            perror("setsockopet error:");
+            return -1;
+    }*/
 	//Socket结构封装
-	//memset((void *)&server_addr,0,sizeof(server_addr));
-	server_addr.sin_addr.s_addr=inet_addr(ipStr);
-	server_addr.sin_family=AF_INET;
-	server_addr.sin_port=htons(port);
-	cout<<"Socket初始化:  IP:"<<(server_addr.sin_addr.s_addr)<<"    端口："<<(server_addr.sin_port)<<endl;
-	cout<<"Socket初始化:  IP:"<<inet_ntoa(server_addr.sin_addr)<<"    端口："<<(ntohs(server_addr.sin_port))<<endl;
+	Server._addr.sin_addr.s_addr=inet_addr(ipStr);
+   // Server._addr.sin_addr.s_addr=INADDR_ANY;
+	Server._addr.sin_family=AF_INET;
+	Server._addr.sin_port=htons(port);
+	NetUtility::printServerinfo(Server);
 	//把socket描数字，socket地址结构绑定
-	if(bind(server_fd,(const struct sockaddr *)&server_addr,sizeof(server_addr))==-1)
+	if(bind(Server._fd,(const struct sockaddr *)&Server._addr,sizeof(Server._addr))==-1)
 	{
-		cout<<"Bind error:"<<strerror(errno)<<endl;
+		xk_Debug::LogSystemError("Bind error:");
 		return -1;
 	}
-	if(listen(server_fd,maxConnectCout)==-1)
+	if(listen(Server._fd,maxConnectCout)==-1)
 	{
-		cout<<"Listen：Error"<<endl;
+		xk_Debug::LogSystemError("Listen Error:");
 		return -1;
 	}
-	cout<<"服务器初始化完成"<<endl;
+	xk_Debug::Log("服务器初始化完成");
 	return 0;
 }
-void NetManager::NetAcceptClient()
+
+int NetManager::NetAcceptClient(socket_class& client)
 {
-		while(2)
+		socklen_t len;
+		if((client._fd=accept(Server._fd,(struct sockaddr*)&(client._addr),&len))==-1)
 		{
-			struct sockaddr_in mConnectHost;
-			socklen_t len;
-			int connect_fd;
-			char* ReceiveMsg=NULL;
-			cout<<"等待客户连接："<<endl;
-			connect_fd=accept(server_fd,(struct sockaddr*)&mConnectHost,&len);
-			cout<<"连接客户："<<endl;
-			cout<<"连接客户："<<(inet_ntoa(mConnectHost.sin_addr))<<endl;
+			xk_Debug::LogSystemError("Accept Error:");
+			return -1;
+		}
+		return 0;
+}
 
-			NetSendMsg(connect_fd,"hello");
-
-			/*ssize_t receiveMsgLength=recv(connect_fd,(void*)ReceiveMsg,1024,0);
-			if(receiveMsgLength>0)
+int NetManager::NetReceiveMsg(const socket_class& client)
+{
+	xk_Debug::Log("连接客户成功：");
+	NetUtility::printClientinfo(client);
+	client_list.push_back(client);
+	NetUtility::printClientPoolinfo(client_list);
+	while(3)
+	{
+		char msg[1024]={};
+		ssize_t receiveMsgLength=recv(client._fd,&msg,1024,0);
+		if(receiveMsgLength==-1)
+		{
+			xk_Debug::LogSystemError("NetReceiveMsg Error:");
+			return -1;
+		}else if(receiveMsgLength==0)
+		{
+			if(close(client._fd)==-1)
 			{
-				cout<<"获取的字符串是："<<ReceiveMsg<<endl;
-			}*/
+				xk_Debug::LogSystemError("Client Close Error:");
+			}
+			xk_Debug::Log("client DisConnected： ");
+			NetUtility::printClientinfo(client);
+			NetUtility::removeClientinfo(client_list,client);
+			NetUtility::printClientPoolinfo(client_list);
+			break;
+		}else if(receiveMsgLength>0)
+		{
+			xk_Debug::Log(2,"Get Data：",msg);
+			NetSendMsg(client,"ThansYou");
 		}
 
-}
-void NetManager::NetReceiveMsg()
-{
-
+	}
+	return 0;
 }
 
-void NetManager::NetSendMsg(int client_fd,char* msg)
+int NetManager::NetSendMsg(const socket_class& client,const char* msg)
 {
-	send(client_fd,msg,1024,0);
-	cout<<"发送数据："<<msg<<endl;
+	if(send(client._fd,msg,1024,0)==-1)
+	{
+		xk_Debug::LogSystemError("Send Error:");
+		return -1;
+	}
+	xk_Debug::Log(2,"Send Data：",msg);
+	return 0;
 }
-void NetManager::closeNet()
+//成功则返回0，错误返回-1
+int NetManager::CloseNet()
 {
-	shutdown(server_fd,SHUT_WR);
-	//close(server_fd);
-	cout<<"Socket关闭"<<endl;
+	//shutdown(server_fd,SHUT_WR);
+	if(close(Server._fd)==-1)
+	{
+		xk_Debug::LogSystemError("Close Server Error:");
+		return -1;
+	}
+	xk_Debug::Log("Server Closed");
+	return 0;
 }
 
 } /* namespace basic */

@@ -15,13 +15,12 @@ class NetManager {
 public:
 	NetManager();
 	virtual ~NetManager();
-	void InitNet(const char* ipStr,const int port);
-	void closeNet();
-	void NetConnectServer();
-	void NetReceiveMsg();
-	void NetSendMsg(char* msg);
-	void NetSendMsg(int client_fd,char* msg);
-
+	int InitNet(const char* ipStr,const int port);
+	int closeNet();
+	int NetConnectServer();
+	int NetReceiveMsg();
+	int NetSendMsg(char* msg);
+	int NetProcessManager();
 
 
 private:

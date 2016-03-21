@@ -23,7 +23,7 @@ NetManager::~NetManager() {
 	// TODO Auto-generated destructor stub
 }
 
-void NetManager::InitNet(const char* ipStr,const int port)
+int NetManager::InitNet(const char* ipStr,const int port)
 {
 	//生成SOCKet描数字
 	client_fd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
@@ -36,38 +36,76 @@ void NetManager::InitNet(const char* ipStr,const int port)
 
 	cout<<"客户端Socket初始化完毕"<<endl;
 }
-void NetManager::NetConnectServer()
+int NetManager::NetConnectServer()
 {
 			cout<<"正在连接服务器："<<endl;
 			if(connect(client_fd,(struct sockaddr *)&client_addr,sizeof(client_addr))==-1)
 			{
 					cout<<"连接服务器失败:"<<strerror(errno)<<endl;
-					return;
+					return -1;
 			}
 			cout<<"连接服务器成功:"<<inet_ntoa(client_addr.sin_addr)<<endl;
 
-			NetReceiveMsg();
-			//NetSendMsg(connect_fd,ReceiveMsg);
+			NetProcessManager();
+			return 0;
+}
+int NetManager::NetProcessManager()
+{
+	pid_t mchild_pid=fork();
+			if(mchild_pid==0)
+			{
+				NetReceiveMsg();
+			}else
+			{
+				while(true)
+				{
+					char buf[1024];
+					cout<<">:";
+					cin>>buf;
+					buf[1024]='\0';
+					NetSendMsg(buf);
+				}
+			}
 
 }
-void NetManager::NetReceiveMsg()
+int NetManager::NetReceiveMsg()
 {
-	char ReceiveMsg[1024];
-	ssize_t receiveMsgLength=recv(client_fd,(void*)ReceiveMsg,1024,0);
-	cout<<"获取的字符串是："<<ReceiveMsg<<endl;
+	while(3)
+	{
+		char ReceiveMsg[1024];
+		ssize_t receiveMsgLength=recv(client_fd,(void*)ReceiveMsg,1024,0);
+		if(receiveMsgLength>0)
+		{
+			cout<<"获取的字符串是："<<ReceiveMsg<<endl;
+		}else if(receiveMsgLength==0)
+		{
+			closeNet();
+			break;
+		}else
+		{
+			cout<<"Rev Error："<<errno<<endl;
+			return -1;
+		}
+	}
+	return 0;
 }
-void NetManager::NetSendMsg(char* msg)
+int NetManager::NetSendMsg(char* msg)
 {
-	send(client_fd,msg,1024,0);
+	if(send(client_fd,msg,1024,0)==-1)
+	{
+		return -1;
+	}
+	return 0;
 }
-void NetManager::NetSendMsg(int client_fd,char* msg)
+
+int NetManager::closeNet()
 {
-	send(client_fd,msg,1024,0);
-}
-void NetManager::closeNet()
-{
-	close(client_fd);
+	if(close(client_fd)==-1)
+	{
+		return -1;
+	}
 	cout<<"客户端Socket关闭"<<endl;
+	return 0;
 }
 
 } /* namespace basic */

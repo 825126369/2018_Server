@@ -4,17 +4,38 @@
  *  Created on: Mar 16, 2016
  *      Author: xuke
  */
-
-#include <iostream>
-#include "NetManager/NetManager.h"
+#include "NetManager/NetThreadManager.h"
 using namespace std;
 using namespace basic;
-int main()
+int main(int arg,char **argc)
 {
-	NetManager mNetManager;
-	mNetManager.InitNet("192.168.1.4",7878,100);
-	mNetManager.NetAcceptClient();
-	mNetManager.closeNet();
+	char *ip={};
+	int port={};
+	int maxConnect={};
+	switch(arg)
+	{
+	case 2:
+		ip=argc[1];
+		port=7878;
+		maxConnect=1;
+		break;
+	case 3:
+		ip=argc[1];
+		port=atoi(argc[2]);
+		maxConnect=1;
+		break;
+	case 4:
+		ip=argc[1];
+		port=atoi(argc[2]);
+		maxConnect=atoi(argc[3]);
+		break;
+	default:
+		ip="192.168.1.4";
+		port=7878;
+		maxConnect=1;
+		break;
+	}
+	NetThreadManger_Init(ip,port,maxConnect);
 	return 0;
 }
 
