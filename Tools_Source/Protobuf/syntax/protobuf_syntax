@@ -1,0 +1,72 @@
+命令： protoc --cpp_out=dir  xxx.proto
+protoc -I=protocc(dir) --cpp_out=out(dir) protocc/test.proto(dir)
+
+5、标准方法  
+  
+  
+bool IsInitialized() const:                确认required字段是否被设置  
+  
+  
+string DebugString() const:                返回消息的可读表示，用于调试  
+  
+  
+void CopyFrom(const Person& from):         使用给定消息值copy  
+  
+  
+void Clear():                              清除所有元素为空状态  
+
+
+6、解析与序列化  
+  
+  
+bool SerializeToString(string* output) const:        序列化消息，将存储字节的以string方式输出。注意字节是二进制，而非文本；  
+  
+  
+bool ParseFromString(const string& data):            解析给定的string       
+  
+  
+bool SerializeToOstream(ostream* output) const:      写消息给定的c++  ostream中  
+  
+  
+bool ParseFromIstream(istream* input):               从给定的c++ istream中解析出消息  
+
+google::protobuf::ShutdownProtobufLibrary(); 	  // Optional:  Delete all global objects allocated by libprotobuf.  
+
+//C数组的序列化和反序列化API  
+bool ParseFromArray(const void* data, int size);  
+bool SerializeToArray(void* data, int size) const;  
+
+//C++string序列化和序列化API  
+bool SerializeToString(string* output) const;  
+bool ParseFromString(const string& data); 
+
+ //文件描述符的序列化和序列化API  
+ bool SerializeToFileDescriptor(int file_descriptor) const;  
+ bool ParseFromFileDescriptor(int file_descriptor);  
+
+
+
+    //C++ stream 序列化/反序列化API  
+    bool SerializeToOstream(ostream* output) const;  
+    bool ParseFromIstream(istream* input);  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

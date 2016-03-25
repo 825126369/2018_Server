@@ -1,0 +1,5 @@
+message ChatInfo
+{
+  	optional string name = 1;
+	optional string content=2;
+}

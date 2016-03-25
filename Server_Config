@@ -3,5 +3,6 @@
 C++开发环境：Eclipse+CDT
 数据库：MariaDB（类似MYSQL）
 网络库：libev（精简）
+protobuf:2.6.1
 并发：多线程（多进程将来在搞，现在只搞多线程）
 

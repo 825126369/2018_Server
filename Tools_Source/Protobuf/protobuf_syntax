@@ -1,4 +1,0 @@
-配置：protobuf-3.0.0-bate-2
-命令： protoc --cpp_out=dir  xxx.proto
-
-

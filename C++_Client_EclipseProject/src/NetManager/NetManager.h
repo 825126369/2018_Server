@@ -9,6 +9,7 @@
 #define SRC_NETMANAGER_NETMANAGER_H_
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include "../Proto.cpp/test.pb.h"
 namespace basic {
 
 class NetManager {
@@ -19,8 +20,10 @@ public:
 	int closeNet();
 	int NetConnectServer();
 	int NetReceiveMsg();
-	int NetSendMsg(char* msg);
+	int NetSendMsg(const  char* msg);
 	int NetProcessManager();
+	int SerializeData();
+	int ParseData(const char* msg);
 
 
 private:

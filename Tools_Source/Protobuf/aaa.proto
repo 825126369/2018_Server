@@ -1,8 +1,0 @@
-syntax="proto3";
-
-message People
-{
-	int32 tizhong=1;
-	repeated int32 shengao=2;
-	string name=3;
-}

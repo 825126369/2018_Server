@@ -1,0 +1,11 @@
+message ChatInfo
+{
+  	optional string name = 1;
+	optional string content=2;
+}
+
+message roleinfo
+{
+	optional string name=1;
+
+}

@@ -1,0 +1,21 @@
+enum ChatChannel
+{
+	World=1;
+	Friend=2;
+	Private=3；
+}
+//Client:
+//
+//
+message ChatInfo
+{
+  	optional string name = 1;
+	optional string content=2;
+	optional ChatChannel channel=3;
+}
+
+message roleinfo
+{
+	optional string name=1;
+
+}
