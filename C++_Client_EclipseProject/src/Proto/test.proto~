@@ -1,4 +1,0 @@
-message SearchRequest 
-{
-  	repeated int32 query = 1;
-}

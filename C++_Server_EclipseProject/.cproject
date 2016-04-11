@@ -43,6 +43,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1009063815" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.455547119" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="protobuf"/>
+									<listOptionValue builtIn="false" value="ssl"/>
+									<listOptionValue builtIn="false" value="crypto"/>
 									<listOptionValue builtIn="false" value="protoc"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 								</option>

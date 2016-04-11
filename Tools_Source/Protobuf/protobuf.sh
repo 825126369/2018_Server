@@ -1,5 +1,5 @@
 #! /bin/sh
-echo "Start Generate cpp file,directory is out"
+echo "Start Generate cpp file by .proto,directory is out"
 for file in ./out/*
 do
 	rm -rf $file
@@ -22,11 +22,11 @@ do
 	mv $file ../out/
 done
 cd ../
-rm -Rf /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Proto.cpp/* 
+rm -Rf /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto.cpp/* 
 
-rm -Rf /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Proto/* 
+rm -Rf /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto/* 
 
-cp -Rf out/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Proto.cpp/
-cp -Rf proto/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Proto/
+cp -Rf out/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto.cpp/
+cp -Rf proto/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto/
 
 echo "Finsh" 

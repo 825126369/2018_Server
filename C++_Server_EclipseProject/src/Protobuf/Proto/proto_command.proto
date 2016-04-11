@@ -1,0 +1,8 @@
+enum ProtoCommand
+{
+	Chat=1100;
+
+
+
+
+}
