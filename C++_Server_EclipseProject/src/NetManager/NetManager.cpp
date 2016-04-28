@@ -290,6 +290,8 @@ int Protobuf::DeSerializeStream(const unsigned char* msg,int Length)
 	protobuf_command=mStream.command;
 	protobuf_Length=mStream.buffer_Length;
 
+	return 0;
+
 }
 
 NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)

@@ -1,0 +1,69 @@
+#! /bin/sh
+#示例一：
+sqlname="test.sql"  
+dir="/sdb2/backup/mysql_db_backup/backup/databases"  
+host="127.0.0.1"  
+user="root"  
+passwd="123456"  
+dbname="test"   
+#导入sql文件到指定数据库
+mysql -h$host -u$user -p$passwd $dbname < $dir/$sqlname  
+#执行指定的sql语句
+# -s减少输出，保持沉默；-e 执行命令
+select_sql="select count(distinct id) from tb_test"  
+num=$(mysql -s -h$host -u$user -p$passwd $dbname -e "$register_sql") 
+#管道运算符
+echo "select count(distinct id) from tb_test" | mysql -h$host -u$user -p$passwd $dbname 
+#mysqldump导出mysql数据
+#mysqldump -u用户名 -p密码 -h主机  数据库名 表名  --where "sql语句"> 路径
+mysqldump -u$user -p$passwd -h$host $dbname  $tablename --where "id > 1 and id < 1000"  > 1.sql 
+#导出一个数据结构(无数据)
+#--no-data, -d
+#mysqldump -u用户名 -p密码 -h主机 数据库名 -d > 路径 
+mysqldump -u$user -p$passwd -h$host $dbname -d > 2.sql 
+
+#示例二
+HOSTNAME="192.168.111.84"                                           #数据库信息
+PORT="3306"
+USERNAME="root"
+PASSWORD=""
+DBNAME="test_db_test"                                                       #数据库名称
+TABLENAME="test_table_test"                                            #数据库中表的名称
+#创建数据库
+create_db_sql="create database IF NOT EXISTS ${DBNAME}"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} -e "${create_db_sql}"
+#创建表
+create_table_sql="create table IF NOT EXISTS ${TABLENAME} (  name varchar(20), id int(11) default 0 )"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${create_table_sql}"
+#插入数据
+insert_sql="insert into ${TABLENAME} values('billchen',2)"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${insert_sql}"
+#查询
+select_sql="select * from ${TABLENAME}"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${select_sql}"
+#更新数据
+update_sql="update ${TABLENAME} set id=3"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${update_sql}"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${select_sql}"
+#删除数据
+delete_sql="delete from ${TABLENAME}"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${delete_sql}"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} ${DBNAME} -e "${select_sql}"
+
+
+#示例三
+#-H 输出为html
+#-X 输出为xml
+mysql -u USERNAME -p PASSWORD DATABASENAME -X<<EOF 2>/dev/null
+show databases;
+EOF
+
+
+
+
+
+
+
+
+
+

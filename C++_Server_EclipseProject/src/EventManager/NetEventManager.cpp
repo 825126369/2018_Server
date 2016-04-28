@@ -48,6 +48,7 @@ int NetEventManager::handleEvent(NetEventPackage mProtobuf)
 	{
 		xk_Debug::Log()<<"没有找到接收命令"<<endl;
 	}
+	return 0;
 }
 
 int NetEventManager::Init()
