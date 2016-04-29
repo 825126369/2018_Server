@@ -42,7 +42,16 @@ protected:
 	int set_field_value(string fieldname,string value);
 	string get_field_value(string fieldname);
 	template<typename in_type, typename out_type>
-	out_type convert(const in_type t);
+	//out_type convert(const in_type t);
+	out_type convert(const in_type t)
+	{
+		static stringstream stream;
+		stream << t; //向流中传值
+		out_type result; //这里存储转换结果
+		stream >> result; //向result中写入值
+		stream.clear();
+		return result;
+	}
 
 
 protected:

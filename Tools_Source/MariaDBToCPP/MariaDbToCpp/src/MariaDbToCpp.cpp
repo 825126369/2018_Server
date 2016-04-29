@@ -15,20 +15,16 @@
 using namespace std;
 
 int ConnectMariadb();
-int ExcuteSqlSelectCommand(string command);
-int ExcuteSqlCommand(string command);
 int ReSolveTableInfo();
 string ChangeFieldType(enum_field_types value);
 class TableInfo
 {
 public:
 	static string db;
-	static string table;
-	string dataname;
-	string datatype;
+	string table;
+	vector<string> datanameList;
+	vector<string> datatypeList;
 };
-string TableInfo::db = "";
-string TableInfo::table = "";
 int GenerateCpp(vector<TableInfo> mClassInfoList);
 void Help();
 void PrintConnectionInfo();
@@ -37,9 +33,10 @@ string db = "game";
 string ip = "127.0.0.1";
 string user = "root";
 string password = "123";
-
-string hname = "Db.h";
-string cppname = "Db.cpp";
+string TableInfo::db = db;
+string hname = "DbTable.h";
+string cppname = "DbTable.cpp";
+string hbasename="DbTableBase";
 
 int main(int length, char** msg)
 {
@@ -58,7 +55,8 @@ int main(int length, char** msg)
 	PrintConnectionInfo();
 	ConnectMariadb();
 	mysql_close(connection);
-	cout << "Finish XML To MariaDb" << endl;
+	cout << "Finish MariaDB To CPP000000" << endl;
+	cout << "Finish MariaDB To CPP1111111111111" << endl;
 	return 0;
 }
 void Help()
@@ -88,88 +86,14 @@ int ConnectMariadb()
 		exit(1);
 	}
 	string sqlcommand = "use " + db;
-	ExcuteSqlCommand(sqlcommand);
+
+	int aaa=mysql_query(connection,sqlcommand.c_str());
 	cout << "连接数据库:" << db << endl;
 	//sqlcommand = "select * from config_Sheet2DB";
 	//ExcuteSqlSelectCommand(sqlcommand);
 	ReSolveTableInfo();
 	return 0;
 }
-int ExcuteSqlCommand(string command)
-{
-	cout << "sql command:" << command << endl;
-	int EffectRows = mysql_query(connection, command.c_str());
-	//cout << "影响的行数:" << EffectRows << endl;
-	if (EffectRows == 1)
-	{
-		cerr << "sql Error:" << mysql_error(connection) << endl;
-		exit(1);
-	}
-}
-
-int ExcuteSqlSelectCommand(string command)
-{
-	cout << "sql command:" << command << endl;
-	int EffectRows = mysql_query(connection, command.c_str());
-	cout << "影响的行数:" << EffectRows << endl;
-	if (EffectRows != 0)
-	{
-		cerr << "sql Error:" << mysql_error(connection) << endl;
-		exit(1);
-	}
-	MYSQL_RES* res = mysql_store_result(connection);
-	MYSQL_ROW row;
-	cout << "字段数： " << mysql_num_fields(res) << endl;
-	cout << "字段数： " << res->field_count << endl;
-	cout << "字段数： " << int(res->row_count) << endl;
-	cout << "字段数： " << *res->lengths << endl;
-	if (res)
-	{
-		while (true)
-		{
-			//检索一个结果集合的下一行
-			row = mysql_fetch_row(res);
-			if (row != NULL)
-			{
-				if (row <= 0)
-				{
-
-				}
-				//mysql_num_fields(res)  函数返回结果集中字段的数
-				for (int r = 0; r < mysql_num_fields(res); r++)
-				{
-					printf("%s\t", row[r]);
-				}
-				printf("\n");
-			}
-			else
-			{
-				break;
-			}
-		}
-		while (true)
-		{
-			MYSQL_FIELD * mArray0 = mysql_fetch_field(res);
-			if (mArray0 != NULL)
-			{
-				printf("%s\t", mArray0->name);
-
-				printf("\n");
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		//MYSQL_FIELD * mArray1= mysql_fetch_fields(res);
-		//for
-
-	}
-	//释放结果集使用的内存
-	mysql_free_result(res);
-}
-
 //检索所有表结构信息
 int ReSolveTableInfo()
 {
@@ -185,6 +109,7 @@ int ReSolveTableInfo()
 	MYSQL_RES* res = mysql_store_result(connection);
 	if (res)
 	{
+		vector<TableInfo> mClassInfoList;
 		while (true)
 		{
 			MYSQL_ROW row = mysql_fetch_row(res);
@@ -193,9 +118,10 @@ int ReSolveTableInfo()
 				//mysql_num_fields(res)  函数返回结果集中字段的数
 				for (int r = 0; r < mysql_num_fields(res); r++)
 				{
-					vector<TableInfo> mClassInfoList;
+					TableInfo mTableInfo;
 					string str = row[r];
-					cout << "表名：" + str << endl;
+					cout << "表名： " << str << endl;
+					mTableInfo.table = str;
 					string sqlcommand = "select * from " + str;
 					cout << "sql command:" << sqlcommand << endl;
 					int EffectRows = mysql_query(connection,
@@ -216,14 +142,10 @@ int ReSolveTableInfo()
 							{
 								cout << mArray0->name << endl;
 								cout << mArray0->type << endl;
-								TableInfo mTableInfo;
-								mTableInfo.dataname = mArray0->name;
-								mTableInfo.datatype = ChangeFieldType(
-										mArray0->type);
-
-								TableInfo::db = mArray0->db;
-								TableInfo::table = mArray0->table;
-								mClassInfoList.push_back(mTableInfo);
+								mTableInfo.datanameList.push_back(
+										mArray0->name);
+								mTableInfo.datatypeList.push_back(
+										ChangeFieldType(mArray0->type));
 							}
 							else
 							{
@@ -231,9 +153,11 @@ int ReSolveTableInfo()
 							}
 						}
 					}
-
-					GenerateCpp(mClassInfoList);
+					mClassInfoList.push_back(mTableInfo);
+					cout<<"增加："<<mClassInfoList.size()<<endl;
+					cout<<"增加："<<mClassInfoList.capacity()<<endl;
 				}
+				GenerateCpp(mClassInfoList);
 			}
 			else
 			{
@@ -273,84 +197,97 @@ int GenerateCpp(vector<TableInfo> mClassInfoList)
 {
 	if (mClassInfoList.size() > 0)
 	{
-		string classname = TableInfo::table;
+		cout<<"数量："<<mClassInfoList.size()<<endl;
 		string dbname = TableInfo::db;
 		ofstream mfile;
+
 		//生成.h文件
 		mfile.open(hname.c_str(), ios_base::out | ios_base::trunc);
 		string mClassStr = "";
 		mClassStr +=
-				"#ifndef SRC_MARIADBMANAGER_DBTABLE_H;\n#define SRC_MARIADBMANAGER_DBTABLE_H;\n";
+				"#ifndef SRC_MARIADBMANAGER_DBTABLE_H\n#define SRC_MARIADBMANAGER_DBTABLE_H\n";
 		mClassStr += "#include <string>\n#include \"MariaDBSystem.h\"\n";
 		mClassStr += "namespace basic{\n";
-		mClassStr += "class " + classname + ":DbTableBase\n{\npublic:\n";
-		for (vector<TableInfo>::iterator iter = mClassInfoList.begin();
-				iter < mClassInfoList.end(); iter++)
+
+		for (vector<TableInfo>::iterator iter = mClassInfoList.begin();iter < mClassInfoList.end(); iter++)
 		{
-			string name = (*iter).dataname;
-			string type = (*iter).datatype;
-
-			mClassStr += "\tint set_" + name + "_value(" + type + " value);\n";
-			mClassStr += "\t" + type + " get_" + name + "_value();\n";
+			string classname = (*iter).table;
+			vector<string> nameList = (*iter).datanameList;
+			vector<string> typeList = (*iter).datatypeList;
+			int Length = nameList.size();
+			mClassStr += "class " + classname + ":"+hbasename+"\n{\npublic:\n";
+			for (int i = 0; i < Length; i++)
+			{
+				string name = nameList[i];
+				string type = typeList[i];
+				mClassStr += "\tint set_" + name + "_value(" + type
+						+ " value);\n";
+				mClassStr += "\t" + type + " get_" + name + "_value();\n";
+			}
+			mClassStr += "private:\n";
+			for (int i = 0; i < Length; i++)
+			{
+				string name = nameList[i];
+				string type = typeList[i];
+				mClassStr += "\t" + type + " " + name + ";\n";
+			}
+			mClassStr += "};\n";
 		}
-		mClassStr += "private:\n";
-		for (vector<TableInfo>::iterator iter = mClassInfoList.begin();
-				iter < mClassInfoList.end(); iter++)
-		{
-			string name = (*iter).dataname;
-			string type = (*iter).datatype;
-
-			mClassStr += "\t" + type + " " + name + ";\n";
-		}
-		mClassStr += "};\n";
-		mClassStr += "}";
-
+		mClassStr += "}\n";
+		mClassStr += "#endif";
 		mfile << mClassStr << endl;
 		mfile.close();
-		//生成CPP
 
+		//生成CPP
 		mfile.open(cppname.c_str(), ios_base::out | ios_base::trunc);
 		mClassStr = "";
 		mClassStr += "#include \"" + hname + "\"\n";
 		mClassStr += "namespace basic{\n";
-		for (vector<TableInfo>::iterator iter = mClassInfoList.begin();iter < mClassInfoList.end(); iter++)
+		for (vector<TableInfo>::iterator iter = mClassInfoList.begin();
+				iter < mClassInfoList.end(); iter++)
 		{
-			string name = (*iter).dataname;
-			string type = (*iter).datatype;
-
-			if (type == "string")
+			string classname = (*iter).table;
+			vector<string> nameList = (*iter).datanameList;
+			vector<string> typeList = (*iter).datatypeList;
+			int Length = nameList.size();
+			for (int i = 0; i < Length; i++)
 			{
-				mClassStr += "int " + classname + "::set_" + name + "_value("
-						+ type + " value)\n{\n";
-				mClassStr += "\tset_field_value(\"" + name + "\",value);\n";
-				mClassStr += "\treturn 0;\n";
-				mClassStr += "}\n";
+				string name = nameList[i];
+				string type = typeList[i];
+				if (type == "string")
+				{
+					mClassStr += "int " + classname + "::set_" + name
+							+ "_value(" + type + " value)\n{\n";
+					mClassStr += "\tset_field_value(\"" + name + "\",value);\n";
+					mClassStr += "\treturn 0;\n";
+					mClassStr += "}\n";
 
-				mClassStr += type + " " + classname + "::get_" + name
-						+ "_value()\n{\n";
-				mClassStr += "\tstring str=get_field_value(\"" + name
-						+ "\");\n";
-				mClassStr += "\treturn str;\n";
-				mClassStr += "}\n";
-			}
-			else
-			{
-				mClassStr += "int " + classname + "::set_" + name + "_value("
-						+ type + " value)\n{\n";
-				mClassStr += "\tstring str=convert<" + type
-						+ ",string>(value);\n";
-				mClassStr += "\tset_field_value(\"" + name + "\",str);\n ";
-				mClassStr += "\treturn 0;\n";
-				mClassStr += "}\n";
+					mClassStr += type + " " + classname + "::get_" + name
+							+ "_value()\n{\n";
+					mClassStr += "\tstring str=get_field_value(\"" + name
+							+ "\");\n";
+					mClassStr += "\treturn str;\n";
+					mClassStr += "}\n";
+				}
+				else
+				{
+					mClassStr += "int " + classname + "::set_" + name
+							+ "_value(" + type + " value)\n{\n";
+					mClassStr += "\tstring str="+hbasename+"::convert<" + type
+							+ ",string>(value);\n";
+					mClassStr += "\t"+hbasename+"::set_field_value(\"" + name + "\",str);\n ";
+					mClassStr += "\treturn 0;\n";
+					mClassStr += "}\n";
 
-				mClassStr += type + " " + classname + "::get_" + name
-						+ "_value()\n{\n";
-				mClassStr += "\tstring str=get_field_value(\"" + name
-						+ "\");\n";
-				mClassStr += "\t" + type + " value=convert<string," + type
-						+ ">(str);\n";
-				mClassStr += "\treturn value;\n";
-				mClassStr += "}\n";
+					mClassStr += type + " " + classname + "::get_" + name
+							+ "_value()\n{\n";
+					mClassStr += "\tstring str="+hbasename+"::get_field_value(\"" + name
+							+ "\");\n";
+					mClassStr += "\t" + type + " value="+hbasename+"::convert<string," + type
+							+ ">(str);\n";
+					mClassStr += "\treturn value;\n";
+					mClassStr += "}\n";
+				}
 			}
 		}
 		mClassStr += "}";

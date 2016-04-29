@@ -140,7 +140,7 @@ string DbTableBase::get_field_value(string fieldname)
 	return result;
 }
 
-template<typename in_type, typename out_type>
+/*template<typename in_type, typename out_type>
 out_type DbTableBase::convert(const in_type t)
 {
 	static stringstream stream;
@@ -149,6 +149,6 @@ out_type DbTableBase::convert(const in_type t)
 	stream >> result; //向result中写入值
 	stream.clear();
 	return result;
-}
+}*/
 
 } /* namespace basic */
