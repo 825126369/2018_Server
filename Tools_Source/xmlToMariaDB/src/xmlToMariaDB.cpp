@@ -66,7 +66,6 @@ void PrintConnectionInfo()
 
 void writeXML()
 {
-
 	//定义文档和节点指针
 	xmlDocPtr doc = xmlNewDoc(BAD_CAST "1.0");
 	xmlNodePtr root_node = xmlNewNode(NULL, BAD_CAST "root");

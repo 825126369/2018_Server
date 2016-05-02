@@ -3,7 +3,7 @@
 C++开发环境：Eclipse+CDT
 数据库：MariaDB（类似MYSQL）
 数据库驱动(mysqlclient)：MariaDB Connector/C
-protobuf(protobuf):2.6.1
+protobuf(protobuf,protoc):2.6.1
 并发(pthread)：多线程
 加密，解密类库(crypto)：Crypto
 XML库(xml2)：libxml2

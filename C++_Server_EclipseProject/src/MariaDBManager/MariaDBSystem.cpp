@@ -12,7 +12,7 @@ namespace basic
 MariaDBSystem* MariaDBSystem::single=new MariaDBSystem;
 MariaDBSystem::MariaDBSystem()
 {
-	db = "test";
+	db = "game";
 	ip = "127.0.0.1";
 	user = "root";
 	password = "123";
@@ -30,6 +30,8 @@ MariaDBSystem* MariaDBSystem::getSingle()
 	}
 	return single;
 
+
+
 }
 
 int MariaDBSystem::ConnectMariadb()
@@ -42,12 +44,7 @@ int MariaDBSystem::ConnectMariadb()
 		cerr << "mysql connection Error: MYSQL* is NULL" << endl;
 		return -1;
 	}
-
-	string sqlcommand = "drop database if exists " + db;
-	ExcuteSqlCommand(sqlcommand);
-	sqlcommand = "create database " + db;
-	ExcuteSqlCommand(sqlcommand);
-	sqlcommand = "use " + db;
+	string sqlcommand = "use " + db;
 	ExcuteSqlCommand(sqlcommand);
 	cout << "连接数据库:" << db << endl;
 	return 0;
@@ -62,9 +59,12 @@ int MariaDBSystem::CloseMariaDb()
 int MariaDBSystem::ExcuteSqlCommand(string command)
 {
 	cout << "sql command:" << command << endl;
-	int EffectRows = mysql_query(connection, command.c_str());
-	//cout << "影响的行数:" << EffectRows << endl;
-	if (EffectRows == 1)
+	int result = mysql_query(connection, command.c_str());
+	cout<<"Effect Rows: "<<mysql_affected_rows(connection)<<endl;
+	if (result == 0)
+	{
+		//cout<<"Effect Rows: "<<mysql_affected_rows(connection)<<endl;
+	}else
 	{
 		cerr << "sql Error:" << mysql_error(connection) << endl;
 		return -1;
@@ -72,16 +72,9 @@ int MariaDBSystem::ExcuteSqlCommand(string command)
 	return 0;
 }
 
-int MariaDBSystem::ExcuteSqlSelectCommand(string command)
+int MariaDBSystem::GetResultCollection(string command)
 {
-	cout << "sql command:" << command << endl;
-	int EffectRows = mysql_query(connection, command.c_str());
-	//cout << "影响的行数:" << EffectRows << endl;
-	if (EffectRows == 1)
-	{
-		cerr << "sql Error:" << mysql_error(connection) << endl;
-		return -1;
-	}
+	ExcuteSqlCommand(command);
 	MYSQL_RES* res = mysql_use_result(connection);
 	MYSQL_ROW row;
 	//cout << "字段数： " << mysql_num_fields(res) << endl;
@@ -114,6 +107,75 @@ int MariaDBSystem::ExcuteSqlSelectCommand(string command)
 	//释放结果集使用的内存
 	mysql_free_result(res);
 }
+bool MariaDBSystem::IsExistsDb(string command)
+{
+		bool result=true;
+			ExcuteSqlCommand(command);
+			MYSQL_RES* res = mysql_use_result(connection);
+			MYSQL_ROW row;
+			if (res)
+			{
+				int i=0;
+				while (true)
+				{
+					//检索一个结果集合的下一行
+					row = mysql_fetch_row(res);
+					if(i==0 && row==NULL)
+					{
+						cout<<"扫描第["<<i<<"]行 is NULL"<<endl;
+						result=false;
+						break;
+					}else
+					{
+						break;
+					}
+					i++;
+				}
+			}
+			//释放结果集使用的内存
+			mysql_free_result(res);
+			return result;
+}
+
+string MariaDBSystem::getSinglefield(string command)
+{
+		string value="";
+		ExcuteSqlCommand(command);
+		MYSQL_RES* res = mysql_use_result(connection);
+		MYSQL_ROW row;
+		if (res)
+		{
+			int i=0;
+			while (true)
+			{
+				//检索一个结果集合的下一行
+				row = mysql_fetch_row(res);
+				if (row != NULL)
+				{
+					for(int j=0;j<res->field_count;j++)
+					{
+						if(row[j]!=NULL && row[j]!=" ")
+						{
+							value=row[j];
+							break;
+						}else
+						{
+							cout<<"扫描第["<<j<<"]列 is NULL"<<endl;
+						}
+					}
+				}
+				else
+				{
+					cout<<"扫描第["<<i<<"]行 is NULL"<<endl;
+					break;
+				}
+				i++;
+			}
+		}
+		//释放结果集使用的内存
+		mysql_free_result(res);
+		return value;
+}
 
 DbTableBase::DbTableBase()
 {
@@ -124,31 +186,46 @@ DbTableBase:: ~DbTableBase()
 {
 
 }
+bool DbTableBase::OrExistsPrimaryKey()
+{
+	string tablename=get_tablename_value();
+	string keyname=get_primarykeyname_value();
+	string keyvalue=primarykeyvalue;
+	string sqlcommand="select "+keyname+" from "+tablename+" where "+keyname+"='"+keyvalue+"';";
+	bool result= MariaDBSystem::getSingle()->IsExistsDb(sqlcommand);
+	return result;
+}
+
+int DbTableBase::CreatePrimaryKey()
+{
+	string tablename=get_tablename_value();
+	string keyname=get_primarykeyname_value();
+	string keyvalue=primarykeyvalue;
+	string sqlcommand="insert into "+tablename+" set "+keyname+"='"+keyvalue+"';";
+	MariaDBSystem::getSingle()->ExcuteSqlCommand(sqlcommand);
+	return 0;
+}
 
 int DbTableBase::set_field_value(string fieldname,string value)
 {
-	string sqlcommand="update "+tablename+" set "+fieldname+"='"+value+"' where premakkey=10; ";
-	int result=MariaDBSystem::getSingle()->ExcuteSqlCommand(sqlcommand);
-	return result;
+	string tablename=get_tablename_value();
+	string keyname=get_primarykeyname_value();
+	string keyvalue=primarykeyvalue;
+	string sqlcommand="update "+tablename+" set "+fieldname+"='"+value+"' where "+keyname+"='"+keyvalue+"';";
+	MariaDBSystem::getSingle()->ExcuteSqlCommand(sqlcommand);
+	return 0;
 }
 
 string DbTableBase::get_field_value(string fieldname)
 {
-	string sqlcommand="select fieldname from "+tablename+" where id="+primarykey;
-	MariaDBSystem::getSingle()->ExcuteSqlCommand(sqlcommand);
 	string result="";
+	string tablename=get_tablename_value();
+	string keyname=get_primarykeyname_value();
+	string keyvalue=primarykeyvalue;
+	string sqlcommand="select "+fieldname+" from "+tablename+" where "+keyname+"='"+keyvalue+"';";
+	result= MariaDBSystem::getSingle()->getSinglefield(sqlcommand);
 	return result;
 }
 
-/*template<typename in_type, typename out_type>
-out_type DbTableBase::convert(const in_type t)
-{
-	static stringstream stream;
-	stream << t; //向流中传值
-	out_type result; //这里存储转换结果
-	stream >> result; //向result中写入值
-	stream.clear();
-	return result;
-}*/
 
 } /* namespace basic */

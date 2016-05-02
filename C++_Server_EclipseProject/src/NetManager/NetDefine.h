@@ -10,6 +10,7 @@
 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include "../MariaDBManager/MariaDBSystem.h"
 namespace basic
 {
 struct  socket_class
@@ -21,6 +22,7 @@ class ClientInfo
 {
 public:
 	socket_class* mSocketInfo;
+	DbTableManager mDbManager;
 	~ClientInfo();
 
 };

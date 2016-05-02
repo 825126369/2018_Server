@@ -3,73 +3,47 @@
 #include <string>
 #include "MariaDBSystem.h"
 namespace basic{
-class config_Sheet1DB:DbTableBase
+class game_login:private DbTableBase
 {
 public:
-	int set_id_value(int value);
-	int get_id_value();
-	int set_fff1_value(string value);
-	string get_fff1_value();
-	int set_fff2_value(string value);
-	string get_fff2_value();
-	int set_fff3_value(string value);
-	string get_fff3_value();
-	int set_fff4_value(string value);
-	string get_fff4_value();
-private:
-	int id;
-	string fff1;
-	string fff2;
-	string fff3;
-	string fff4;
-};
-class config_Sheet2DB:DbTableBase
-{
-public:
-	int set_id_value(int value);
-	int get_id_value();
-	int set_fff1_value(string value);
-	string get_fff1_value();
-	int set_fff2_value(string value);
-	string get_fff2_value();
-	int set_fff3_value(string value);
-	string get_fff3_value();
-	int set_fff4_value(string value);
-	string get_fff4_value();
-private:
-	int id;
-	string fff1;
-	string fff2;
-	string fff3;
-	string fff4;
-};
-class game_login:DbTableBase
-{
-public:
-	int set_id_value(int value);
-	int get_id_value();
+	game_login(string keyvalue);
 	int set_account_value(string value);
 	string get_account_value();
 	int set_password_value(string value);
 	string get_password_value();
+protected:
+	virtual string get_database_value();
+	virtual string get_tablename_value();
+	virtual string get_primarykeyname_value();
 private:
-	int id;
 	string account;
 	string password;
+	static string database;
+	static string tablename;
+	static string primarykeyname;
+public:
+	static int classId;
 };
-class game_role:DbTableBase
+class game_role:private DbTableBase
 {
 public:
-	int set_id_value(int value);
-	int get_id_value();
+	game_role(string keyvalue);
 	int set_userId_value(int value);
 	int get_userId_value();
 	int set_level_value(int value);
 	int get_level_value();
+protected:
+	virtual string get_database_value();
+	virtual string get_tablename_value();
+	virtual string get_primarykeyname_value();
 private:
-	int id;
 	int userId;
 	int level;
+	static string database;
+	static string tablename;
+	static string primarykeyname;
+public:
+	static int classId;
 };
 }
 #endif

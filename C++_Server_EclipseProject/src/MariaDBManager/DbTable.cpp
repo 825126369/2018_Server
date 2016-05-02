@@ -1,120 +1,12 @@
 #include "DbTable.h"
 namespace basic{
-int config_Sheet1DB::set_id_value(int value)
+string game_login::database="game";
+string game_login::tablename="game_login";
+string game_login::primarykeyname="account";
+int game_login::classId=101;
+game_login::game_login(string keyvalue)
 {
-	string str=DbTableBase::convert<int,string>(value);
-	DbTableBase::set_field_value("id",str);
- 	return 0;
-}
-int config_Sheet1DB::get_id_value()
-{
-	string str=DbTableBase::get_field_value("id");
-	int value=DbTableBase::convert<string,int>(str);
-	return value;
-}
-int config_Sheet1DB::set_fff1_value(string value)
-{
-	set_field_value("fff1",value);
-	return 0;
-}
-string config_Sheet1DB::get_fff1_value()
-{
-	string str=get_field_value("fff1");
-	return str;
-}
-int config_Sheet1DB::set_fff2_value(string value)
-{
-	set_field_value("fff2",value);
-	return 0;
-}
-string config_Sheet1DB::get_fff2_value()
-{
-	string str=get_field_value("fff2");
-	return str;
-}
-int config_Sheet1DB::set_fff3_value(string value)
-{
-	set_field_value("fff3",value);
-	return 0;
-}
-string config_Sheet1DB::get_fff3_value()
-{
-	string str=get_field_value("fff3");
-	return str;
-}
-int config_Sheet1DB::set_fff4_value(string value)
-{
-	set_field_value("fff4",value);
-	return 0;
-}
-string config_Sheet1DB::get_fff4_value()
-{
-	string str=get_field_value("fff4");
-	return str;
-}
-int config_Sheet2DB::set_id_value(int value)
-{
-	string str=DbTableBase::convert<int,string>(value);
-	DbTableBase::set_field_value("id",str);
- 	return 0;
-}
-int config_Sheet2DB::get_id_value()
-{
-	string str=DbTableBase::get_field_value("id");
-	int value=DbTableBase::convert<string,int>(str);
-	return value;
-}
-int config_Sheet2DB::set_fff1_value(string value)
-{
-	set_field_value("fff1",value);
-	return 0;
-}
-string config_Sheet2DB::get_fff1_value()
-{
-	string str=get_field_value("fff1");
-	return str;
-}
-int config_Sheet2DB::set_fff2_value(string value)
-{
-	set_field_value("fff2",value);
-	return 0;
-}
-string config_Sheet2DB::get_fff2_value()
-{
-	string str=get_field_value("fff2");
-	return str;
-}
-int config_Sheet2DB::set_fff3_value(string value)
-{
-	set_field_value("fff3",value);
-	return 0;
-}
-string config_Sheet2DB::get_fff3_value()
-{
-	string str=get_field_value("fff3");
-	return str;
-}
-int config_Sheet2DB::set_fff4_value(string value)
-{
-	set_field_value("fff4",value);
-	return 0;
-}
-string config_Sheet2DB::get_fff4_value()
-{
-	string str=get_field_value("fff4");
-	return str;
-}
-int game_login::set_id_value(int value)
-{
-	string str=DbTableBase::convert<int,string>(value);
-	DbTableBase::set_field_value("id",str);
- 	return 0;
-}
-int game_login::get_id_value()
-{
-	string str=DbTableBase::get_field_value("id");
-	int value=DbTableBase::convert<string,int>(str);
-	return value;
+	primarykeyvalue=keyvalue;
 }
 int game_login::set_account_value(string value)
 {
@@ -136,17 +28,26 @@ string game_login::get_password_value()
 	string str=get_field_value("password");
 	return str;
 }
-int game_role::set_id_value(int value)
+string game_login::get_database_value()
 {
-	string str=DbTableBase::convert<int,string>(value);
-	DbTableBase::set_field_value("id",str);
- 	return 0;
+	return database;
 }
-int game_role::get_id_value()
+string game_login::get_tablename_value()
 {
-	string str=DbTableBase::get_field_value("id");
-	int value=DbTableBase::convert<string,int>(str);
-	return value;
+	return tablename;
+}
+string game_login::get_primarykeyname_value()
+{
+	return primarykeyname;
+}
+
+string game_role::database="game";
+string game_role::tablename="game_role";
+string game_role::primarykeyname="userId";
+int game_role::classId=102;
+game_role::game_role(string keyvalue)
+{
+	primarykeyvalue=keyvalue;
 }
 int game_role::set_userId_value(int value)
 {
@@ -172,4 +73,17 @@ int game_role::get_level_value()
 	int value=DbTableBase::convert<string,int>(str);
 	return value;
 }
+string game_role::get_database_value()
+{
+	return database;
+}
+string game_role::get_tablename_value()
+{
+	return tablename;
+}
+string game_role::get_primarykeyname_value()
+{
+	return primarykeyname;
+}
+
 }

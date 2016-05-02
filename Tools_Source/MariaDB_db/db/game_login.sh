@@ -10,9 +10,9 @@ mysql -s -h $host -u $user -p${passwd} <<EOF
 create database if not exists ${database};
 use ${database};
 create table ${dbname}(
-id int(255) comment'字段1',
-account varchar(255) comment'账户',
-password varchar(255) comment'密码'
+account varchar(255) primary key not null comment'账户',
+password varchar(255)  not null comment'密码'
+#account varchar(255)  not null comment'账户',
 );
 show tables;
 

@@ -11,9 +11,11 @@
 #include <mysql.h>
 #include <iostream>
 #include <sstream>
+#include <map>
 using namespace std;
 namespace basic
 {
+class DbTableBase;
 class MariaDBSystem
 {
 public:
@@ -21,7 +23,10 @@ public:
 	int ConnectMariadb();
 	int CloseMariaDb();
 	int ExcuteSqlCommand(string command);
-	int ExcuteSqlSelectCommand(string command);
+	int GetResultCollection(string command);
+	string getSinglefield(string command);
+	bool IsExistsDb(string command);
+	string getAllFields(string command);
 	static MariaDBSystem* getSingle();
 private:
 	MariaDBSystem();
@@ -32,17 +37,45 @@ private:
 	string user;
 	string password;
 	static MariaDBSystem* single;
-
 };
+
+class DbTableManager
+{
+public:
+
+public:
+	template<typename T>
+	T* getDbTable()
+	{
+		int id=T::classId;
+		map<int,DbTableBase*>::iterator aaa=mDBTableMap.find(id);
+		if(aaa!=mDBTableMap.end())
+		{
+			DbTableBase* bbb=(*aaa).second;
+			T* t=static_cast<T*>(bbb);
+			return t;
+		}
+	}
+
+private:
+	map<int,DbTableBase*> mDBTableMap;
+};
+
 class DbTableBase
 {
+public:
+	bool OrExistsPrimaryKey();
+	int CreatePrimaryKey();
 protected:
 	DbTableBase();
 	~DbTableBase();
+
 	int set_field_value(string fieldname,string value);
 	string get_field_value(string fieldname);
+	virtual string get_database_value()=0;
+	virtual string get_tablename_value()=0;
+	virtual string get_primarykeyname_value()=0;
 	template<typename in_type, typename out_type>
-	//out_type convert(const in_type t);
 	out_type convert(const in_type t)
 	{
 		static stringstream stream;
@@ -52,12 +85,9 @@ protected:
 		stream.clear();
 		return result;
 	}
-
-
 protected:
-	string database;
-	string tablename;
-	string primarykey;
+	string primarykeyvalue;
+	bool orCreatedDb;
 };
 
 
