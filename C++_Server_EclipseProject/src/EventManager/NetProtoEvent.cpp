@@ -71,9 +71,6 @@ int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
 	m_game_login->set_key_account_value(mdata.accountname());
 	if(m_game_login->has_key_account_value())
 	{
-		m_game_login->set_all_value("nimabi");
-		m_game_login->get_all_value();
-
 		if(m_game_login->get_key_account_value()==mdata.accountname() && m_game_login->get_password_value()==mdata.password())
 		{
 			scLoginGame mSendData;
@@ -89,6 +86,9 @@ int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
 	else
 	{
 		cout<<"账户名不正确"<<endl;
+		scLoginGame mSendData;
+		mSendData.set_result(false);
+		mProtobuf.mClient->SendData(Login,&mSendData);
 	}
 }
 
