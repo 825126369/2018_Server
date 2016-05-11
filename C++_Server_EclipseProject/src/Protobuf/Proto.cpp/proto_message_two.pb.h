@@ -33,6 +33,10 @@ void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
 class ClientSendData;
 class ServerSendData;
+class csRegisterAccount;
+class scRegisterAccount;
+class csLoginGame;
+class scLoginGame;
 
 // ===================================================================
 
@@ -261,6 +265,377 @@ class ServerSendData : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static ServerSendData* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class csRegisterAccount : public ::google::protobuf::Message {
+ public:
+  csRegisterAccount();
+  virtual ~csRegisterAccount();
+
+  csRegisterAccount(const csRegisterAccount& from);
+
+  inline csRegisterAccount& operator=(const csRegisterAccount& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const csRegisterAccount& default_instance();
+
+  void Swap(csRegisterAccount* other);
+
+  // implements Message ----------------------------------------------
+
+  csRegisterAccount* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const csRegisterAccount& from);
+  void MergeFrom(const csRegisterAccount& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string accountName = 1;
+  inline bool has_accountname() const;
+  inline void clear_accountname();
+  static const int kAccountNameFieldNumber = 1;
+  inline const ::std::string& accountname() const;
+  inline void set_accountname(const ::std::string& value);
+  inline void set_accountname(const char* value);
+  inline void set_accountname(const char* value, size_t size);
+  inline ::std::string* mutable_accountname();
+  inline ::std::string* release_accountname();
+  inline void set_allocated_accountname(::std::string* accountname);
+
+  // optional string password = 2;
+  inline bool has_password() const;
+  inline void clear_password();
+  static const int kPasswordFieldNumber = 2;
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  inline ::std::string* release_password();
+  inline void set_allocated_password(::std::string* password);
+
+  // optional string repeatPassword = 3;
+  inline bool has_repeatpassword() const;
+  inline void clear_repeatpassword();
+  static const int kRepeatPasswordFieldNumber = 3;
+  inline const ::std::string& repeatpassword() const;
+  inline void set_repeatpassword(const ::std::string& value);
+  inline void set_repeatpassword(const char* value);
+  inline void set_repeatpassword(const char* value, size_t size);
+  inline ::std::string* mutable_repeatpassword();
+  inline ::std::string* release_repeatpassword();
+  inline void set_allocated_repeatpassword(::std::string* repeatpassword);
+
+  // @@protoc_insertion_point(class_scope:csRegisterAccount)
+ private:
+  inline void set_has_accountname();
+  inline void clear_has_accountname();
+  inline void set_has_password();
+  inline void clear_has_password();
+  inline void set_has_repeatpassword();
+  inline void clear_has_repeatpassword();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* accountname_;
+  ::std::string* password_;
+  ::std::string* repeatpassword_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static csRegisterAccount* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class scRegisterAccount : public ::google::protobuf::Message {
+ public:
+  scRegisterAccount();
+  virtual ~scRegisterAccount();
+
+  scRegisterAccount(const scRegisterAccount& from);
+
+  inline scRegisterAccount& operator=(const scRegisterAccount& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const scRegisterAccount& default_instance();
+
+  void Swap(scRegisterAccount* other);
+
+  // implements Message ----------------------------------------------
+
+  scRegisterAccount* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const scRegisterAccount& from);
+  void MergeFrom(const scRegisterAccount& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bool result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline bool result() const;
+  inline void set_result(bool value);
+
+  // @@protoc_insertion_point(class_scope:scRegisterAccount)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  bool result_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static scRegisterAccount* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class csLoginGame : public ::google::protobuf::Message {
+ public:
+  csLoginGame();
+  virtual ~csLoginGame();
+
+  csLoginGame(const csLoginGame& from);
+
+  inline csLoginGame& operator=(const csLoginGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const csLoginGame& default_instance();
+
+  void Swap(csLoginGame* other);
+
+  // implements Message ----------------------------------------------
+
+  csLoginGame* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const csLoginGame& from);
+  void MergeFrom(const csLoginGame& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string accountName = 1;
+  inline bool has_accountname() const;
+  inline void clear_accountname();
+  static const int kAccountNameFieldNumber = 1;
+  inline const ::std::string& accountname() const;
+  inline void set_accountname(const ::std::string& value);
+  inline void set_accountname(const char* value);
+  inline void set_accountname(const char* value, size_t size);
+  inline ::std::string* mutable_accountname();
+  inline ::std::string* release_accountname();
+  inline void set_allocated_accountname(::std::string* accountname);
+
+  // optional string password = 2;
+  inline bool has_password() const;
+  inline void clear_password();
+  static const int kPasswordFieldNumber = 2;
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  inline ::std::string* release_password();
+  inline void set_allocated_password(::std::string* password);
+
+  // @@protoc_insertion_point(class_scope:csLoginGame)
+ private:
+  inline void set_has_accountname();
+  inline void clear_has_accountname();
+  inline void set_has_password();
+  inline void clear_has_password();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* accountname_;
+  ::std::string* password_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static csLoginGame* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class scLoginGame : public ::google::protobuf::Message {
+ public:
+  scLoginGame();
+  virtual ~scLoginGame();
+
+  scLoginGame(const scLoginGame& from);
+
+  inline scLoginGame& operator=(const scLoginGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const scLoginGame& default_instance();
+
+  void Swap(scLoginGame* other);
+
+  // implements Message ----------------------------------------------
+
+  scLoginGame* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const scLoginGame& from);
+  void MergeFrom(const scLoginGame& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bool result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline bool result() const;
+  inline void set_result(bool value);
+
+  // @@protoc_insertion_point(class_scope:scLoginGame)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  bool result_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static scLoginGame* default_instance_;
 };
 // ===================================================================
 
@@ -727,6 +1102,450 @@ inline void ServerSendData::set_allocated_talktime(::std::string* talktime) {
     talktime_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
   // @@protoc_insertion_point(field_set_allocated:ServerSendData.TalkTime)
+}
+
+// -------------------------------------------------------------------
+
+// csRegisterAccount
+
+// optional string accountName = 1;
+inline bool csRegisterAccount::has_accountname() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void csRegisterAccount::set_has_accountname() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void csRegisterAccount::clear_has_accountname() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void csRegisterAccount::clear_accountname() {
+  if (accountname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_->clear();
+  }
+  clear_has_accountname();
+}
+inline const ::std::string& csRegisterAccount::accountname() const {
+  // @@protoc_insertion_point(field_get:csRegisterAccount.accountName)
+  return *accountname_;
+}
+inline void csRegisterAccount::set_accountname(const ::std::string& value) {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  accountname_->assign(value);
+  // @@protoc_insertion_point(field_set:csRegisterAccount.accountName)
+}
+inline void csRegisterAccount::set_accountname(const char* value) {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  accountname_->assign(value);
+  // @@protoc_insertion_point(field_set_char:csRegisterAccount.accountName)
+}
+inline void csRegisterAccount::set_accountname(const char* value, size_t size) {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  accountname_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:csRegisterAccount.accountName)
+}
+inline ::std::string* csRegisterAccount::mutable_accountname() {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:csRegisterAccount.accountName)
+  return accountname_;
+}
+inline ::std::string* csRegisterAccount::release_accountname() {
+  clear_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = accountname_;
+    accountname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void csRegisterAccount::set_allocated_accountname(::std::string* accountname) {
+  if (accountname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete accountname_;
+  }
+  if (accountname) {
+    set_has_accountname();
+    accountname_ = accountname;
+  } else {
+    clear_has_accountname();
+    accountname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:csRegisterAccount.accountName)
+}
+
+// optional string password = 2;
+inline bool csRegisterAccount::has_password() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void csRegisterAccount::set_has_password() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void csRegisterAccount::clear_has_password() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void csRegisterAccount::clear_password() {
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_->clear();
+  }
+  clear_has_password();
+}
+inline const ::std::string& csRegisterAccount::password() const {
+  // @@protoc_insertion_point(field_get:csRegisterAccount.password)
+  return *password_;
+}
+inline void csRegisterAccount::set_password(const ::std::string& value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+  // @@protoc_insertion_point(field_set:csRegisterAccount.password)
+}
+inline void csRegisterAccount::set_password(const char* value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+  // @@protoc_insertion_point(field_set_char:csRegisterAccount.password)
+}
+inline void csRegisterAccount::set_password(const char* value, size_t size) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:csRegisterAccount.password)
+}
+inline ::std::string* csRegisterAccount::mutable_password() {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:csRegisterAccount.password)
+  return password_;
+}
+inline ::std::string* csRegisterAccount::release_password() {
+  clear_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = password_;
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void csRegisterAccount::set_allocated_password(::std::string* password) {
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete password_;
+  }
+  if (password) {
+    set_has_password();
+    password_ = password;
+  } else {
+    clear_has_password();
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:csRegisterAccount.password)
+}
+
+// optional string repeatPassword = 3;
+inline bool csRegisterAccount::has_repeatpassword() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void csRegisterAccount::set_has_repeatpassword() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void csRegisterAccount::clear_has_repeatpassword() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void csRegisterAccount::clear_repeatpassword() {
+  if (repeatpassword_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    repeatpassword_->clear();
+  }
+  clear_has_repeatpassword();
+}
+inline const ::std::string& csRegisterAccount::repeatpassword() const {
+  // @@protoc_insertion_point(field_get:csRegisterAccount.repeatPassword)
+  return *repeatpassword_;
+}
+inline void csRegisterAccount::set_repeatpassword(const ::std::string& value) {
+  set_has_repeatpassword();
+  if (repeatpassword_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    repeatpassword_ = new ::std::string;
+  }
+  repeatpassword_->assign(value);
+  // @@protoc_insertion_point(field_set:csRegisterAccount.repeatPassword)
+}
+inline void csRegisterAccount::set_repeatpassword(const char* value) {
+  set_has_repeatpassword();
+  if (repeatpassword_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    repeatpassword_ = new ::std::string;
+  }
+  repeatpassword_->assign(value);
+  // @@protoc_insertion_point(field_set_char:csRegisterAccount.repeatPassword)
+}
+inline void csRegisterAccount::set_repeatpassword(const char* value, size_t size) {
+  set_has_repeatpassword();
+  if (repeatpassword_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    repeatpassword_ = new ::std::string;
+  }
+  repeatpassword_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:csRegisterAccount.repeatPassword)
+}
+inline ::std::string* csRegisterAccount::mutable_repeatpassword() {
+  set_has_repeatpassword();
+  if (repeatpassword_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    repeatpassword_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:csRegisterAccount.repeatPassword)
+  return repeatpassword_;
+}
+inline ::std::string* csRegisterAccount::release_repeatpassword() {
+  clear_has_repeatpassword();
+  if (repeatpassword_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = repeatpassword_;
+    repeatpassword_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void csRegisterAccount::set_allocated_repeatpassword(::std::string* repeatpassword) {
+  if (repeatpassword_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete repeatpassword_;
+  }
+  if (repeatpassword) {
+    set_has_repeatpassword();
+    repeatpassword_ = repeatpassword;
+  } else {
+    clear_has_repeatpassword();
+    repeatpassword_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:csRegisterAccount.repeatPassword)
+}
+
+// -------------------------------------------------------------------
+
+// scRegisterAccount
+
+// optional bool result = 1;
+inline bool scRegisterAccount::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void scRegisterAccount::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void scRegisterAccount::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void scRegisterAccount::clear_result() {
+  result_ = false;
+  clear_has_result();
+}
+inline bool scRegisterAccount::result() const {
+  // @@protoc_insertion_point(field_get:scRegisterAccount.result)
+  return result_;
+}
+inline void scRegisterAccount::set_result(bool value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:scRegisterAccount.result)
+}
+
+// -------------------------------------------------------------------
+
+// csLoginGame
+
+// optional string accountName = 1;
+inline bool csLoginGame::has_accountname() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void csLoginGame::set_has_accountname() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void csLoginGame::clear_has_accountname() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void csLoginGame::clear_accountname() {
+  if (accountname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_->clear();
+  }
+  clear_has_accountname();
+}
+inline const ::std::string& csLoginGame::accountname() const {
+  // @@protoc_insertion_point(field_get:csLoginGame.accountName)
+  return *accountname_;
+}
+inline void csLoginGame::set_accountname(const ::std::string& value) {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  accountname_->assign(value);
+  // @@protoc_insertion_point(field_set:csLoginGame.accountName)
+}
+inline void csLoginGame::set_accountname(const char* value) {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  accountname_->assign(value);
+  // @@protoc_insertion_point(field_set_char:csLoginGame.accountName)
+}
+inline void csLoginGame::set_accountname(const char* value, size_t size) {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  accountname_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:csLoginGame.accountName)
+}
+inline ::std::string* csLoginGame::mutable_accountname() {
+  set_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    accountname_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:csLoginGame.accountName)
+  return accountname_;
+}
+inline ::std::string* csLoginGame::release_accountname() {
+  clear_has_accountname();
+  if (accountname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = accountname_;
+    accountname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void csLoginGame::set_allocated_accountname(::std::string* accountname) {
+  if (accountname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete accountname_;
+  }
+  if (accountname) {
+    set_has_accountname();
+    accountname_ = accountname;
+  } else {
+    clear_has_accountname();
+    accountname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:csLoginGame.accountName)
+}
+
+// optional string password = 2;
+inline bool csLoginGame::has_password() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void csLoginGame::set_has_password() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void csLoginGame::clear_has_password() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void csLoginGame::clear_password() {
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_->clear();
+  }
+  clear_has_password();
+}
+inline const ::std::string& csLoginGame::password() const {
+  // @@protoc_insertion_point(field_get:csLoginGame.password)
+  return *password_;
+}
+inline void csLoginGame::set_password(const ::std::string& value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+  // @@protoc_insertion_point(field_set:csLoginGame.password)
+}
+inline void csLoginGame::set_password(const char* value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+  // @@protoc_insertion_point(field_set_char:csLoginGame.password)
+}
+inline void csLoginGame::set_password(const char* value, size_t size) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:csLoginGame.password)
+}
+inline ::std::string* csLoginGame::mutable_password() {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:csLoginGame.password)
+  return password_;
+}
+inline ::std::string* csLoginGame::release_password() {
+  clear_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = password_;
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void csLoginGame::set_allocated_password(::std::string* password) {
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete password_;
+  }
+  if (password) {
+    set_has_password();
+    password_ = password;
+  } else {
+    clear_has_password();
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:csLoginGame.password)
+}
+
+// -------------------------------------------------------------------
+
+// scLoginGame
+
+// optional bool result = 1;
+inline bool scLoginGame::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void scLoginGame::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void scLoginGame::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void scLoginGame::clear_result() {
+  result_ = false;
+  clear_has_result();
+}
+inline bool scLoginGame::result() const {
+  // @@protoc_insertion_point(field_get:scLoginGame.result)
+  return result_;
+}
+inline void scLoginGame::set_result(bool value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:scLoginGame.result)
 }
 
 

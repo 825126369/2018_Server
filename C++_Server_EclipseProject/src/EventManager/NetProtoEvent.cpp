@@ -30,16 +30,74 @@ int Proto_Rec_Chat(const NetEventPackage mProtobuf)
 	}
 	return 0;
 }
-int Proto_Send_Chat(const google::protobuf::Message* info,unsigned char* msg,int& Length)
+
+//1101
+int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf)
 {
-	info->ByteSize();
-	info->SerializeToArray(msg,Length);
-		ServerSendData* mChat=(ServerSendData*)info;
-		Length=mChat->ByteSize();
-		msg=new unsigned char[Length];
-		mChat->SerializeToArray(msg,Length);
-		return 0;
+	csRegisterAccount mdata;
+	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
+	xk_Debug::Log()<<"解析注册账号数据："<<mdata.accountname()<<" | "<<mdata.password()<<" | "<<mdata.repeatpassword()<<endl;
+
+	scRegisterAccount mSendData;
+	if(mdata.password()==mdata.repeatpassword())
+	{
+		game_login* mDb_Login= mProtobuf.mClient->mClientInfo->mDbManager.GetDbTable<game_login>();
+		mDb_Login->set_key_account_value(mdata.accountname());
+		bool orExist= mDb_Login->has_key_account_value();
+		if(orExist)
+		{
+			mSendData.set_result(false);
+		}else
+		{
+			mDb_Login->create_key_account_value();
+			mDb_Login->set_password_value(mdata.password());
+		}
+		mProtobuf.mClient->mClientInfo->mDbManager.GetDbTable<game_login>();
+	}else
+	{
+		mSendData.set_result(false);
+	}
+
+	mProtobuf.mClient->SendData(RegisterAccount,&mSendData);
+}
+//1102
+int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
+{
+	csLoginGame mdata;
+	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
+	cout<<"解析登陆数据："<<mdata.accountname()<<" | "<<mdata.password()<<endl;
+
+	game_login* m_game_login= mProtobuf.mClient->mClientInfo->mDbManager.GetDbTable<game_login>();
+	m_game_login->set_key_account_value(mdata.accountname());
+	if(m_game_login->has_key_account_value())
+	{
+		m_game_login->set_all_value("nimabi");
+		m_game_login->get_all_value();
+
+		if(m_game_login->get_key_account_value()==mdata.accountname() && m_game_login->get_password_value()==mdata.password())
+		{
+			scLoginGame mSendData;
+			mSendData.set_result(true);
+			mProtobuf.mClient->SendData(Login,&mSendData);
+		}else
+		{
+			scLoginGame mSendData;
+			mSendData.set_result(false);
+			mProtobuf.mClient->SendData(Login,&mSendData);
+		}
+	}
+	else
+	{
+		cout<<"账户名不正确"<<endl;
+	}
 }
 
 
 }
+
+
+
+
+
+
+

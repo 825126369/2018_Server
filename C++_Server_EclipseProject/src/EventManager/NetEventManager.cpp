@@ -58,7 +58,10 @@ int NetEventManager::Init()
 
 	//1100
 	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(Chat,Proto_Rec_Chat));
-	//ProtoEventSendDic->insert(pair<ProtoCommand,SendFun>(Chat,Proto_Send_Chat));
+	//1101:注册账号
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(RegisterAccount,Proto_Recevie_RegisterAccount));
+	//1102
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(Login,Proto_Receive_LoginGame));
 	return 0;
 }
 

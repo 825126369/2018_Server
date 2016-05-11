@@ -1,8 +1,6 @@
 enum ProtoCommand
 {
 	Chat=1100;
-
-
-
-
+	RegisterAccount=1101;
+	Login=1102;
 }

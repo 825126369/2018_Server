@@ -14,13 +14,17 @@
 #include "../Protobuf/Proto.cpp/proto_struct.pb.h"
 #include "../DebugManager/xkDebug.h"
 #include "../NetManager/NetManager.h"
+#include "../MariaDBManager/DbTable.h"
 namespace basic
 {
 
 class NetEventPackage;
-//1001协议
+//1100协议
 int Proto_Rec_Chat(const NetEventPackage mProtobuf);
+//1101注册账号
+int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf);
 
+int Proto_Receive_LoginGame(const NetEventPackage mProtobuf);
 }
 
 #endif /* SRC_BASICMODULE_NETMANAGER_NETPROTOEVENT_H_ */

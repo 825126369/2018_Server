@@ -107,35 +107,6 @@ int MariaDBSystem::GetResultCollection(string command)
 	//释放结果集使用的内存
 	mysql_free_result(res);
 }
-bool MariaDBSystem::IsExistsDb(string command)
-{
-		bool result=true;
-			ExcuteSqlCommand(command);
-			MYSQL_RES* res = mysql_use_result(connection);
-			MYSQL_ROW row;
-			if (res)
-			{
-				int i=0;
-				while (true)
-				{
-					//检索一个结果集合的下一行
-					row = mysql_fetch_row(res);
-					if(i==0 && row==NULL)
-					{
-						cout<<"扫描第["<<i<<"]行 is NULL"<<endl;
-						result=false;
-						break;
-					}else
-					{
-						break;
-					}
-					i++;
-				}
-			}
-			//释放结果集使用的内存
-			mysql_free_result(res);
-			return result;
-}
 
 string MariaDBSystem::getSinglefield(string command)
 {
@@ -152,17 +123,9 @@ string MariaDBSystem::getSinglefield(string command)
 				row = mysql_fetch_row(res);
 				if (row != NULL)
 				{
-					for(int j=0;j<res->field_count;j++)
-					{
-						if(row[j]!=NULL && row[j]!=" ")
-						{
-							value=row[j];
-							break;
-						}else
-						{
-							cout<<"扫描第["<<j<<"]列 is NULL"<<endl;
-						}
-					}
+					value=row[0];
+					cout<<"Singlefield:数据库数据："<<value<<endl;
+					break;
 				}
 				else
 				{
@@ -177,6 +140,41 @@ string MariaDBSystem::getSinglefield(string command)
 		return value;
 }
 
+vector<string> MariaDBSystem::getMultiplefield(string command)
+{
+		vector<string> result;
+		ExcuteSqlCommand(command);
+		MYSQL_RES* res = mysql_use_result(connection);
+		MYSQL_ROW row;
+		if (res)
+		{
+			int i=0;
+			while (true)
+			{
+				//检索一个结果集合的下一行
+				row = mysql_fetch_row(res);
+				if (row != NULL)
+				{
+					for(int j=0;j<res->field_count;j++)
+					{
+						char* value=row[j];
+						cout<<"Multiplefield:数据库数据："<<value<<endl;
+						result.push_back(value);
+					}
+					break;
+				}
+				else
+				{
+					cout<<"扫描第["<<i<<"]行 is NULL"<<endl;
+					break;
+				}
+				i++;
+			}
+		}
+		//释放结果集使用的内存
+		mysql_free_result(res);
+		return result;
+}
 DbTableBase::DbTableBase()
 {
 
@@ -186,25 +184,48 @@ DbTableBase:: ~DbTableBase()
 {
 
 }
-bool DbTableBase::OrExistsPrimaryKey()
+int  DbTableBase::set_all_value(vector<string> fieldlist)
 {
 	string tablename=get_tablename_value();
 	string keyname=get_primarykeyname_value();
 	string keyvalue=primarykeyvalue;
-	string sqlcommand="select "+keyname+" from "+tablename+" where "+keyname+"='"+keyvalue+"';";
-	bool result= MariaDBSystem::getSingle()->IsExistsDb(sqlcommand);
-	return result;
+	string sqlcommand="update "+tablename+" ";
+	for(int i=0;i<fieldlist.size();i+=2)
+	{
+		sqlcommand+="set "+fieldlist[i]+"='"+fieldlist[i+1]+"' ";
+	}
+	sqlcommand+="where "+keyname+"='"+keyvalue+"';";
+	MariaDBSystem::getSingle()->ExcuteSqlCommand(sqlcommand);
 }
 
-int DbTableBase::CreatePrimaryKey()
+vector<string>  DbTableBase::get_all_value(vector<string> fieldlist)
+{
+		vector<string> result;
+		string tablename=get_tablename_value();
+		string keyname=get_primarykeyname_value();
+		string keyvalue=primarykeyvalue;
+		string sqlcommand="select ";
+		for(int i=0;i<fieldlist.size();i++)
+		{
+			sqlcommand+=fieldlist[i]+",";
+		}
+		sqlcommand.erase(sqlcommand.end()-1);
+		sqlcommand+=" from "+tablename+" where "+keyname+"='"+keyvalue+"';";
+		result= MariaDBSystem::getSingle()->getMultiplefield(sqlcommand);
+
+		return result;
+}
+
+int DbTableBase::CreatePrimaryKey(string fieldname,string value)
 {
 	string tablename=get_tablename_value();
 	string keyname=get_primarykeyname_value();
-	string keyvalue=primarykeyvalue;
+	string keyvalue=value;
 	string sqlcommand="insert into "+tablename+" set "+keyname+"='"+keyvalue+"';";
 	MariaDBSystem::getSingle()->ExcuteSqlCommand(sqlcommand);
 	return 0;
 }
+
 
 int DbTableBase::set_field_value(string fieldname,string value)
 {

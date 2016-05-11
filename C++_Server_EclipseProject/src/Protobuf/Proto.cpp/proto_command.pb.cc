@@ -56,8 +56,9 @@ void protobuf_AddDesc_proto_5fcommand_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\023proto_command.proto*\031\n\014ProtoCommand\022\t\n"
-    "\004Chat\020\314\010", 48);
+    "\n\023proto_command.proto*;\n\014ProtoCommand\022\t\n"
+    "\004Chat\020\314\010\022\024\n\017RegisterAccount\020\315\010\022\n\n\005Login\020"
+    "\316\010", 82);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "proto_command.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_proto_5fcommand_2eproto);
@@ -76,6 +77,8 @@ const ::google::protobuf::EnumDescriptor* ProtoCommand_descriptor() {
 bool ProtoCommand_IsValid(int value) {
   switch(value) {
     case 1100:
+    case 1101:
+    case 1102:
       return true;
     default:
       return false;

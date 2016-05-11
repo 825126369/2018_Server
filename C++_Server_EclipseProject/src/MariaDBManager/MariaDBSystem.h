@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <vector>
 using namespace std;
 namespace basic
 {
@@ -25,8 +26,7 @@ public:
 	int ExcuteSqlCommand(string command);
 	int GetResultCollection(string command);
 	string getSinglefield(string command);
-	bool IsExistsDb(string command);
-	string getAllFields(string command);
+	vector<string> getMultiplefield(string command);
 	static MariaDBSystem* getSingle();
 private:
 	MariaDBSystem();
@@ -41,11 +41,10 @@ private:
 
 class DbTableManager
 {
-public:
 
 public:
 	template<typename T>
-	T* getDbTable()
+	T* GetDbTable()
 	{
 		int id=T::classId;
 		map<int,DbTableBase*>::iterator aaa=mDBTableMap.find(id);
@@ -54,6 +53,21 @@ public:
 			DbTableBase* bbb=(*aaa).second;
 			T* t=static_cast<T*>(bbb);
 			return t;
+		}else
+		{
+			T* t=new T();
+			mDBTableMap.insert(pair<int,DbTableBase*>(id,t));
+			return t;
+		}
+	}
+	template<typename T>
+	void RemoveDbTable()
+	{
+		int id=T::classId;
+		map<int,DbTableBase*>::iterator aaa=mDBTableMap.find(id);
+		if(aaa!=mDBTableMap.end())
+		{
+			map<int,DbTableBase*>::iterator aaa=mDBTableMap.erase(aaa);
 		}
 	}
 
@@ -63,15 +77,17 @@ private:
 
 class DbTableBase
 {
-public:
-	bool OrExistsPrimaryKey();
-	int CreatePrimaryKey();
 protected:
 	DbTableBase();
 	~DbTableBase();
+	int CreatePrimaryKey(string fieldname,string value);
+
+	virtual int  set_all_value(vector<string> fieldlist);
+	virtual vector<string>  get_all_value(vector<string> fieldlist);
 
 	int set_field_value(string fieldname,string value);
 	string get_field_value(string fieldname);
+
 	virtual string get_database_value()=0;
 	virtual string get_tablename_value()=0;
 	virtual string get_primarykeyname_value()=0;
