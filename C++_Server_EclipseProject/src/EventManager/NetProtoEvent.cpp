@@ -91,6 +91,30 @@ int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
 		mProtobuf.mClient->SendData(Login,&mSendData);
 	}
 }
+//1103
+int Proto_Receive_ServerList(const NetEventPackage mProtobuf)
+{
+	csServerList mdata;
+	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
+	cout<<"解析服务器列表数据"<<endl;
+
+	scServerList mSendData;
+	mProtobuf.mClient->SendData(SelectServer,&mSendData);
+
+
+}
+int Proto_Receive_EnterGame(const NetEventPackage mProtobuf)
+{
+	csEnterGame mdata;
+	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
+	cout<<"解析登陆服务器数据： "<<mdata.serverid()<<endl;
+
+
+	scEnterGame mSendData;
+	mSendData.set_serverid(mdata.serverid());
+
+	mProtobuf.mClient->SendData(EnterGame,&mSendData);
+}
 
 
 }

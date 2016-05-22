@@ -13,6 +13,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include "../MariaDBManager/MariaDBManagerThread.h"
 using namespace std;
 namespace basic
 {
@@ -21,17 +22,28 @@ class MariaDBSystem
 {
 public:
 	virtual ~MariaDBSystem();
-	int ConnectMariadb();
+	int Init();
 	int CloseMariaDb();
+
 	int ExcuteSqlCommand(string command);
+	MYSQL_RES* GetQueryResultCollection();
 	int GetResultCollection(string command);
 	string getSinglefield(string command);
 	vector<string> getMultiplefield(string command);
 	static MariaDBSystem* getSingle();
+	void Check_Ping();
+
+	bool GetThreadState();
+	void SetThreadState(bool orCancelThread);
 private:
 	MariaDBSystem();
+	int ConnectMariadb();
+	int InitMariaDBThread();
 private:
 	MYSQL* connection;
+	pthread_rwlock_t m_mutex_ping_t;
+	pthread_rwlock_t m_mutex_TrheadState_t;
+	bool orCancelThread;
 	string db;
 	string ip;
 	string user;

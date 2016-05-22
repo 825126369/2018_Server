@@ -34,11 +34,13 @@ void protobuf_ShutdownFile_proto_5fcommand_2eproto();
 enum ProtoCommand {
   Chat = 1100,
   RegisterAccount = 1101,
-  Login = 1102
+  Login = 1102,
+  SelectServer = 1103,
+  EnterGame = 1104
 };
 bool ProtoCommand_IsValid(int value);
 const ProtoCommand ProtoCommand_MIN = Chat;
-const ProtoCommand ProtoCommand_MAX = Login;
+const ProtoCommand ProtoCommand_MAX = EnterGame;
 const int ProtoCommand_ARRAYSIZE = ProtoCommand_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* ProtoCommand_descriptor();

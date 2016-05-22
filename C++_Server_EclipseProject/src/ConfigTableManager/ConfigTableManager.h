@@ -19,6 +19,7 @@ class ConfigTableBase;
 ConfigTableBase* LoadTableCpp(string classname);
 class ConfigTableManager {
 public:
+	int Init();
 	int ReadXML(string path);
 	static ConfigTableManager* getSingle();
 public:
@@ -67,6 +68,8 @@ protected:
 		stream.clear();
 		return result;
 	}
+
+	vector<string> StrToVector(string str,string splitStr);
 };
 
 

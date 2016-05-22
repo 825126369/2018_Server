@@ -5,7 +5,7 @@ do
 	rm -rf $file
 done
 
-cd proto
+cd Proto
 for file in ./*.proto
 do
 	if test -f $file; then		
@@ -27,6 +27,6 @@ rm -Rf /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protob
 rm -Rf /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto/* 
 
 cp -Rf out/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto.cpp/
-cp -Rf proto/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto/
+cp -Rf Proto/* /home/xuke/Project/Git_Client/Server/C++_Server_EclipseProject/src/Protobuf/Proto/
 
 echo "Finsh" 

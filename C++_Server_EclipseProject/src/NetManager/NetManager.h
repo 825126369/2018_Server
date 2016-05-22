@@ -18,6 +18,7 @@
 #include "../EventManager/NetEventManager.h"
 #include <cstring>
 #include "../EncryptionManager/EncryptionManager.h"
+#include "NetThreadManager.h"
 using namespace std;
 
 namespace basic
@@ -34,13 +35,16 @@ class NetManager {
 public:
 	 NetManager();
 	 virtual ~NetManager();
-	int InitNet(const char* ipStr,const int port,const int maxConnectCout);
+	int Init();
+	int InitNet();
 	int CloseNet();
 	int NetAcceptClient(socket_class& client);
+	static NetManager* getSingle();
 private:
 	int printServerinfo(const socket_class& _socket);
 private:
 	struct socket_class Server;
+	static NetManager single;
 };
 
 class ClientInfoPool

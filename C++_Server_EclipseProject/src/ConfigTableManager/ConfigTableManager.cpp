@@ -22,11 +22,20 @@ ConfigTableManager* ConfigTableManager::getSingle()
 {
 	return &single;
 }
+
+int ConfigTableManager::Init()
+{
+	string path="/home/xuke/Project/Git_Client/Server/Config/Table/DB_Server.xml";
+	ReadXML(path);
+	cout<<"初始化配置表完成"<<endl;
+
+}
+
 int ConfigTableManager::ReadXML(string path) {
 	xmlDocPtr doc;
 	doc = xmlParseFile(path.c_str());
 	xmlNodePtr root = xmlDocGetRootElement(doc);
-	cout << "Root: " << root->name << endl;
+	//cout << "Root: " << root->name << endl;
 
 	int n=10;
 	xmlNodePtr rootchild = root->children;
@@ -35,7 +44,7 @@ int ConfigTableManager::ReadXML(string path) {
 			int i = 0;
 			map<int, ConfigTableBase*> mMap;
 			int classId=0;
-			cout << "rootchild: " << rootchild->name << endl;
+			//cout << "rootchild: " << rootchild->name << endl;
 			string tablename = (char*) rootchild->name;
 			tablename.erase(tablename.end() - 1);
 			tablename = "config_" + tablename;
@@ -44,25 +53,24 @@ int ConfigTableManager::ReadXML(string path) {
 			xmlNodePtr mNode1 = rootchild->children;
 			while (mNode1 != NULL) {
 				if (mNode1->type == XML_ELEMENT_NODE) {
-					cout << "mNode1: " << mNode1->name << endl;
+					//cout << "mNode1: " << mNode1->name << endl;
 					xmlNodePtr mNode2 = mNode1->children;
 					int j=0;
 					ConfigTableBase* mClassInfo = LoadTableCpp(classname);
 					int id=0;
 					if (mClassInfo == NULL) {
-						cout << "NULLLLLLL" << endl;
+						//cout << "NULLLLLLL" << endl;
 						continue;
 					}
 					if (i >= 3) {
 						vector<string> dataList;
 						while (mNode2 != NULL) {
 							if (mNode2->type == XML_ELEMENT_NODE) {
-								cout << "mNode2:" << mNode2->name << endl;
+								//cout << "mNode2:" << mNode2->name << endl;
 								xmlNodePtr mNode3 = mNode2->children;
 								while (mNode3 != NULL) {
 									if (mNode3->type == XML_TEXT_NODE) {
-										cout << mNode3->name << ": "
-												<< mNode3->content << endl;
+										//cout << mNode3->name << ": "<< mNode3->content << endl;
 
 										dataList.push_back(
 												(char*) mNode3->content);
@@ -91,13 +99,13 @@ int ConfigTableManager::ReadXML(string path) {
 				}
 				mNode1 = mNode1->next;
 			}
-			cout << "Collec Size:" << mMap.size() << endl;
+			//cout << "Collec Size:" << mMap.size() << endl;
 			mTableMap.insert(pair<int, map<int, ConfigTableBase*> >(classId, mMap));
 			n++;
 		}
 		rootchild = rootchild->next;
 	}
-	cout << "CollecList Size:" << mTableMap.size() << endl;
+	//cout << "CollecList Size:" << mTableMap.size() << endl;
 	xmlFreeDoc(doc);
 
 }
@@ -122,6 +130,25 @@ ConfigTableBase::ConfigTableBase() {
 
 ConfigTableBase::~ConfigTableBase() {
 
+}
+vector<string> ConfigTableBase::StrToVector(string str,string splitStr)
+{
+	string::size_type pos;
+	vector<std::string> result;
+	str+=splitStr;
+	int size=str.size();
+
+	    for(int i=0; i<size; i++)
+	    {
+	        pos=str.find(splitStr,i);
+	        if(pos<size)
+	       {
+	           std::string s=str.substr(i,pos-i);
+	           result.push_back(s);
+	            i=pos+splitStr.size()-1;
+	       }
+	    }
+	   return result;
 }
 
 } /* namespace basic */

@@ -24,6 +24,7 @@
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "proto_struct.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Internal implementation detail -- do not call these.
@@ -37,6 +38,10 @@ class csRegisterAccount;
 class scRegisterAccount;
 class csLoginGame;
 class scLoginGame;
+class csServerList;
+class scServerList;
+class csEnterGame;
+class scEnterGame;
 
 // ===================================================================
 
@@ -636,6 +641,315 @@ class scLoginGame : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static scLoginGame* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class csServerList : public ::google::protobuf::Message {
+ public:
+  csServerList();
+  virtual ~csServerList();
+
+  csServerList(const csServerList& from);
+
+  inline csServerList& operator=(const csServerList& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const csServerList& default_instance();
+
+  void Swap(csServerList* other);
+
+  // implements Message ----------------------------------------------
+
+  csServerList* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const csServerList& from);
+  void MergeFrom(const csServerList& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:csServerList)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static csServerList* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class scServerList : public ::google::protobuf::Message {
+ public:
+  scServerList();
+  virtual ~scServerList();
+
+  scServerList(const scServerList& from);
+
+  inline scServerList& operator=(const scServerList& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const scServerList& default_instance();
+
+  void Swap(scServerList* other);
+
+  // implements Message ----------------------------------------------
+
+  scServerList* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const scServerList& from);
+  void MergeFrom(const scServerList& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .struct_serverList ServerList = 1;
+  inline int serverlist_size() const;
+  inline void clear_serverlist();
+  static const int kServerListFieldNumber = 1;
+  inline const ::struct_serverList& serverlist(int index) const;
+  inline ::struct_serverList* mutable_serverlist(int index);
+  inline ::struct_serverList* add_serverlist();
+  inline const ::google::protobuf::RepeatedPtrField< ::struct_serverList >&
+      serverlist() const;
+  inline ::google::protobuf::RepeatedPtrField< ::struct_serverList >*
+      mutable_serverlist();
+
+  // @@protoc_insertion_point(class_scope:scServerList)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::struct_serverList > serverlist_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static scServerList* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class csEnterGame : public ::google::protobuf::Message {
+ public:
+  csEnterGame();
+  virtual ~csEnterGame();
+
+  csEnterGame(const csEnterGame& from);
+
+  inline csEnterGame& operator=(const csEnterGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const csEnterGame& default_instance();
+
+  void Swap(csEnterGame* other);
+
+  // implements Message ----------------------------------------------
+
+  csEnterGame* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const csEnterGame& from);
+  void MergeFrom(const csEnterGame& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional int32 ServerId = 1;
+  inline bool has_serverid() const;
+  inline void clear_serverid();
+  static const int kServerIdFieldNumber = 1;
+  inline ::google::protobuf::int32 serverid() const;
+  inline void set_serverid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:csEnterGame)
+ private:
+  inline void set_has_serverid();
+  inline void clear_has_serverid();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::int32 serverid_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static csEnterGame* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class scEnterGame : public ::google::protobuf::Message {
+ public:
+  scEnterGame();
+  virtual ~scEnterGame();
+
+  scEnterGame(const scEnterGame& from);
+
+  inline scEnterGame& operator=(const scEnterGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const scEnterGame& default_instance();
+
+  void Swap(scEnterGame* other);
+
+  // implements Message ----------------------------------------------
+
+  scEnterGame* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const scEnterGame& from);
+  void MergeFrom(const scEnterGame& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional int32 ServerId = 1;
+  inline bool has_serverid() const;
+  inline void clear_serverid();
+  static const int kServerIdFieldNumber = 1;
+  inline ::google::protobuf::int32 serverid() const;
+  inline void set_serverid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:scEnterGame)
+ private:
+  inline void set_has_serverid();
+  inline void clear_has_serverid();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::int32 serverid_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
+
+  void InitAsDefaultInstance();
+  static scEnterGame* default_instance_;
 };
 // ===================================================================
 
@@ -1546,6 +1860,100 @@ inline void scLoginGame::set_result(bool value) {
   set_has_result();
   result_ = value;
   // @@protoc_insertion_point(field_set:scLoginGame.result)
+}
+
+// -------------------------------------------------------------------
+
+// csServerList
+
+// -------------------------------------------------------------------
+
+// scServerList
+
+// repeated .struct_serverList ServerList = 1;
+inline int scServerList::serverlist_size() const {
+  return serverlist_.size();
+}
+inline void scServerList::clear_serverlist() {
+  serverlist_.Clear();
+}
+inline const ::struct_serverList& scServerList::serverlist(int index) const {
+  // @@protoc_insertion_point(field_get:scServerList.ServerList)
+  return serverlist_.Get(index);
+}
+inline ::struct_serverList* scServerList::mutable_serverlist(int index) {
+  // @@protoc_insertion_point(field_mutable:scServerList.ServerList)
+  return serverlist_.Mutable(index);
+}
+inline ::struct_serverList* scServerList::add_serverlist() {
+  // @@protoc_insertion_point(field_add:scServerList.ServerList)
+  return serverlist_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::struct_serverList >&
+scServerList::serverlist() const {
+  // @@protoc_insertion_point(field_list:scServerList.ServerList)
+  return serverlist_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::struct_serverList >*
+scServerList::mutable_serverlist() {
+  // @@protoc_insertion_point(field_mutable_list:scServerList.ServerList)
+  return &serverlist_;
+}
+
+// -------------------------------------------------------------------
+
+// csEnterGame
+
+// optional int32 ServerId = 1;
+inline bool csEnterGame::has_serverid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void csEnterGame::set_has_serverid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void csEnterGame::clear_has_serverid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void csEnterGame::clear_serverid() {
+  serverid_ = 0;
+  clear_has_serverid();
+}
+inline ::google::protobuf::int32 csEnterGame::serverid() const {
+  // @@protoc_insertion_point(field_get:csEnterGame.ServerId)
+  return serverid_;
+}
+inline void csEnterGame::set_serverid(::google::protobuf::int32 value) {
+  set_has_serverid();
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:csEnterGame.ServerId)
+}
+
+// -------------------------------------------------------------------
+
+// scEnterGame
+
+// optional int32 ServerId = 1;
+inline bool scEnterGame::has_serverid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void scEnterGame::set_has_serverid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void scEnterGame::clear_has_serverid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void scEnterGame::clear_serverid() {
+  serverid_ = 0;
+  clear_has_serverid();
+}
+inline ::google::protobuf::int32 scEnterGame::serverid() const {
+  // @@protoc_insertion_point(field_get:scEnterGame.ServerId)
+  return serverid_;
+}
+inline void scEnterGame::set_serverid(::google::protobuf::int32 value) {
+  set_has_serverid();
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:scEnterGame.ServerId)
 }
 
 

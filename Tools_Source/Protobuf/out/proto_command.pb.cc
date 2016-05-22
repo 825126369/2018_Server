@@ -56,9 +56,9 @@ void protobuf_AddDesc_proto_5fcommand_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\023proto_command.proto*;\n\014ProtoCommand\022\t\n"
+    "\n\023proto_command.proto*^\n\014ProtoCommand\022\t\n"
     "\004Chat\020\314\010\022\024\n\017RegisterAccount\020\315\010\022\n\n\005Login\020"
-    "\316\010", 82);
+    "\316\010\022\021\n\014SelectServer\020\317\010\022\016\n\tEnterGame\020\320\010", 117);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "proto_command.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_proto_5fcommand_2eproto);
@@ -79,6 +79,8 @@ bool ProtoCommand_IsValid(int value) {
     case 1100:
     case 1101:
     case 1102:
+    case 1103:
+    case 1104:
       return true;
     default:
       return false;

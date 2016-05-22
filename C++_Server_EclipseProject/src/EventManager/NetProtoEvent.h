@@ -23,8 +23,12 @@ class NetEventPackage;
 int Proto_Rec_Chat(const NetEventPackage mProtobuf);
 //1101注册账号
 int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf);
-
+//1102 登陆账号
 int Proto_Receive_LoginGame(const NetEventPackage mProtobuf);
+//1103	获取服务器列表
+int Proto_Receive_ServerList(const NetEventPackage mProtobuf);
+//1104	进入游戏
+int Proto_Receive_EnterGame(const NetEventPackage mProtobuf);
 }
 
 #endif /* SRC_BASICMODULE_NETMANAGER_NETPROTOEVENT_H_ */

@@ -24,7 +24,7 @@ struct ClassInfo {
 void ReadXML(string path);
 string GetTrimStr(xmlChar* str);
 int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList);
-
+string dataTypeChange(string type);
 string hbasename = "ConfigTableBase";
 string hname = "ConfigTable.h";
 string cppname = "ConfigTable.cpp";
@@ -32,7 +32,9 @@ int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 
-	ReadXML("/home/xuke/Project/Git_Client/Server/Config/Data/DB_Server.xml");
+
+	ReadXML("/home/xuke/Project/Git_Client/Server/Config/Table/DB_Server.xml");
+
 	return 0;
 }
 
@@ -74,7 +76,7 @@ void ReadXML(string path) {
 												(char*) mNode3->content);
 									} else if (i == 1) {
 										mClassInfo.datatype.push_back(
-												(char*) mNode3->content);
+												dataTypeChange((char*) mNode3->content));
 									} else if (i == 2) {
 										mClassInfo.dataname.push_back(
 												(char*) mNode3->content);
@@ -104,6 +106,25 @@ void ReadXML(string path) {
 	GenerateConfigTableCpp(mClassInfoList);
 
 }
+string dataTypeChange(string type)
+{
+	int pos=type.find("[");
+	cout<<"pos:"<<pos<<endl;
+	if(type.find("[")!=-1 || type.find("]")!=-1)
+	{
+		int pos1=type.find("[");
+		int pos2=type.find("]");
+		string cout=type.substr(pos1+1,pos2-pos1-1);
+		string name=type.substr(0,pos1);
+		return "array<"+name+","+cout+">";
+
+	}else
+	{
+		return type;
+	}
+
+}
+
 int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 	if (mClassInfoList.size() > 0) {
 		cout << "数量：" << mClassInfoList.size() << endl;
@@ -115,7 +136,7 @@ int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 		mClassStr +=
 				"#ifndef SRC_MARIADBMANAGER_DBTABLE_H\n#define SRC_MARIADBMANAGER_DBTABLE_H\n";
 		mClassStr +=
-				"#include <string>\n#include <vector>\n#include \"ConfigTableManager.h\"\nusing namespace std;\n";
+				"#include <string>\n#include <vector>\n#include <array>\n#include \"ConfigTableManager.h\"\nusing namespace std;\n";
 		mClassStr += "namespace basic{\n";
 		int classId=100;
 		for (vector<ClassInfo>::iterator iter = mClassInfoList.begin();
@@ -203,11 +224,30 @@ int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 				stream.clear();
 				if (type == "string") {
 					mClassStr += "\tthis->" + name + "=value[" + iStr + "];\n";
-				} else {
+				} else if(type=="int"){
 					mClassStr += "\t" + type + " str=" + hbasename
 							+ "::convert<string," + type + ">(value[" + iStr
 							+ "]);\n";
 					mClassStr += "\tthis->" + name + "=str;\n";
+				}else if(type.find("array")!=-1)
+				{
+					int pos1=type.find("<");
+					int pos2=type.find(",");
+					string type1=type.substr(pos1+1,pos2-pos1-1);
+					mClassStr+="\t"+name+"={};\n";
+					mClassStr+="\tvector<string> value"+iStr+"=StrToVector(value["+iStr+"],\"#\");\n";
+					mClassStr+="\tint length"+iStr+"=value"+iStr+".size()<"+name+".size()? value"+iStr+".size():"+name+".size();\n";
+					mClassStr+="\tfor(int k=0;k<length"+iStr+";k++)\n\t{\n";
+					if(type1=="string")
+					{
+						mClassStr += "\t\tthis->" + name+"[k]" + "=value"+iStr+"[k];\n";
+					}else if(type1=="int")
+					{
+						mClassStr += "\t\t" + type1 + " str=" + hbasename+ "::convert<string," + type1 + ">(value"+iStr+"[k]);\n";
+						mClassStr += "\t\tthis->" + name + "[k]=str;\n";
+					}
+					mClassStr+="\t}\n";
+
 				}
 			}
 			mClassStr += "\treturn 0;\n";
@@ -220,7 +260,19 @@ int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 				string name = nameList[i];
 				string type = typeList[i];
 
-				mClassStr += "\tcout<<\""+name+": \"<<this->" + name + "<<endl;\n";
+				if(type.find("array")!=-1)
+				{
+					int pos1=type.find("<");
+					int pos2=type.find(",");
+					string type1=type.substr(pos1+1,pos2-pos1-1);
+					mClassStr+="\tfor("+type1+" value : "+name+")\n\t{\n\t";
+					mClassStr+="\t\tcout<<\""+name+": \"<<value<<endl;\n\t}\n";
+
+
+				}else
+				{
+					mClassStr += "\tcout<<\""+name+": \"<<this->" + name + "<<endl;\n";
+				}
 
 			}
 			mClassStr+="\tcout<<\"classId: \"<<"+classname+"::classId<<endl;\n";
@@ -228,7 +280,7 @@ int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 			mClassStr += "}\n";
 
 			mClassStr += "int "+classname+"::get_classId_value()\n{\n";
-			mClassStr +="\treturn classId;\n}\n";
+			mClassStr +="\treturn classId;\n}\n\n\n";
 		}
 		mClassStr += "\n";
 		mClassStr += "ConfigTableBase* LoadTableCpp(string classname)\n{\n";

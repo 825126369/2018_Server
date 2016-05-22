@@ -8,7 +8,7 @@
 #include "NetManager.h"
 
 namespace basic {
-
+NetManager NetManager::single;
 NetManager::NetManager() {
 	// TODO Auto-generated constructor stub
 }
@@ -16,9 +16,28 @@ NetManager::NetManager() {
 NetManager::~NetManager() {
 	// TODO Auto-generated destructor stub
 }
-
-int NetManager::InitNet(const char* ipStr,const int port,const int maxConnectCout)
+NetManager* NetManager::getSingle()
 {
+	return &single;
+}
+int NetManager::Init()
+{
+	if(InitNet()==-1)
+	{
+		CloseNet();
+		return -1;
+	}
+	cout<<"网络线程初始化"<<endl;
+	NetThreadManger_Init(this);
+	return 0;
+}
+
+int NetManager::InitNet()
+{
+	const char* ipStr="192.168.1.7";
+	const int port=7878;
+	const int maxConnectCout=0;
+
 	Server=socket_class();
 	//memset(&Server,0,sizeof(Server));
 	//生成SOCKet描数字

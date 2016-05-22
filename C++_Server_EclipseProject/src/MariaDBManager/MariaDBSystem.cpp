@@ -12,10 +12,7 @@ namespace basic
 MariaDBSystem* MariaDBSystem::single=new MariaDBSystem;
 MariaDBSystem::MariaDBSystem()
 {
-	db = "game";
-	ip = "127.0.0.1";
-	user = "root";
-	password = "123";
+
 }
 
 MariaDBSystem::~MariaDBSystem()
@@ -34,11 +31,23 @@ MariaDBSystem* MariaDBSystem::getSingle()
 
 }
 
+int MariaDBSystem::Init()
+{
+		db = "game";
+		ip = "127.0.0.1";
+		user = "root";
+		password = "123";
+		ConnectMariadb();
+		InitMariaDBThread();
+}
+
 int MariaDBSystem::ConnectMariadb()
 {
 	connection = mysql_init(NULL);
-	connection = mysql_real_connect(connection, ip.c_str(), user.c_str(),
-			password.c_str(), NULL, 0, NULL, 0);
+	my_bool mb=1;
+	mysql_options(connection,MYSQL_OPT_RECONNECT,&mb);
+	connection = mysql_real_connect(connection, ip.c_str(), user.c_str(),password.c_str(), NULL, 0, NULL, 0);
+	//mysql_options(connection,MYSQL_OPT_RECONNECT,0);
 	if (connection == NULL)
 	{
 		cerr << "mysql connection Error: MYSQL* is NULL" << endl;
@@ -50,16 +59,71 @@ int MariaDBSystem::ConnectMariadb()
 	return 0;
 }
 
+int MariaDBSystem::InitMariaDBThread()
+{
+	SetThreadState(false);
+	if(pthread_rwlock_init(&m_mutex_ping_t,NULL)==-1)
+	{
+		cout<<"MYSQL* 互斥锁初始化失败"<<endl;
+	}
+	if(pthread_rwlock_init(&m_mutex_TrheadState_t,NULL)==-1)
+	{
+		cout<<"ThreadState 互斥锁初始化失败"<<endl;
+	}
+	InitTrhead(this);
+	cout<<"初始化数据库线程完毕"<<endl;
+}
+
+void MariaDBSystem::Check_Ping()
+{
+	pthread_rwlock_wrlock(&m_mutex_ping_t); /*获取互斥锁*/
+	int result=mysql_ping(connection);
+	pthread_rwlock_unlock(&m_mutex_ping_t); /*互斥锁*/
+	if(result!=0)
+	{
+		cout<<"数据库已断开连接 | 错误码："<<result<<endl;
+	}else
+	{
+		cout<<"检查数据库是否连接: true"<<endl;
+	}
+}
+
+bool MariaDBSystem::GetThreadState()
+{
+	bool state=false;
+	pthread_rwlock_wrlock(&m_mutex_TrheadState_t); /*获取互斥锁*/
+	state=orCancelThread;
+	pthread_rwlock_unlock(&m_mutex_TrheadState_t); /*获取互斥锁*/
+	return state;
+
+}
+void MariaDBSystem::SetThreadState(bool state)
+{
+	pthread_rwlock_wrlock(&m_mutex_TrheadState_t); /*获取互斥锁*/
+	orCancelThread=state;
+	pthread_rwlock_unlock(&m_mutex_TrheadState_t); /*获取互斥锁*/
+}
+
 int MariaDBSystem::CloseMariaDb()
 {
+	SetThreadState(true);
 	mysql_close(connection);
 	return 0;
 }
 
+MYSQL_RES*  MariaDBSystem::GetQueryResultCollection()
+{
+	pthread_rwlock_wrlock(&m_mutex_ping_t); /*获取互斥锁*/
+	MYSQL_RES* res = mysql_use_result(connection);
+	pthread_rwlock_unlock(&m_mutex_ping_t); /*互斥锁*/
+	return res;
+}
 int MariaDBSystem::ExcuteSqlCommand(string command)
 {
 	cout << "sql command:" << command << endl;
+	pthread_rwlock_wrlock(&m_mutex_ping_t); /*获取互斥锁*/
 	int result = mysql_query(connection, command.c_str());
+	pthread_rwlock_unlock(&m_mutex_ping_t); /*互斥锁*/
 	cout<<"Effect Rows: "<<mysql_affected_rows(connection)<<endl;
 	if (result == 0)
 	{
@@ -75,7 +139,7 @@ int MariaDBSystem::ExcuteSqlCommand(string command)
 int MariaDBSystem::GetResultCollection(string command)
 {
 	ExcuteSqlCommand(command);
-	MYSQL_RES* res = mysql_use_result(connection);
+	MYSQL_RES* res=GetQueryResultCollection();
 	MYSQL_ROW row;
 	//cout << "字段数： " << mysql_num_fields(res) << endl;
 	cout << "字段数： " << res->field_count << endl;
@@ -112,7 +176,7 @@ string MariaDBSystem::getSinglefield(string command)
 {
 		string value="";
 		ExcuteSqlCommand(command);
-		MYSQL_RES* res = mysql_use_result(connection);
+		MYSQL_RES* res=GetQueryResultCollection();
 		MYSQL_ROW row;
 		if (res)
 		{
@@ -144,7 +208,7 @@ vector<string> MariaDBSystem::getMultiplefield(string command)
 {
 		vector<string> result;
 		ExcuteSqlCommand(command);
-		MYSQL_RES* res = mysql_use_result(connection);
+		MYSQL_RES* res=GetQueryResultCollection();
 		MYSQL_ROW row;
 		if (res)
 		{

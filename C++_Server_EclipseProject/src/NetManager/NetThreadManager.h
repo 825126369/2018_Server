@@ -13,7 +13,8 @@
 using namespace std;
 namespace basic
 {
-int NetThreadManger_Init(const char* ip,const int port,const int maxConnect);
+class NetManager;
+int NetThreadManger_Init(NetManager* nm);
 void* NetThreadManager_ReceiveMsg(void* ccc);
 int NetThreadManager_CreateClientThread(socket_class* client);
 }

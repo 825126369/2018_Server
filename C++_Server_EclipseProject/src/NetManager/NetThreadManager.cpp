@@ -10,20 +10,16 @@
 
 namespace basic {
 
-NetManager mNetManager=NetManager();
+NetManager* mNetManager;
 
-int NetThreadManger_Init(const char* ip,const int port,const int maxConnect)
+int NetThreadManger_Init(NetManager* mNetManagerPtr)
 {
-	if(mNetManager.InitNet(ip,port,maxConnect)==-1)
-	{
-		mNetManager.CloseNet();
-		return -1;
-	}
+	mNetManager=mNetManagerPtr;
 	while(true)
 	{
 		socket_class* client=new socket_class;
 		*client={};
-		if(mNetManager.NetAcceptClient(*client)==-1)
+		if(mNetManager->NetAcceptClient(*client)==-1)
 		{
 			continue;
 		}
@@ -32,7 +28,7 @@ int NetThreadManger_Init(const char* ip,const int port,const int maxConnect)
 			continue;
 		}
 	}
-	mNetManager.CloseNet();
+	mNetManager->CloseNet();
 
 	return 0;
 
