@@ -8,13 +8,13 @@
 #ifndef SRC_BASICMODULE_NETMANAGER_NETPROTOEVENT_H_
 #define SRC_BASICMODULE_NETMANAGER_NETPROTOEVENT_H_
 
-#include "../Protobuf/Proto.cpp/proto_command.pb.h"
-#include "../Protobuf/Proto.cpp/proto_message_one.pb.h"
-#include "../Protobuf/Proto.cpp/proto_message_two.pb.h"
-#include "../Protobuf/Proto.cpp/proto_struct.pb.h"
-#include "../DebugManager/xkDebug.h"
-#include "../NetManager/NetManager.h"
-#include "../MariaDBManager/DbTable.h"
+#include "proto_command.pb.h"
+#include "proto_message_one.pb.h"
+#include "proto_message_two.pb.h"
+#include "proto_struct.pb.h"
+#include "xkDebug.h"
+#include "NetManager.h"
+#include "DbTable.h"
 namespace basic
 {
 

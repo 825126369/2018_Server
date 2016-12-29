@@ -33,16 +33,23 @@ MYSQL* connection;
 string db = "game";
 string ip = "127.0.0.1";
 string user = "root";
-string password = "123";
-string TableInfo::db = db;
+string password = "123456";
+string TableInfo::db = "game";
 string hname = "DbTable.h";
 string cppname = "DbTable.cpp";
 string hbasename = "DbTableBase";
 
 int main(int length, char** msg) {
-	if (length < 5) {
-		Help();
-		//exit(1);
+	if (length < 5) 
+	{
+		string args="";
+		for(int i=0;i<length;i++)
+		{
+			args+=msg[i];
+			
+		}
+		cout<<args<<endl;
+		
 	} else {
 		ip = msg[1];
 		user = msg[2];

@@ -1,10 +1,10 @@
 gg:=g++
 Libs:=-L /usr/local/lib -lprotobuf -lprotoc -L /usr/local/lib/mariadb -lcrypto -lxml2 -lpthread -lssl -lmariadb
-HeadPath:=-I src -I src/ConfigTableManager -I src/DebugManager -I src/EncryptionManager -I src/EventManager -I src/MariaDBManager -I src/NetManager -I src/Protobuf/Proto.cpp -I /usr/include/libxml2 -I /usr/local/include/mariadb -I /usr/local/include/google/protobuf -I /usr/local/include/google/protobuf/compiler -I /usr/local/include/google/protobuf/io -I /usr/local/include/google/protobuf/stubs
+HeadPath:=-I src -I src/auto/ConfigTable -I src/auto/DbTable -I src/auto/Protobuf -I src/ConfigTableManager -I src/DebugManager -I src/EncryptionManager -I src/EventManager -I src/MariaDBManager -I src/NetManager -I /usr/include/libxml2 -I /usr/local/include/mariadb -I /usr/local/include/google/protobuf -I /usr/local/include/google/protobuf/compiler -I /usr/local/include/google/protobuf/io -I /usr/local/include/google/protobuf/stubs
 CFLAG:=-g3 -Wall -std=c++11 $(HeadPath) -c
 
 outDir:=out/
-VPATH:=src src/ConfigTableManager src/DebugManager src/EncryptionManager src/EventManager src/MariaDBManager src/NetManager src/Protobuf/Proto.cpp
+VPATH:=src src/auto/ConfigTable src/auto/DbTable src/auto/Protobuf src/ConfigTableManager src/DebugManager src/EncryptionManager src/EventManager src/MariaDBManager src/NetManager
 
 .PHONY: all install uninstall clean
 all:$(outDir)Server.exe

@@ -15,9 +15,9 @@
 #include <vector>
 #include <iostream>
 #include "NetDefine.h"
-#include "../EventManager/NetEventManager.h"
+#include "NetEventManager.h"
 #include <cstring>
-#include "../EncryptionManager/EncryptionManager.h"
+#include "EncryptionManager.h"
 #include "NetThreadManager.h"
 using namespace std;
 

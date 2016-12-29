@@ -27,7 +27,7 @@ int ConfigTableManager::Init()
 {
 	string path="/home/xuke/Server/Project/Config/Table/DB_Server.xml";
 	ReadXML(path);
-	cout<<"初始化配置表完成"<<endl;
+	cout<<"ConfigTable Init Finish"<<endl;
 
 }
 

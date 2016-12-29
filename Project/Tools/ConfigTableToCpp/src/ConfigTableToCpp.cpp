@@ -29,12 +29,9 @@ string hbasename = "ConfigTableBase";
 string hname = "ConfigTable.h";
 string cppname = "ConfigTable.cpp";
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-
-
-	ReadXML("/home/xuke/Project/Git_Client/Server/Config/Table/DB_Server.xml");
-
+	cout << "Start Generate Table Cpp File..." << endl;
+	ReadXML("/home/xuke/Server/Project/Config/Table/DB_Server.xml");
+	cout<<"Finish !"<<endl;
 	return 0;
 }
 
