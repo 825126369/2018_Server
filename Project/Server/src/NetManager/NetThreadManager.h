@@ -7,7 +7,7 @@
 
 #ifndef SRC_NETMANAGER_NETTHREADMANAGER_H_
 #define SRC_NETMANAGER_NETTHREADMANAGER_H_
-
+#include <iostream>
 #include <pthread.h>
 #include "NetManager.h"
 using namespace std;
