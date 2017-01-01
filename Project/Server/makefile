@@ -5,22 +5,26 @@ CFLAG:=-g3 -Wall -std=c++11 $(HeadPath)
 outDir:=out/
 RootDir:=src
 VPATH:=src src/auto/ConfigTable src/auto/DbTable src/auto/Protobuf src/ConfigTableManager src/DebugManager src/EncryptionManager src/EventManager src/MariaDBManager src/NetManager
-objs=$(shell sh mf.sh $(RootDir) o)
+objs:=$(shell sh mf.sh $(RootDir) $(outDir) o)
 
 
 
 .PHONY: all install uninstall clean test
-all:Server.exe
+all:$(outDir)Server.exe
 clean:
-	rm *.d1 *.d2 *.o Server.exe
-Server.exe:$(objs)
+	rm out/*
+$(outDir)Server.exe:$(objs)
 	$(gg) $^ -o $@ $(Libs)
--include $(shell sh mf.sh $(RootDir) d d1 cpp)
-%.d1:%.cpp
-	$(gg) $(CFLAG) -MM $< >$@       
--include $(shell sh mf.sh $(RootDir) d d2 cc)
-%.d2:%.cc
-	$(gg) $(CFLAG) -MM $< >$@      
+-include $(shell sh mf.sh $(RootDir) $(outDir) d d1 cpp)
+$(outDir)%.d1:%.cpp 
+	$(gg) $(CFLAG) -MM $< >$@.$$$$;   \
+	sed '1s,^,$(outDir),'<$@.$$$$ >$@; \
+	rm -rf $@.$$$$;      
+-include $(shell sh mf.sh $(RootDir) $(outDir) d d2 cc)
+$(outDir)%.d2:%.cc
+	$(gg) $(CFLAG) -MM $< >$@.$$$$;   \
+	sed '1s,^,$(outDir),'<$@.$$$$ >$@; \
+	rm -rf $@.$$$$;      
 $(objs):
 	$(gg) $(CFLAG) -c -o $@ $<      
 	
