@@ -25,6 +25,7 @@ ConfigTableManager* ConfigTableManager::getSingle()
 
 int ConfigTableManager::Init()
 {
+	cout<<"ConfigTable Init Begin..."<<endl;
 	string path="/home/xuke/Server/Project/Config/Table/DB_Server.xml";
 	ReadXML(path);
 	cout<<"ConfigTable Init Finish"<<endl;

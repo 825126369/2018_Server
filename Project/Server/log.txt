@@ -1,0 +1,6 @@
+sql command:use game
+Effect Rows: 0
+Connect DataBase: game
+mysql Thread Init Finish
+Check mysql Connection State : true
+Check mysql Connection State : true

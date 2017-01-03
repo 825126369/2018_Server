@@ -111,9 +111,9 @@ string dataTypeChange(string type)
 	{
 		int pos1=type.find("[");
 		int pos2=type.find("]");
-		string cout=type.substr(pos1+1,pos2-pos1-1);
+       		//string cout=type.substr(pos1+1,pos2-pos1-1);
 		string name=type.substr(0,pos1);
-		return "array<"+name+","+cout+">";
+		return "vector<"+name+">";
 
 	}else
 	{
@@ -124,10 +124,10 @@ string dataTypeChange(string type)
 
 int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 	if (mClassInfoList.size() > 0) {
-		cout << "数量：" << mClassInfoList.size() << endl;
+		cout << "Table Cout:" << mClassInfoList.size() << endl;
 		ofstream mfile;
 
-		//生成.h文件
+		//Generate CPP File
 		mfile.open(hname.c_str(), ios_base::out | ios_base::trunc);
 		string mClassStr = "";
 		mClassStr +=
@@ -222,26 +222,26 @@ int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 				if (type == "string") {
 					mClassStr += "\tthis->" + name + "=value[" + iStr + "];\n";
 				} else if(type=="int"){
-					mClassStr += "\t" + type + " str=" + hbasename
+					mClassStr += "\t" + type + " str"+iStr+"=" + hbasename
 							+ "::convert<string," + type + ">(value[" + iStr
 							+ "]);\n";
-					mClassStr += "\tthis->" + name + "=str;\n";
-				}else if(type.find("array")!=-1)
+					mClassStr += "\tthis->" + name + "=str"+iStr+";\n";
+				}else if(type.find("vector")!=-1)
 				{
 					int pos1=type.find("<");
-					int pos2=type.find(",");
+					int pos2=type.find(">");
 					string type1=type.substr(pos1+1,pos2-pos1-1);
 					mClassStr+="\t"+name+"={};\n";
 					mClassStr+="\tvector<string> value"+iStr+"=StrToVector(value["+iStr+"],\"#\");\n";
-					mClassStr+="\tint length"+iStr+"=value"+iStr+".size()<"+name+".size()? value"+iStr+".size():"+name+".size();\n";
+					mClassStr+="\tint length"+iStr+"=value"+iStr+".size();\n";
 					mClassStr+="\tfor(int k=0;k<length"+iStr+";k++)\n\t{\n";
 					if(type1=="string")
 					{
-						mClassStr += "\t\tthis->" + name+"[k]" + "=value"+iStr+"[k];\n";
+						mClassStr += "\t\tthis->" + name+".push_back(value" + iStr+"[k]);\n";
 					}else if(type1=="int")
 					{
 						mClassStr += "\t\t" + type1 + " str=" + hbasename+ "::convert<string," + type1 + ">(value"+iStr+"[k]);\n";
-						mClassStr += "\t\tthis->" + name + "[k]=str;\n";
+						mClassStr += "\t\tthis->" + name + ".push_back(str);\n";
 					}
 					mClassStr+="\t}\n";
 
@@ -257,10 +257,10 @@ int GenerateConfigTableCpp(vector<ClassInfo> mClassInfoList) {
 				string name = nameList[i];
 				string type = typeList[i];
 
-				if(type.find("array")!=-1)
+				if(type.find("vector")!=-1)
 				{
 					int pos1=type.find("<");
-					int pos2=type.find(",");
+					int pos2=type.find(">");
 					string type1=type.substr(pos1+1,pos2-pos1-1);
 					mClassStr+="\tfor("+type1+" value : "+name+")\n\t{\n\t";
 					mClassStr+="\t\tcout<<\""+name+": \"<<value<<endl;\n\t}\n";

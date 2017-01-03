@@ -17,13 +17,18 @@ int Proto_Rec_Chat(const NetEventPackage mProtobuf)
 	mChatinfo.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
 	xk_Debug::Log()<<"解析数据："<<mChatinfo.sendername()<<" | "<<mChatinfo.talkmsg()<<endl;
 
-
 	if(mProtobuf.mClient!=0)
 	{
-		ServerSendData mdata=ServerSendData();
-		mdata.set_nickname("server");
-		mdata.set_talkmsg("shou dao");
-		mProtobuf.mClient->SendData((int)Chat,&mdata);
+		vector<ClientInfoPool*> mClientList= ClientManagerPool::getSingle()->GetClientPool();
+		for(auto a:mClientList)
+		{
+			ServerSendData mdata=ServerSendData();
+			mdata.set_nickname("server");
+			mdata.set_talkmsg("shou dao");
+			//mProtobuf.mClient->SendData((int)Chat,&mdata);
+			a->SendData((int)Chat,&mdata);
+		}
+
 	}else
 	{
 		xk_Debug::Log()<<"事件发送者不存在"<<endl;
@@ -41,7 +46,7 @@ int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf)
 	scRegisterAccount mSendData;
 	if(mdata.password()==mdata.repeatpassword())
 	{
-		game_login* mDb_Login= mProtobuf.mClient->mClientInfo->mDbManager.GetDbTable<game_login>();
+		game_login* mDb_Login=new game_login();
 		mDb_Login->set_key_account_value(mdata.accountname());
 		bool orExist= mDb_Login->has_key_account_value();
 		if(orExist)
@@ -51,8 +56,9 @@ int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf)
 		{
 			mDb_Login->create_key_account_value();
 			mDb_Login->set_password_value(mdata.password());
+			mSendData.set_result(true);
 		}
-		mProtobuf.mClient->mClientInfo->mDbManager.GetDbTable<game_login>();
+		delete mDb_Login;
 	}else
 	{
 		mSendData.set_result(false);
@@ -67,29 +73,29 @@ int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
 	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
 	cout<<"解析登陆数据："<<mdata.accountname()<<" | "<<mdata.password()<<endl;
 
-	game_login* m_game_login= mProtobuf.mClient->mClientInfo->mDbManager.GetDbTable<game_login>();
+	game_login* m_game_login=new game_login();
 	m_game_login->set_key_account_value(mdata.accountname());
+	scLoginGame mSendData;
 	if(m_game_login->has_key_account_value())
 	{
 		if(m_game_login->get_key_account_value()==mdata.accountname() && m_game_login->get_password_value()==mdata.password())
 		{
-			scLoginGame mSendData;
 			mSendData.set_result(true);
-			mProtobuf.mClient->SendData(Login,&mSendData);
+			cout<<"登陆成功"<<endl;
 		}else
 		{
-			scLoginGame mSendData;
 			mSendData.set_result(false);
-			mProtobuf.mClient->SendData(Login,&mSendData);
+			cout<<"登陆失败"<<endl;
 		}
 	}
 	else
 	{
 		cout<<"账户名不正确"<<endl;
-		scLoginGame mSendData;
 		mSendData.set_result(false);
-		mProtobuf.mClient->SendData(Login,&mSendData);
+		cout<<"登陆失败"<<endl;
 	}
+	mProtobuf.mClient->SendData(Login,&mSendData);
+	delete m_game_login;
 }
 //1103
 int Proto_Receive_ServerList(const NetEventPackage mProtobuf)

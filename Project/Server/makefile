@@ -4,10 +4,8 @@ HeadPath:=-I src -I src/auto/ConfigTable -I src/auto/DbTable -I src/auto/Protobu
 CFLAG:=-g3 -Wall -std=c++11 $(HeadPath)
 outDir:=out/
 RootDir:=src
-VPATH:=src src/auto/ConfigTable src/auto/DbTable src/auto/Protobuf src/ConfigTableManager src/DebugManager src/EncryptionManager src/EventManager src/MariaDBManager src/NetManager
+VPATH:=src src/ThreadPoolManager src/CommonBase src/auto/ConfigTable src/auto/DbTable src/auto/Protobuf src/ConfigTableManager src/DebugManager src/EncryptionManager src/EventManager src/MariaDBManager src/NetManager
 objs:=$(shell sh mf.sh $(RootDir) $(outDir) o)
-
-
 
 .PHONY: all install uninstall clean test
 all:$(outDir)Server.exe

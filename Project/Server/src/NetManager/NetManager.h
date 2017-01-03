@@ -15,12 +15,11 @@
 #include <vector>
 #include <iostream>
 #include "NetDefine.h"
-#include "NetEventManager.h"
+#include "../EventManager/NetEventManager.h"
 #include <cstring>
-#include "EncryptionManager.h"
+#include "../EncryptionManager/EncryptionManager.h"
 #include "NetThreadManager.h"
 using namespace std;
-
 namespace basic
 {
 class NetManager;
@@ -29,7 +28,9 @@ class NetOutStream;
 class Protobuf;
 class NetEventPackage;
 class Encryption_AES;
-
+class NetEncryptionInputStream;
+class NetEncryptionOutStream;
+class NetEncryptionStream;
 class NetManager {
 
 public:
@@ -45,6 +46,7 @@ private:
 private:
 	struct socket_class Server;
 	static NetManager single;
+
 };
 
 class ClientInfoPool
@@ -58,10 +60,13 @@ public:
 private:
 	int NetReceiveMsg();
 	int NetSendMsg(const unsigned char* msg,const int Length);
+	int PackagePoolParseData(const unsigned char* msg,int msg_Length);
 	int ParseData(const unsigned char* msg,const int Length);
 	int CloseNet();
 public:
 	ClientInfo* mClientInfo;
+private:
+	NetPackageReceivePool* mNetPackageReceivePool;
 };
 
 class ClientManagerPool {
@@ -76,6 +81,8 @@ public:
 	int RemoveClient(ClientInfoPool* client);
 
 	ClientInfoPool* GetClient(int fd);
+
+	vector<ClientInfoPool*> GetClientPool();
 private:
 	int printClientPoolinfo();
 	ClientManagerPool();
@@ -83,9 +90,25 @@ private:
 
 private:
 	static ClientManagerPool* single;
-public:
+	pthread_rwlock_t m_mutex_ClientList_t;
+	pthread_rwlock_t m_mutex_ClientDic_t;
+	static pthread_rwlock_t m_mutex_single_t;
+	static bool orInit_mutex_single;
 	vector<ClientInfoPool*> ClientList;
 	map<int,ClientInfoPool*> ClientDic;
+	//创建单例销毁工人
+	class CGarbo
+	{
+	public:
+		~CGarbo()
+		{
+			if(ClientManagerPool::single!=NULL)
+			{
+				delete ClientManagerPool::single;
+			}
+		}
+	};
+	static CGarbo Garbo;
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~数据包定义~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class  Package
@@ -114,17 +137,64 @@ public:
 	ClientInfoPool* mClient;
 };
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~网络流编码~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class NetEncryption
+//~~~~~~~~~~~~~~~~~~~~~~~~~~网络加标志流~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const int stream_head_Length=2;
+const int stream_tail_Length=2;
+const int msg_head_Length=4;
+class NetEncryptionStream
 {
+public:
+	//const int stream_head_Length=2;
+	//const int stream_tail_Length=2;
+	//const int msg_head_Length=4;
+};
 
+class NetEncryptionInputStream:public NetEncryptionStream
+{
+public:
+	int bodyLength;
+	unsigned char* bodyData;
+
+public:
+	void SetData(const unsigned char* msg,const int Length);
+	NetEncryptionInputStream();
+	virtual ~NetEncryptionInputStream();
+};
+
+class NetEncryptionOutStream:public NetEncryptionStream
+{
+public:
+	int Length;
+	unsigned char* encryption_data;
+public:
+	void SetData(const unsigned char* msg,const int Length);
+	NetEncryptionOutStream();
+	virtual ~NetEncryptionOutStream();
+};
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~网络包接收/发送池~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class NetPackageReceivePool:public NetEncryptionInputStream
+{
+public:
+	int InputStreamLength;
+	unsigned char* mInputStream;
+public:
+	void ReceiveNetMsg(const unsigned char* msg,const int Length);
+	void GetPackage();
+	~NetPackageReceivePool();
+	NetPackageReceivePool();
 
 };
-class NetEncryption_md5:NetEncryption
-{
 
+class NetPackageSendPool:public NetEncryptionOutStream
+{
+public:
+	void SendNetMsg(const unsigned char* msg,const int Length);
+	//~NetPackageSendPool();
+	//NetPackageSendPool();
 
 };
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~网络流定义~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class NetBitStream
 {
@@ -141,11 +211,7 @@ class NetBitFun
 class NetStream:public NetBitStream
 {
 public:
-	const int msg_head_Length=1;
-	const int head_Length=10;
 	const int command_Length=4;
-	const int buffer_Length=4;
-	const int msg_tail_Length=1;
 
 	const char* keyStr="1234567891234567";
 	const char* ivStr="1234567891234567";
@@ -160,6 +226,8 @@ public:
 	int command;
 	unsigned char* buffer;
 	int buffer_Length;
+private:
+	NetEncryptionInputStream mEncryptionInputStream;
 
 
 
@@ -173,6 +241,8 @@ public:
 	unsigned char* msg;
 	int msg_Length;
 
+private:
+	NetEncryptionOutStream mEncryptionOutStream;
 
 };
 

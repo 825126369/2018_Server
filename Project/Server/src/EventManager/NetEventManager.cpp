@@ -16,10 +16,9 @@ NetEventManager::NetEventManager() {
 
 }
 
-NetEventManager::~NetEventManager() {
+NetEventManager::~NetEventManager()
+{
 	delete ProtoEventReceiveDic;
-	//delete ProtoEventSendDic;
-	delete single;
 }
 
 
@@ -46,16 +45,15 @@ int NetEventManager::handleEvent(NetEventPackage mProtobuf)
 		(*iter).second(mProtobuf);
 	}else
 	{
-		xk_Debug::Log()<<"没有找到接收命令"<<endl;
+		xk_Debug::Log()<<"protobuf command not find Event"<<endl;
 	}
 	return 0;
 }
 
 int NetEventManager::Init()
 {
+	cout<<"Net Event Register Begin"<<endl;
 	ProtoEventReceiveDic=new map<ProtoCommand,RecFun>;
-	//ProtoEventSendDic=new map<ProtoCommand,SendFun>;
-
 	//1100
 	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(Chat,Proto_Rec_Chat));
 	//1101:注册账号

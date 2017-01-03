@@ -27,7 +27,6 @@ int NetManager::Init()
 		CloseNet();
 		return -1;
 	}
-	cout<<"Net Init Finish"<<endl;
 	NetThreadManger_Init(this);
 	return 0;
 }
@@ -40,7 +39,7 @@ int NetManager::InitNet()
 
 	Server=socket_class();
 	//memset(&Server,0,sizeof(Server));
-	
+	//生成SOCKet描数字
 	if((Server._fd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))==-1)
 	{
 		xk_Debug::LogSystemError("Init Server_fd Error:");
@@ -52,13 +51,13 @@ int NetManager::InitNet()
             xk_Debug::LogSystemError("setsockopet error:");
             return -1;
     }
-	//Socket
+	//Socket结构封装
 	Server._addr.sin_addr.s_addr=inet_addr(ipStr);
-   	//Server._addr.sin_addr.s_addr=INADDR_ANY;
+   // Server._addr.sin_addr.s_addr=INADDR_ANY;
 	Server._addr.sin_family=AF_INET;
 	Server._addr.sin_port=htons(port);
 	printServerinfo(Server);
-
+	//把socket描数字，socket地址结构绑定
 	if(bind(Server._fd,(const struct sockaddr *)&Server._addr,sizeof(Server._addr))==-1)
 	{
 		xk_Debug::LogSystemError("Bind error:");
@@ -69,7 +68,7 @@ int NetManager::InitNet()
 		xk_Debug::LogSystemError("Listen Error:");
 		return -1;
 	}
-	xk_Debug::Log()<<"Start Listening"<<endl;
+	xk_Debug::Log()<<"Net Init Finish"<<endl;
 	return 0;
 }
 
@@ -99,17 +98,20 @@ int NetManager::CloseNet()
 
 int NetManager::printServerinfo(const socket_class& _socket)
 {
-	cout<<"Server:  File ID:"<<_socket._fd<<"  IP:"<<inet_ntoa(_socket._addr.sin_addr)<<" Port:"<<(ntohs(_socket._addr.sin_port))<<endl;
+	cout<<"Server:  描数字："<<_socket._fd<<"  IP:"<<inet_ntoa(_socket._addr.sin_addr)<<"    端口："<<(ntohs(_socket._addr.sin_port))<<endl;
 }
 
 ClientInfoPool::ClientInfoPool(socket_class* socket_r)
 {
 	mClientInfo=new ClientInfo();
 	mClientInfo->mSocketInfo=socket_r;
+	mNetPackageReceivePool=new NetPackageReceivePool();
+
 }
 
 ClientInfoPool::~ClientInfoPool() {
 	delete mClientInfo;
+	delete mNetPackageReceivePool;
 }
 int ClientInfoPool::run()
 {
@@ -128,29 +130,49 @@ int ClientInfoPool::NetReceiveMsg()
 		{
 			xk_Debug::LogSystemError("NetReceiveMsg Error:");
 			CloseNet();
+			printClientinfo();
 			return -1;
 		}else if(receiveMsgLength==0)
 		{
-			if(close(client._fd)==-1)
-			{
-				xk_Debug::LogSystemError("Client Close Error:");
-			}
+			CloseNet();
 			xk_Debug::Log()<<"client DisConnected： "<<endl;
 			printClientinfo();
 			break;
 		}else if(receiveMsgLength>0)
 		{
-			xk_Debug::Log()<<"Receive Info Length:"<<receiveMsgLength<<endl;
+			xk_Debug::Log()<<"收到密文字节流，"<<" 长度："<<receiveMsgLength<<endl;
 			for(int i=0;i<receiveMsgLength;i++)
 			{
 				xk_Debug::Log()<<(int)msg[i]<<" | ";
 			}
 			xk_Debug::Log()<<endl;
 
-			ParseData(msg,receiveMsgLength);
+			PackagePoolParseData(msg,receiveMsgLength);
 		}
 	}
 	return 0;
+}
+int ClientInfoPool::PackagePoolParseData(const unsigned char* msg,int msg_Length)
+{
+				if(mNetPackageReceivePool==NULL)
+				{
+					mNetPackageReceivePool=new NetPackageReceivePool();
+				}
+				mNetPackageReceivePool->ReceiveNetMsg(msg,msg_Length);
+				int PackageCout=0;
+				while(true)
+				{
+					mNetPackageReceivePool->GetPackage();
+					if(mNetPackageReceivePool->bodyData!=NULL)
+					{
+						ParseData(mNetPackageReceivePool->bodyData,mNetPackageReceivePool->bodyLength);
+						PackageCout++;
+					}else
+					{
+						break;
+					}
+				}
+				cout<<"解析包的数量："<<PackageCout<<endl;
 }
 
 int ClientInfoPool::ParseData(const unsigned char* msg,int msg_Length)
@@ -167,12 +189,15 @@ int ClientInfoPool::SendData(int command,google::protobuf::Message* msgClass)
 {
 	Protobuf mProtobuf=Protobuf(command,msgClass);
 	NetOutStream mNetOutStream=mProtobuf.SerializeMsgObj();
-	NetSendMsg(mNetOutStream.msg,mNetOutStream.msg_Length);
+	NetPackageSendPool mNetSendPool;
+	mNetSendPool.SetData(mNetOutStream.msg,mNetOutStream.msg_Length);
+	NetSendMsg(mNetSendPool.encryption_data,mNetSendPool.Length);
 	return 0;
 }
 
 int ClientInfoPool::NetSendMsg(const unsigned char* msg,const int Length)
 {
+	static int SendCout=0;
 	const socket_class& client=*mClientInfo->mSocketInfo;
 
 	xk_Debug::Log()<<"发送密文字节流，长度："<<Length<<endl;
@@ -186,12 +211,20 @@ int ClientInfoPool::NetSendMsg(const unsigned char* msg,const int Length)
 	{
 		xk_Debug::LogSystemError("Send Error:");
 		return -1;
+	}else
+	{
+		SendCout++;
+		cout<<"发送数目： "<<SendCout<<endl;
 	}
 	return 0;
 }
 int ClientInfoPool::CloseNet()
 {
-	close(mClientInfo->mSocketInfo->_fd);
+	shutdown(mClientInfo->mSocketInfo->_fd,SHUT_WR);
+	if(close(mClientInfo->mSocketInfo->_fd)==-1)
+	{
+		perror("关闭客户端错误：");
+	}
 }
 int ClientInfoPool::printClientinfo()
 {
@@ -199,15 +232,23 @@ int ClientInfoPool::printClientinfo()
 }
 
 ClientManagerPool* ClientManagerPool::single=new ClientManagerPool;
-
-ClientManagerPool::ClientManagerPool() {
-
-
-
+pthread_rwlock_t ClientManagerPool::m_mutex_single_t={};
+bool ClientManagerPool::orInit_mutex_single=false;
+ClientManagerPool::ClientManagerPool()
+{
+	if(pthread_rwlock_init(&m_mutex_ClientList_t,NULL)==-1)
+	{
+		cerr<<"客户池 互斥锁初始化失败"<<endl;
+	}
+	if(pthread_rwlock_init(&m_mutex_ClientDic_t,NULL)==-1)
+	{
+		cerr<<"客户池 互斥锁初始化失败"<<endl;
+	}
 }
 
-ClientManagerPool::~ClientManagerPool() {
-	delete single;
+ClientManagerPool::~ClientManagerPool()
+{
+
 
 }
 
@@ -215,12 +256,22 @@ ClientManagerPool* ClientManagerPool:: getSingle()
 {
 		if(single==NULL)
 		{
-			//lock();
+			if(orInit_mutex_single==false)
+			{
+				if(pthread_rwlock_init(&m_mutex_single_t,NULL)==-1)
+				{
+						cout<<"客户池 互斥锁初始化失败"<<endl;
+				}else
+				{
+					orInit_mutex_single=true;
+				}
+			}
+			pthread_rwlock_wrlock(&m_mutex_single_t); /*获取互斥锁*/
 			if(single==NULL)
 			{
 				single=new ClientManagerPool();
 			}
-			//unlock();
+			pthread_rwlock_unlock(&m_mutex_single_t); /*获取互斥锁*/
 		}
 		return single;
 }
@@ -238,43 +289,72 @@ int ClientManagerPool::InitClient(socket_class* info)
 
 int ClientManagerPool::AddClient(ClientInfoPool* client)
 {
+	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
 	ClientList.push_back(client);
-	ClientDic.insert(pair<int,ClientInfoPool*>(client->mClientInfo->mSocketInfo->_fd,client));
+	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
 
+	pthread_rwlock_wrlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	ClientDic.insert(pair<int,ClientInfoPool*>(client->mClientInfo->mSocketInfo->_fd,client));
+	pthread_rwlock_unlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
 	return 0;
 }
 int ClientManagerPool::RemoveClient(ClientInfoPool* client)
 {
-	for(vector<ClientInfoPool*>::iterator iter=ClientList.begin();ClientList.begin()!=ClientList.end();)
+	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	for(vector<ClientInfoPool*>::iterator iter=ClientList.begin();iter!=ClientList.end();)
 	{
-		if((*iter)->mClientInfo->mSocketInfo->_fd==client->mClientInfo->mSocketInfo->_fd)
+		if((*iter)==client)
 		{
 			ClientList.erase(iter);
+			break;
 		}else
 		{
 			iter++;
 		}
 	}
+	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	pthread_rwlock_wrlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	for(map<int,ClientInfoPool*>::iterator iter=ClientDic.begin();iter!=ClientDic.end();iter++)
+	{
+		if((*iter).second==client)
+		{
+			ClientDic.erase(iter);
+			break;
+		}
+	}
+	pthread_rwlock_unlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
 	return 0;
 }
 
 ClientInfoPool* ClientManagerPool::GetClient(int _fd)
 {
-		map<int,ClientInfoPool*>::iterator iter=ClientDic.find(_fd);
-		if(iter!=ClientDic.end())
-		{
-			return ((*iter).second);
-		}
-		return 0;
+	pthread_rwlock_wrlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	map<int,ClientInfoPool*>::iterator iter=ClientDic.find(_fd);
+	if(iter!=ClientDic.end())
+	{
+		return ((*iter).second);
+	}
+	pthread_rwlock_unlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	return 0;
+}
+
+vector<ClientInfoPool*> ClientManagerPool::GetClientPool()
+{
+	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	vector<ClientInfoPool*> mlist=ClientList;
+	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	return mlist;
 }
 
 int ClientManagerPool::printClientPoolinfo()
 {
 	cout<<"客户连接池信息："<<endl;
+	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
 	for(vector<ClientInfoPool*>::iterator iter=ClientList.begin();iter!=ClientList.end();iter++)
 	{
 		(*(*(iter))).printClientinfo();
 	}
+	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
 	cout<<"池容量："<<ClientList.capacity()<<endl;
 	cout<<"池客户数量："<<ClientList.size()<<endl;
 }
@@ -292,6 +372,167 @@ Protobuf::Protobuf(int command,google::protobuf::Message* obj)
 	protobuf_msgObj=obj;
 	protobuf_Length=obj->ByteSize();
 	protobuf_msg=0;
+}
+void NetPackageReceivePool::ReceiveNetMsg(const unsigned char* msg,const int Length)
+{
+	int InputStream1Length=Length+InputStreamLength;
+	unsigned char* mInputStream1=new unsigned char[InputStream1Length];
+	for(int i=0;i<InputStream1Length;i++)
+	{
+		if(mInputStream!=NULL && InputStreamLength>0)
+		{
+		if(i<InputStreamLength)
+		{
+			mInputStream1[i]=mInputStream[i];
+		}else
+		{
+			mInputStream1[i]=msg[i-InputStreamLength];
+		}
+		}else
+		{
+			mInputStream1[i]=msg[i];
+		}
+	}
+	delete mInputStream;
+	mInputStream=mInputStream1;
+	InputStreamLength=InputStream1Length;
+}
+void NetPackageReceivePool::GetPackage()
+{
+
+	SetData(mInputStream,InputStreamLength);
+
+	if(bodyData!=NULL)
+	{
+			int removeLength=bodyLength+stream_head_Length+msg_head_Length+stream_tail_Length;
+		    int InputStream1Length=InputStreamLength-removeLength;
+		    if(InputStream1Length<=0)
+		    {
+		    	delete mInputStream;
+		    	mInputStream=NULL;
+		    	InputStreamLength=0;
+		    	return;
+		    }
+			unsigned char* mInputStream1=new unsigned char[InputStream1Length];
+			for(int i=0;i<InputStream1Length;i++)
+			{
+				mInputStream1[i]=mInputStream[i+removeLength];
+			}
+			delete mInputStream;
+			mInputStream=mInputStream1;
+			InputStreamLength=InputStream1Length;
+	}
+}
+NetPackageReceivePool::NetPackageReceivePool()
+{
+	mInputStream=NULL;
+	InputStreamLength=0;
+}
+NetPackageReceivePool::~NetPackageReceivePool()
+{
+	delete mInputStream;
+}
+
+void NetPackageSendPool::SendNetMsg(const unsigned char* msg,const int Length)
+{
+	SetData(msg,Length);
+
+}
+
+void NetEncryptionInputStream::SetData(const unsigned char* msg,const int Length)
+{
+	if(bodyData!=NULL)
+	{
+		delete bodyData;
+		bodyData=NULL;
+		bodyLength=0;
+	}
+	if(msg==NULL || Length<=0)
+	{
+		return;
+	}else
+	{
+		cout<<"池解析："<<Length<<endl;
+				for(int i=0;i<Length;i++)
+				{
+					cout<<(int)msg[i]<<" | ";
+				}
+		cout<<endl;
+		cout<<"吃解析结束"<<endl;
+	}
+	if(Length-stream_head_Length-msg_head_Length-stream_tail_Length<=0)
+	{
+		cerr<<"池解析错误：总长度不足"<<endl;
+		return;
+	}
+	unsigned char StreamHead[stream_head_Length]={7,7};
+	unsigned char StreamTail[stream_tail_Length]={7,7};
+
+	bodyLength=(msg[stream_head_Length+3]<<24 | msg[stream_head_Length+2]<<16 | msg[stream_head_Length+1]<<8 | msg[stream_head_Length]);
+	if(bodyLength<=0 || Length-stream_head_Length-msg_head_Length-bodyLength-stream_tail_Length<0)
+	{
+		cerr<<"池解析错误：包长度不足："<<bodyLength<<endl;
+		return;
+	}
+
+	bodyData=new unsigned char[bodyLength];
+	for(int i=0;i<bodyLength;i++)
+	{
+		bodyData[i]=msg[i+msg_head_Length+stream_head_Length];
+	}
+}
+NetEncryptionInputStream::NetEncryptionInputStream()
+{
+	bodyLength=0;
+	bodyData=NULL;
+}
+
+NetEncryptionInputStream::~NetEncryptionInputStream()
+{
+	delete bodyData;
+}
+
+void NetEncryptionOutStream::SetData(const unsigned char* msg,const int Length)
+{
+	this->Length=msg_head_Length+Length+stream_head_Length+stream_tail_Length;
+	unsigned char StreamHead[stream_head_Length]={7,7};
+	unsigned char StreamTail[stream_tail_Length]={7,7};
+
+	unsigned char lengStr[msg_head_Length]={};
+	lengStr[0]=Length;
+	lengStr[1]=Length>>8;
+	lengStr[2]=Length>>16;
+	lengStr[3]=Length>>24;
+
+	encryption_data=new unsigned char[this->Length];
+	for(int i=0;i<this->Length;i++)
+	{
+		if(i<stream_head_Length)
+		{
+			encryption_data[i]=StreamHead[i];
+		}
+		else if(i<stream_head_Length+msg_head_Length)
+		{
+			encryption_data[i]=lengStr[i-stream_head_Length];
+		}else if(i<stream_head_Length+msg_head_Length+Length)
+		{
+			encryption_data[i]=msg[i-msg_head_Length-stream_head_Length];
+		}else
+		{
+			encryption_data[i]=StreamTail[i-msg_head_Length-stream_head_Length-Length];
+		}
+	}
+}
+
+NetEncryptionOutStream::NetEncryptionOutStream()
+{
+	Length=0;
+	encryption_data=NULL;
+}
+
+NetEncryptionOutStream::~NetEncryptionOutStream()
+{
+	delete encryption_data;
 }
 
 NetOutStream Protobuf::SerializeMsgObj()
@@ -316,10 +557,10 @@ int Protobuf::DeSerializeStream(const unsigned char* msg,int Length)
 NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)
 {
 		char* ivStr1=new char[strlen(ivStr)];
-		strcpy(ivStr1,(char*)ivStr);
-
+		strcpy(ivStr1,ivStr);
 		unsigned char* msg= Encryption_AES::getSingle()->Decryption_CBC(msg1,msg1Length,(unsigned char*)keyStr,(unsigned char*)ivStr1);
 		int msgLength=Encryption_AES::getSingle()->GetStreamLength(msg,msg1Length);
+		delete ivStr1;
 
 		cout<<"收到明文字节流，长度:"<<msgLength<<endl;
 		for(int i=0;i<msgLength;i++)
@@ -327,70 +568,46 @@ NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)
 			cout<<(int)msg[i]<<" | ";
 		}
 		cout<<endl;
-		this->command=(msg[4]<<24 | msg[3]<<16 | msg[2]<<8 | msg[1]);
+		this->command=(msg[3]<<24 | msg[2]<<16 | msg[1]<<8 | msg[0]);
 		cout<<"命令："<<command<<endl;
 
-		int Length={};
-		Length=msg[8]<<24 | msg[7]<<16 | msg[6]<<8 | msg[5];
-		cout<<"protobuf Length："<<Length<<endl;
-		buffer_Length=Length;
+		buffer_Length=msgLength-command_Length;
 
-		buffer=new unsigned char[Length];
-		for(int i=head_Length+msg_head_Length;i<msg_head_Length+head_Length+Length;i++)
+		buffer=new unsigned char[buffer_Length];
+		for(int i=0;i<buffer_Length;i++)
 		{
-			buffer[i-head_Length-msg_head_Length]=msg[i];
+			buffer[i]=msg[i+command_Length];
 		}
+
+		delete msg;
 }
 
 NetOutStream:: NetOutStream(const int command,const int Length,const unsigned char* data)
 {
-		unsigned char msg_head=255;
-		unsigned char msg_tail=255;
-
 		unsigned char head[4]={};
 		head[0]=command;
 		head[1]=command>>8;
 		head[2]=command>>16;
 		head[3]=command>>24;
 
-		unsigned char lengStr[4]={};
-		lengStr[0]=Length;
-		lengStr[1]=Length>>8;
-		lengStr[2]=Length>>16;
-		lengStr[3]=Length>>24;
-
-		const int sumLength=msg_head_Length+head_Length+Length+msg_tail_Length;
-		vector<unsigned char> msgStream={};
+		int sumLength=command_Length+Length;
+		unsigned char* msgStream=new unsigned char[sumLength];
 		for(int i=0;i<sumLength;i++)
 		{
-			if(i==0)
+			if(i<command_Length)
 			{
-				msgStream[0]=msg_head;
-			}
-			else if(i<msg_head_Length+command_Length && i>=msg_head_Length)
-			{
-				msgStream[i]=head[i-msg_head_Length];
-			}else if(i>=msg_head_Length+command_Length && i<msg_head_Length+command_Length+buffer_Length)
-			{
-				msgStream[i]=lengStr[i-msg_head_Length-command_Length];
-			}else if(i>=head_Length+msg_head_Length && i<head_Length+msg_head_Length+Length)
-			{
-				msgStream[i]=data[i-msg_head_Length-head_Length];
+				msgStream[i]=head[i];
 			}else
 			{
-				msgStream[i]=msg_tail;
+				msgStream[i]=data[i-command_Length];
 			}
 		}
-
 		cout<<"发送明文字节流，长度:"<<sumLength<<endl;
 		for(int i=0;i<sumLength;i++)
 		{
 			cout<<(int)msgStream[i]<<" | ";
 		}
 		cout<<endl;
-
-		char* ivStr1=new char[16];
-		strcpy(ivStr1,ivStr);
 
 		msg_Length= Encryption_AES::getSingle()->GetCipherLength(sumLength);
 		//填充为PKCS7格式，否则，客户端无法解密
@@ -405,8 +622,12 @@ NetOutStream:: NetOutStream(const int command,const int Length,const unsigned ch
 				msgStream1[i]=msg_Length-sumLength;
 			}
 		}
+		delete msgStream;
+		char* ivStr1=new char[16];
+		strcpy(ivStr1,ivStr);
 		this->msg= Encryption_AES::getSingle()->Encryption_CBC(msgStream1,msg_Length,(unsigned char*)keyStr,(unsigned char*)ivStr1);
-
+		delete ivStr1;
+		delete msgStream1;
 }
 
 } /* namespace basic */

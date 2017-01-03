@@ -29,9 +29,7 @@ int NetThreadManger_Init(NetManager* mNetManagerPtr)
 		}
 	}
 	mNetManager->CloseNet();
-
 	return 0;
-
 }
 int NetThreadManager_CreateClientThread(socket_class* client)
 {
@@ -42,7 +40,6 @@ int NetThreadManager_CreateClientThread(socket_class* client)
 		delete client;
 		return -1;
 	};
-
 	return 0;
 }
 void* NetThreadManager_ReceiveMsg(void* ccc)

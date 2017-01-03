@@ -1,11 +1,7 @@
 #! /bin/sh
+cd Proto/
 echo "Start Generate cpp file by .proto,directory is out"
-for file in ./out/*
-do
-	rm -rf $file
-done
-
-cd Proto
+rm out/*
 for file in ./*.proto
 do
 	if test -f $file; then		
@@ -13,15 +9,16 @@ do
 		echo "$file"
 	fi
 done
-for file in ./*.h
-do
-	mv $file ../out/
-done
-for file in ./*.cc
-do
-	mv $file ../out/
-done
 cd ../
+
+for file in Proto/*.h
+do
+	mv $file out/
+done
+for file in Proto/*.cc
+do
+	mv $file out/
+done
 
 
 rm -f ../../Server/src/auto/Protobuf/*

@@ -13,6 +13,7 @@
 #include "../MariaDBManager/MariaDBSystem.h"
 namespace basic
 {
+class NetPackageReceivePool;
 struct  socket_class
 {
 		struct sockaddr_in  _addr;
@@ -26,6 +27,8 @@ public:
 	~ClientInfo();
 
 };
+
+
 
 
 struct DataInfo

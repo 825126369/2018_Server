@@ -1,22 +1,19 @@
 import "proto_struct.proto";
 
-//脟毛脟贸脕脛脤矛脨脜脧垄 C->S 脧没脧垄沤煤脗毛:1100
 message ClientSendData
 {
 	optional string SenderName=1;
-	optional string TalkMsg = 2;				//脕脛脤矛脨脜脧垄(25脰脨脦脛脳脰路没)
+	optional string TalkMsg = 2;				//聊天信息(25中文字符)
 }
 
-//鹿茫虏楼脢脌艙莽脕脛脤矛脨脜脧垄 S->C 脧没脧垄沤煤脗毛:1100
 message ServerSendData
 {
-	optional string Result			= 1;		//艙谩鹿没
-	optional string NickName		= 2;		//艙脟脡芦脙没鲁脝
-	optional string TalkMsg			= 3;		//脕脛脤矛脨脜脧垄
-	optional string TalkTime		= 4;		//脕脛脤矛脢卤艗盲
+	optional string Result			= 1;		//结果
+	optional string NickName		= 2;		//角色名称
+	optional string TalkMsg			= 3;		//聊天信息
+	optional string TalkTime		= 4;		//聊天时间
 }
 
-//脳垄虏谩脮脣潞脜1101
 message csRegisterAccount
 {
 	optional string accountName=1;
@@ -26,12 +23,10 @@ message csRegisterAccount
 
 message scRegisterAccount
 {
-	//1脮媒脠路0沤铆脦贸
 	optional bool result=1;
 	
 }
 
-//碌脟脗艙脫脦脧路1102
 message csLoginGame
 {
 	optional string accountName=1;
@@ -43,7 +38,6 @@ message scLoginGame
 	optional bool result=1;
 }
 
-//禄帽脠隆路镁脦帽脝梅脕脨卤铆1103
 message csServerList
 {
 	
@@ -54,7 +48,6 @@ message scServerList
 	repeated struct_serverList ServerList=1;
 }
 
-//艙酶脠毛脫脦脧路1104
 message csEnterGame
 {
 	optional int32 ServerId=1;
