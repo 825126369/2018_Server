@@ -1,10 +1,3 @@
-/*
- * NetManager.h
- *
- *  Created on: Mar 16, 2016
- *      Author: xuke
- */
-
 #ifndef SRC_NETMANAGER_NETMANAGER_H_
 #define SRC_NETMANAGER_NETMANAGER_H_
 #include <map>
@@ -15,10 +8,10 @@
 #include <vector>
 #include <iostream>
 #include "NetDefine.h"
-#include "../EventManager/NetEventManager.h"
+#include "NetEventManager.h"
 #include <cstring>
-#include "../EncryptionManager/EncryptionManager.h"
-#include "NetThreadManager.h"
+#include "EncryptionManager.h":
+#include "libev_NetManager.h"
 using namespace std;
 namespace basic
 {
@@ -34,14 +27,16 @@ class NetEncryptionStream;
 class NetManager {
 
 public:
-	 NetManager();
-	 virtual ~NetManager();
+	virtual ~NetManager();
 	int Init();
-	int InitNet();
+	struct socket_class getServerSocketInfo();
 	int CloseNet();
-	int NetAcceptClient(socket_class& client);
+	int NetAcceptClient_Block(socket_class& client);
+	int NetAcceptClient_NoBlock(socket_class& client);
 	static NetManager* getSingle();
 private:
+	NetManager();
+	int InitNet();
 	int printServerinfo(const socket_class& _socket);
 private:
 	struct socket_class Server;
@@ -58,8 +53,10 @@ public:
 	int SendData(int command,google::protobuf::Message* msgClass);
 	int printClientinfo();
 private:
-	int NetReceiveMsg();
-	int NetSendMsg(const unsigned char* msg,const int Length);
+	int NetReceiveMsg_Block();
+	int NetReceiveMsg_NoBlock();
+	int NetSendMsg_Block(const unsigned char* msg,const int Length);
+	int NetSendMsg_NoBlock(const unsigned char* msg,const int Length);
 	int PackagePoolParseData(const unsigned char* msg,int msg_Length);
 	int ParseData(const unsigned char* msg,const int Length);
 	int CloseNet();
@@ -85,6 +82,7 @@ public:
 	vector<ClientInfoPool*> GetClientPool();
 private:
 	int printClientPoolinfo();
+	int InitLock();
 	ClientManagerPool();
 	~ClientManagerPool();
 

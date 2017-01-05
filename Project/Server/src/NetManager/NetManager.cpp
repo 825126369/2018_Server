@@ -27,7 +27,7 @@ int NetManager::Init()
 		CloseNet();
 		return -1;
 	}
-	NetThreadManger_Init(this);
+	libev_NetManager_Init();
 	return 0;
 }
 
@@ -72,7 +72,7 @@ int NetManager::InitNet()
 	return 0;
 }
 
-int NetManager::NetAcceptClient(socket_class& client)
+int NetManager::NetAcceptClient_Block(socket_class& client)
 {
 		socklen_t len;
 		if((client._fd=accept(Server._fd,(struct sockaddr*)&(client._addr),&len))==-1)
@@ -81,6 +81,23 @@ int NetManager::NetAcceptClient(socket_class& client)
 			return -1;
 		}
 		return 0;
+}
+
+int NetManager::NetAcceptClient_NoBlock(socket_class& client)
+{
+		socklen_t len;
+		if((client._fd=accept(Server._fd,(struct sockaddr*)&(client._addr),&len),SOCK_NONBLOCK|SOCK_CLOEXEC)==-1)
+		{
+			xk_Debug::LogSystemError("Accept Error:");
+			return -1;
+		}
+		/*int one = 1;  
+    	if(setsockopt(client._fd, IPPROTO_TCP, TCP_NODELAY, (char*)&one, sizeof(one))==-1); 
+		{
+            xk_Debug::LogSystemError("client setsockopet error:");
+            return -1;
+    	}*/
+		return 0;	
 }
 
 //成功则返回0，错误返回-1
@@ -95,10 +112,14 @@ int NetManager::CloseNet()
 	xk_Debug::Log()<<"Server Closed"<<endl;
 	return 0;
 }
+struct socket_class NetManager::getServerSocketInfo()
+{
+	return Server;
+}
 
 int NetManager::printServerinfo(const socket_class& _socket)
 {
-	cout<<"Server:  描数字："<<_socket._fd<<"  IP:"<<inet_ntoa(_socket._addr.sin_addr)<<"    端口："<<(ntohs(_socket._addr.sin_port))<<endl;
+	cout<<"Server:  fileId ："<<_socket._fd<<"  IP:"<<inet_ntoa(_socket._addr.sin_addr)<<"    Port："<<(ntohs(_socket._addr.sin_port))<<endl;
 }
 
 ClientInfoPool::ClientInfoPool(socket_class* socket_r)
@@ -106,7 +127,7 @@ ClientInfoPool::ClientInfoPool(socket_class* socket_r)
 	mClientInfo=new ClientInfo();
 	mClientInfo->mSocketInfo=socket_r;
 	mNetPackageReceivePool=new NetPackageReceivePool();
-
+	//run();
 }
 
 ClientInfoPool::~ClientInfoPool() {
@@ -115,11 +136,17 @@ ClientInfoPool::~ClientInfoPool() {
 }
 int ClientInfoPool::run()
 {
-	NetReceiveMsg();
+	//NetReceiveMsg_Block();
+	if(NetReceiveMsg_NoBlock()==-1)
+	{
+		ClientManagerPool::getSingle()->RemoveClient(this);
+		delete this;
+		return -1;
+	}
 	return 0;
 }
 
-int ClientInfoPool::NetReceiveMsg()
+int ClientInfoPool::NetReceiveMsg_Block()
 {
 	const socket_class& client=*(mClientInfo->mSocketInfo);
 	while(3)
@@ -137,7 +164,7 @@ int ClientInfoPool::NetReceiveMsg()
 			CloseNet();
 			xk_Debug::Log()<<"client DisConnected： "<<endl;
 			printClientinfo();
-			break;
+			return 0;
 		}else if(receiveMsgLength>0)
 		{
 			xk_Debug::Log()<<"收到密文字节流，"<<" 长度："<<receiveMsgLength<<endl;
@@ -149,6 +176,40 @@ int ClientInfoPool::NetReceiveMsg()
 
 			PackagePoolParseData(msg,receiveMsgLength);
 		}
+	}
+	return 0;
+}
+int ClientInfoPool::NetReceiveMsg_NoBlock()
+{
+	const int _fd=mClientInfo->mSocketInfo->_fd;
+	unsigned char msg[1024]={};
+	//ssize_t receiveMsgLength=recv(_fd,&msg,1024,0);
+	ssize_t receiveMsgLength=recv(_fd,&msg,1024,MSG_DONTWAIT);
+	if(EAGAIN == errno)
+	{
+		cout<<"What are you  Block Opearte?"<<endl;
+	}
+	if(receiveMsgLength==-1 && EAGAIN!=errno)
+	{
+			xk_Debug::LogSystemError("NetReceiveMsg Error:");
+			CloseNet();
+			printClientinfo();
+			return -1;
+	}else if(receiveMsgLength==0)
+	{
+			CloseNet();
+			xk_Debug::Log()<<"client DisConnected： "<<endl;
+			printClientinfo();
+			return -1;
+	}else if(receiveMsgLength>0)
+	{
+			xk_Debug::Log()<<"Receive miwen Byte Stream,"<<" Length："<<receiveMsgLength<<endl;
+			for(int i=0;i<receiveMsgLength;i++)
+			{
+				xk_Debug::Log()<<(int)msg[i]<<" | ";
+			}
+			xk_Debug::Log()<<endl;
+			PackagePoolParseData(msg,receiveMsgLength);
 	}
 	return 0;
 }
@@ -172,7 +233,7 @@ int ClientInfoPool::PackagePoolParseData(const unsigned char* msg,int msg_Length
 						break;
 					}
 				}
-				cout<<"解析包的数量："<<PackageCout<<endl;
+				cout<<"Parse Package Cout："<<PackageCout<<endl;
 }
 
 int ClientInfoPool::ParseData(const unsigned char* msg,int msg_Length)
@@ -191,11 +252,11 @@ int ClientInfoPool::SendData(int command,google::protobuf::Message* msgClass)
 	NetOutStream mNetOutStream=mProtobuf.SerializeMsgObj();
 	NetPackageSendPool mNetSendPool;
 	mNetSendPool.SetData(mNetOutStream.msg,mNetOutStream.msg_Length);
-	NetSendMsg(mNetSendPool.encryption_data,mNetSendPool.Length);
+	NetSendMsg_NoBlock(mNetSendPool.encryption_data,mNetSendPool.Length);
 	return 0;
 }
 
-int ClientInfoPool::NetSendMsg(const unsigned char* msg,const int Length)
+int ClientInfoPool::NetSendMsg_Block(const unsigned char* msg,const int Length)
 {
 	static int SendCout=0;
 	const socket_class& client=*mClientInfo->mSocketInfo;
@@ -218,6 +279,31 @@ int ClientInfoPool::NetSendMsg(const unsigned char* msg,const int Length)
 	}
 	return 0;
 }
+
+int ClientInfoPool::NetSendMsg_NoBlock(const unsigned char* msg,const int Length)
+{
+	static int SendCout=0;
+	const socket_class& client=*mClientInfo->mSocketInfo;
+
+	xk_Debug::Log()<<"Send cipherTextByteStream,Length："<<Length<<endl;
+	for(int i=0;i<Length;i++)
+	{
+		cout<<(int)(msg[i])<<" | ";
+	}
+	xk_Debug::Log()<<endl;
+
+    if(send(client._fd,msg,Length,MSG_DONTWAIT)==-1)
+    //if(send(client._fd,msg,Length,0)==-1)
+	{
+		xk_Debug::LogSystemError("Send Error:");
+		return -1;
+	}else
+	{
+		SendCout++;
+		cout<<"发送数目： "<<SendCout<<endl;
+	}
+	return 0;
+}
 int ClientInfoPool::CloseNet()
 {
 	shutdown(mClientInfo->mSocketInfo->_fd,SHUT_WR);
@@ -228,7 +314,7 @@ int ClientInfoPool::CloseNet()
 }
 int ClientInfoPool::printClientinfo()
 {
-	cout<<"Client:  描数字："<<mClientInfo->mSocketInfo->_fd<<"  IP:"<<inet_ntoa(mClientInfo->mSocketInfo->_addr.sin_addr)<<"    端口："<<(ntohs(mClientInfo->mSocketInfo->_addr.sin_port))<<endl;
+	cout<<"Client:  IoId："<<mClientInfo->mSocketInfo->_fd<<"  IP:"<<inet_ntoa(mClientInfo->mSocketInfo->_addr.sin_addr)<<"  port："<<(ntohs(mClientInfo->mSocketInfo->_addr.sin_port))<<endl;
 }
 
 ClientManagerPool* ClientManagerPool::single=new ClientManagerPool;
@@ -236,20 +322,12 @@ pthread_rwlock_t ClientManagerPool::m_mutex_single_t={};
 bool ClientManagerPool::orInit_mutex_single=false;
 ClientManagerPool::ClientManagerPool()
 {
-	if(pthread_rwlock_init(&m_mutex_ClientList_t,NULL)==-1)
-	{
-		cerr<<"客户池 互斥锁初始化失败"<<endl;
-	}
-	if(pthread_rwlock_init(&m_mutex_ClientDic_t,NULL)==-1)
-	{
-		cerr<<"客户池 互斥锁初始化失败"<<endl;
-	}
+		InitLock();
 }
 
 ClientManagerPool::~ClientManagerPool()
 {
-
-
+	
 }
 
 ClientManagerPool* ClientManagerPool:: getSingle()
@@ -276,15 +354,26 @@ ClientManagerPool* ClientManagerPool:: getSingle()
 		return single;
 }
 
+int ClientManagerPool::InitLock()
+{
+	if(pthread_rwlock_init(&m_mutex_ClientList_t,NULL)==-1)
+	{
+		cerr<<"Init vecotr Lock Error"<<endl;
+		return -1;
+	}
+	if(pthread_rwlock_init(&m_mutex_ClientDic_t,NULL)==-1)
+	{
+		cerr<<"Init Map Loack Error"<<endl;
+		return -1;
+	}	
+	return 0;
+}
+
 int ClientManagerPool::InitClient(socket_class* info)
 {
 	ClientInfoPool* mClient=new ClientInfoPool(info);
 	AddClient(mClient);
 	printClientPoolinfo();
-	mClient->run();
-	RemoveClient(mClient);
-	printClientPoolinfo();
-	delete mClient;
 }
 
 int ClientManagerPool::AddClient(ClientInfoPool* client)
@@ -348,15 +437,15 @@ vector<ClientInfoPool*> ClientManagerPool::GetClientPool()
 
 int ClientManagerPool::printClientPoolinfo()
 {
-	cout<<"客户连接池信息："<<endl;
+	cout<<"ClientPool Info："<<endl;
 	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
 	for(vector<ClientInfoPool*>::iterator iter=ClientList.begin();iter!=ClientList.end();iter++)
 	{
 		(*(*(iter))).printClientinfo();
 	}
 	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
-	cout<<"池容量："<<ClientList.capacity()<<endl;
-	cout<<"池客户数量："<<ClientList.size()<<endl;
+	cout<<"Pool capacity："<<ClientList.capacity()<<endl;
+	cout<<"Pool size："<<ClientList.size()<<endl;
 }
 Protobuf::Protobuf()
 {
@@ -452,17 +541,17 @@ void NetEncryptionInputStream::SetData(const unsigned char* msg,const int Length
 		return;
 	}else
 	{
-		cout<<"池解析："<<Length<<endl;
-				for(int i=0;i<Length;i++)
-				{
-					cout<<(int)msg[i]<<" | ";
-				}
+		cout<<"Pool Parse："<<Length<<endl;
+		for(int i=0;i<Length;i++)
+		{
+			cout<<(int)msg[i]<<" | ";
+		}
 		cout<<endl;
-		cout<<"吃解析结束"<<endl;
+		cout<<"Pool Parse Finish"<<endl;
 	}
 	if(Length-stream_head_Length-msg_head_Length-stream_tail_Length<=0)
 	{
-		cerr<<"池解析错误：总长度不足"<<endl;
+		cerr<<"Pool Parse Error：sum Length on Enough"<<endl;
 		return;
 	}
 	unsigned char StreamHead[stream_head_Length]={7,7};
@@ -471,7 +560,7 @@ void NetEncryptionInputStream::SetData(const unsigned char* msg,const int Length
 	bodyLength=(msg[stream_head_Length+3]<<24 | msg[stream_head_Length+2]<<16 | msg[stream_head_Length+1]<<8 | msg[stream_head_Length]);
 	if(bodyLength<=0 || Length-stream_head_Length-msg_head_Length-bodyLength-stream_tail_Length<0)
 	{
-		cerr<<"池解析错误：包长度不足："<<bodyLength<<endl;
+		cerr<<"Pool Parse Error,package Length no enough："<<bodyLength<<endl;
 		return;
 	}
 
@@ -551,7 +640,6 @@ int Protobuf::DeSerializeStream(const unsigned char* msg,int Length)
 	protobuf_Length=mStream.buffer_Length;
 
 	return 0;
-
 }
 
 NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)
@@ -562,14 +650,14 @@ NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)
 		int msgLength=Encryption_AES::getSingle()->GetStreamLength(msg,msg1Length);
 		delete ivStr1;
 
-		cout<<"收到明文字节流，长度:"<<msgLength<<endl;
+		cout<<"receive obviousText ByteStream，Length:"<<msgLength<<endl;
 		for(int i=0;i<msgLength;i++)
 		{
 			cout<<(int)msg[i]<<" | ";
 		}
 		cout<<endl;
 		this->command=(msg[3]<<24 | msg[2]<<16 | msg[1]<<8 | msg[0]);
-		cout<<"命令："<<command<<endl;
+		cout<<"protobuf command ："<<command<<endl;
 
 		buffer_Length=msgLength-command_Length;
 
@@ -602,7 +690,7 @@ NetOutStream:: NetOutStream(const int command,const int Length,const unsigned ch
 				msgStream[i]=data[i-command_Length];
 			}
 		}
-		cout<<"发送明文字节流，长度:"<<sumLength<<endl;
+		cout<<"Send ObviousText ByteStream，Length:"<<sumLength<<endl;
 		for(int i=0;i<sumLength;i++)
 		{
 			cout<<(int)msgStream[i]<<" | ";

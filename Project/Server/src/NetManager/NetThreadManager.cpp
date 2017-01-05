@@ -19,7 +19,7 @@ int NetThreadManger_Init(NetManager* mNetManagerPtr)
 	{
 		socket_class* client=new socket_class;
 		*client={};
-		if(mNetManager->NetAcceptClient(*client)==-1)
+		if(mNetManager->NetAcceptClient_Block(*client)==-1)
 		{
 			continue;
 		}

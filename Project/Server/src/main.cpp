@@ -16,7 +16,6 @@ int main(int arg,char **argc)
 	NetEventManager::getSingle()->Init();
 	ConfigTableManager::getSingle()->Init();
 	NetManager::getSingle()->Init();
-
 	NetManager::getSingle()->CloseNet();
 	MariaDBSystem::getSingle()->CloseMariaDb();
 	return 0;
