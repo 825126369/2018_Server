@@ -1,63 +1,68 @@
 import "proto_struct.proto";
 
-message ClientSendData
+//1100 C->S ChatInfo
+message csChatData
 {
-	optional string SenderName=1;
-	optional string TalkMsg = 2;				//ÁÄÌìÐÅÏ¢(25ÖÐÎÄ×Ö·û)
+	optional uint32 channelId=1;
+	optional string talkMsg =2;	
+	optional uint64 otherId =3;			
 }
-
-message ServerSendData
+//1100 S->C 
+message scChatData
 {
-	optional string Result			= 1;		//½á¹û
-	optional string NickName		= 2;		//½ÇÉ«Ãû³Æ
-	optional string TalkMsg			= 3;		//ÁÄÌìÐÅÏ¢
-	optional string TalkTime		= 4;		//ÁÄÌìÊ±¼ä
+	optional uint32 result				= 1;		
+	optional struct_ChatInfo  chatInfo  = 2;
 }
-
+//1101 C->S RegisterAccount
 message csRegisterAccount
 {
-	optional string accountName=1;
-	optional string password=2;
-	optional string repeatPassword=3;
+	optional string accountName  		=1;
+	optional string password     		=2;
+	optional string repeatPassword 		=3;
 }
-
+//1101 S->C
 message scRegisterAccount
 {
-	optional bool result=1;
-	
+	optional uint32 result  	=1;	
 }
-
+//1102 C->S
 message csLoginGame
 {
-	optional string accountName=1;
-	optional string password=2;
+	optional string accountName 	=1;
+	optional string password 		=2;
 }
-
+//1102,5002,S->C
 message scLoginGame
 {
-	optional bool result=1;
+	optional uint32 result    =1;
 }
-
-message csServerList
+//1103,C->S
+message csSelectServer
 {
-	
+	optional uint32 id  	=1;
 }
-
-message scServerList
+//1103,S->C
+message scSelectServer
 {
-	repeated struct_serverList ServerList=1;
+	optional uint32 result 	=1;
+	optional uint32 action  =2;//1ï¼šCreateRoleï¼Œ2: Go Enter Game
 }
-
-message csEnterGame
+//1104,C->S 
+message csCreateRole
 {
-	optional int32 ServerId=1;
+	optional string name 		=1;
+	optional uint32 sex 		=2;
+	optional uint32 profession 	=3; 		
 }
-
-message scEnterGame
+//1104,5002,S->C
+message scCreateRole
 {
-
-	optional int32 ServerId=1;
+	optional uint32 result =1; 
 }
+
+
+
+
 
 
 

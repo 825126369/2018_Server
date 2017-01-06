@@ -1,5 +1,29 @@
 message struct_serverList
 {
-	optional string serverName=1;
-	optional int32 serverId=2;
+	optional string ip 			=1;
+	optional uint32 port 		=2;
+	optional uint32 serverId 	=3;
+}
+
+message struct_PlayerSimpleInfo
+{
+	optional uint64 id 			 =1;
+	optional string name  		 =2;
+	optional uint32 level   	 =3; 
+}
+
+message struct_PlayerDetailInfo
+{
+	optional uint64 id  		=1;
+	optional string name  		=2;
+	optional uint32 level 		=3;
+}
+
+message struct_ChatInfo
+{
+	optional uint32 channelId 					= 1;
+	optional struct_PlayerSimpleInfo Sender		= 2;	
+	optional struct_PlayerSimpleInfo Receiver 	= 3;
+	optional string TalkMsg						= 4;		
+	optional uint64 time						= 5;	
 }

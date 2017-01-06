@@ -32,6 +32,9 @@ void protobuf_AssignDesc_proto_5fstruct_2eproto();
 void protobuf_ShutdownFile_proto_5fstruct_2eproto();
 
 class struct_serverList;
+class struct_PlayerSimpleInfo;
+class struct_PlayerDetailInfo;
+class struct_ChatInfo;
 
 // ===================================================================
 
@@ -88,29 +91,38 @@ class struct_serverList : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string serverName = 1;
-  inline bool has_servername() const;
-  inline void clear_servername();
-  static const int kServerNameFieldNumber = 1;
-  inline const ::std::string& servername() const;
-  inline void set_servername(const ::std::string& value);
-  inline void set_servername(const char* value);
-  inline void set_servername(const char* value, size_t size);
-  inline ::std::string* mutable_servername();
-  inline ::std::string* release_servername();
-  inline void set_allocated_servername(::std::string* servername);
+  // optional string ip = 1;
+  inline bool has_ip() const;
+  inline void clear_ip();
+  static const int kIpFieldNumber = 1;
+  inline const ::std::string& ip() const;
+  inline void set_ip(const ::std::string& value);
+  inline void set_ip(const char* value);
+  inline void set_ip(const char* value, size_t size);
+  inline ::std::string* mutable_ip();
+  inline ::std::string* release_ip();
+  inline void set_allocated_ip(::std::string* ip);
 
-  // optional int32 serverId = 2;
+  // optional uint32 port = 2;
+  inline bool has_port() const;
+  inline void clear_port();
+  static const int kPortFieldNumber = 2;
+  inline ::google::protobuf::uint32 port() const;
+  inline void set_port(::google::protobuf::uint32 value);
+
+  // optional uint32 serverId = 3;
   inline bool has_serverid() const;
   inline void clear_serverid();
-  static const int kServerIdFieldNumber = 2;
-  inline ::google::protobuf::int32 serverid() const;
-  inline void set_serverid(::google::protobuf::int32 value);
+  static const int kServerIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 serverid() const;
+  inline void set_serverid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:struct_serverList)
  private:
-  inline void set_has_servername();
-  inline void clear_has_servername();
+  inline void set_has_ip();
+  inline void clear_has_ip();
+  inline void set_has_port();
+  inline void clear_has_port();
   inline void set_has_serverid();
   inline void clear_has_serverid();
 
@@ -118,14 +130,351 @@ class struct_serverList : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::std::string* servername_;
-  ::google::protobuf::int32 serverid_;
+  ::std::string* ip_;
+  ::google::protobuf::uint32 port_;
+  ::google::protobuf::uint32 serverid_;
   friend void  protobuf_AddDesc_proto_5fstruct_2eproto();
   friend void protobuf_AssignDesc_proto_5fstruct_2eproto();
   friend void protobuf_ShutdownFile_proto_5fstruct_2eproto();
 
   void InitAsDefaultInstance();
   static struct_serverList* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class struct_PlayerSimpleInfo : public ::google::protobuf::Message {
+ public:
+  struct_PlayerSimpleInfo();
+  virtual ~struct_PlayerSimpleInfo();
+
+  struct_PlayerSimpleInfo(const struct_PlayerSimpleInfo& from);
+
+  inline struct_PlayerSimpleInfo& operator=(const struct_PlayerSimpleInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const struct_PlayerSimpleInfo& default_instance();
+
+  void Swap(struct_PlayerSimpleInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  struct_PlayerSimpleInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const struct_PlayerSimpleInfo& from);
+  void MergeFrom(const struct_PlayerSimpleInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint64 id = 1;
+  inline bool has_id() const;
+  inline void clear_id();
+  static const int kIdFieldNumber = 1;
+  inline ::google::protobuf::uint64 id() const;
+  inline void set_id(::google::protobuf::uint64 value);
+
+  // optional string name = 2;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 2;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
+
+  // optional uint32 level = 3;
+  inline bool has_level() const;
+  inline void clear_level();
+  static const int kLevelFieldNumber = 3;
+  inline ::google::protobuf::uint32 level() const;
+  inline void set_level(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:struct_PlayerSimpleInfo)
+ private:
+  inline void set_has_id();
+  inline void clear_has_id();
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_level();
+  inline void clear_has_level();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint64 id_;
+  ::std::string* name_;
+  ::google::protobuf::uint32 level_;
+  friend void  protobuf_AddDesc_proto_5fstruct_2eproto();
+  friend void protobuf_AssignDesc_proto_5fstruct_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fstruct_2eproto();
+
+  void InitAsDefaultInstance();
+  static struct_PlayerSimpleInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class struct_PlayerDetailInfo : public ::google::protobuf::Message {
+ public:
+  struct_PlayerDetailInfo();
+  virtual ~struct_PlayerDetailInfo();
+
+  struct_PlayerDetailInfo(const struct_PlayerDetailInfo& from);
+
+  inline struct_PlayerDetailInfo& operator=(const struct_PlayerDetailInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const struct_PlayerDetailInfo& default_instance();
+
+  void Swap(struct_PlayerDetailInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  struct_PlayerDetailInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const struct_PlayerDetailInfo& from);
+  void MergeFrom(const struct_PlayerDetailInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint64 id = 1;
+  inline bool has_id() const;
+  inline void clear_id();
+  static const int kIdFieldNumber = 1;
+  inline ::google::protobuf::uint64 id() const;
+  inline void set_id(::google::protobuf::uint64 value);
+
+  // optional string name = 2;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 2;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
+
+  // optional uint32 level = 3;
+  inline bool has_level() const;
+  inline void clear_level();
+  static const int kLevelFieldNumber = 3;
+  inline ::google::protobuf::uint32 level() const;
+  inline void set_level(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:struct_PlayerDetailInfo)
+ private:
+  inline void set_has_id();
+  inline void clear_has_id();
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_level();
+  inline void clear_has_level();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint64 id_;
+  ::std::string* name_;
+  ::google::protobuf::uint32 level_;
+  friend void  protobuf_AddDesc_proto_5fstruct_2eproto();
+  friend void protobuf_AssignDesc_proto_5fstruct_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fstruct_2eproto();
+
+  void InitAsDefaultInstance();
+  static struct_PlayerDetailInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class struct_ChatInfo : public ::google::protobuf::Message {
+ public:
+  struct_ChatInfo();
+  virtual ~struct_ChatInfo();
+
+  struct_ChatInfo(const struct_ChatInfo& from);
+
+  inline struct_ChatInfo& operator=(const struct_ChatInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const struct_ChatInfo& default_instance();
+
+  void Swap(struct_ChatInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  struct_ChatInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const struct_ChatInfo& from);
+  void MergeFrom(const struct_ChatInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 channelId = 1;
+  inline bool has_channelid() const;
+  inline void clear_channelid();
+  static const int kChannelIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 channelid() const;
+  inline void set_channelid(::google::protobuf::uint32 value);
+
+  // optional .struct_PlayerSimpleInfo Sender = 2;
+  inline bool has_sender() const;
+  inline void clear_sender();
+  static const int kSenderFieldNumber = 2;
+  inline const ::struct_PlayerSimpleInfo& sender() const;
+  inline ::struct_PlayerSimpleInfo* mutable_sender();
+  inline ::struct_PlayerSimpleInfo* release_sender();
+  inline void set_allocated_sender(::struct_PlayerSimpleInfo* sender);
+
+  // optional .struct_PlayerSimpleInfo Receiver = 3;
+  inline bool has_receiver() const;
+  inline void clear_receiver();
+  static const int kReceiverFieldNumber = 3;
+  inline const ::struct_PlayerSimpleInfo& receiver() const;
+  inline ::struct_PlayerSimpleInfo* mutable_receiver();
+  inline ::struct_PlayerSimpleInfo* release_receiver();
+  inline void set_allocated_receiver(::struct_PlayerSimpleInfo* receiver);
+
+  // optional string TalkMsg = 4;
+  inline bool has_talkmsg() const;
+  inline void clear_talkmsg();
+  static const int kTalkMsgFieldNumber = 4;
+  inline const ::std::string& talkmsg() const;
+  inline void set_talkmsg(const ::std::string& value);
+  inline void set_talkmsg(const char* value);
+  inline void set_talkmsg(const char* value, size_t size);
+  inline ::std::string* mutable_talkmsg();
+  inline ::std::string* release_talkmsg();
+  inline void set_allocated_talkmsg(::std::string* talkmsg);
+
+  // optional uint64 time = 5;
+  inline bool has_time() const;
+  inline void clear_time();
+  static const int kTimeFieldNumber = 5;
+  inline ::google::protobuf::uint64 time() const;
+  inline void set_time(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:struct_ChatInfo)
+ private:
+  inline void set_has_channelid();
+  inline void clear_has_channelid();
+  inline void set_has_sender();
+  inline void clear_has_sender();
+  inline void set_has_receiver();
+  inline void clear_has_receiver();
+  inline void set_has_talkmsg();
+  inline void clear_has_talkmsg();
+  inline void set_has_time();
+  inline void clear_has_time();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::struct_PlayerSimpleInfo* sender_;
+  ::struct_PlayerSimpleInfo* receiver_;
+  ::std::string* talkmsg_;
+  ::google::protobuf::uint64 time_;
+  ::google::protobuf::uint32 channelid_;
+  friend void  protobuf_AddDesc_proto_5fstruct_2eproto();
+  friend void protobuf_AssignDesc_proto_5fstruct_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fstruct_2eproto();
+
+  void InitAsDefaultInstance();
+  static struct_ChatInfo* default_instance_;
 };
 // ===================================================================
 
@@ -134,104 +483,594 @@ class struct_serverList : public ::google::protobuf::Message {
 
 // struct_serverList
 
-// optional string serverName = 1;
-inline bool struct_serverList::has_servername() const {
+// optional string ip = 1;
+inline bool struct_serverList::has_ip() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void struct_serverList::set_has_servername() {
+inline void struct_serverList::set_has_ip() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void struct_serverList::clear_has_servername() {
+inline void struct_serverList::clear_has_ip() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void struct_serverList::clear_servername() {
-  if (servername_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    servername_->clear();
+inline void struct_serverList::clear_ip() {
+  if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_->clear();
   }
-  clear_has_servername();
+  clear_has_ip();
 }
-inline const ::std::string& struct_serverList::servername() const {
-  // @@protoc_insertion_point(field_get:struct_serverList.serverName)
-  return *servername_;
+inline const ::std::string& struct_serverList::ip() const {
+  // @@protoc_insertion_point(field_get:struct_serverList.ip)
+  return *ip_;
 }
-inline void struct_serverList::set_servername(const ::std::string& value) {
-  set_has_servername();
-  if (servername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    servername_ = new ::std::string;
+inline void struct_serverList::set_ip(const ::std::string& value) {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
   }
-  servername_->assign(value);
-  // @@protoc_insertion_point(field_set:struct_serverList.serverName)
+  ip_->assign(value);
+  // @@protoc_insertion_point(field_set:struct_serverList.ip)
 }
-inline void struct_serverList::set_servername(const char* value) {
-  set_has_servername();
-  if (servername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    servername_ = new ::std::string;
+inline void struct_serverList::set_ip(const char* value) {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
   }
-  servername_->assign(value);
-  // @@protoc_insertion_point(field_set_char:struct_serverList.serverName)
+  ip_->assign(value);
+  // @@protoc_insertion_point(field_set_char:struct_serverList.ip)
 }
-inline void struct_serverList::set_servername(const char* value, size_t size) {
-  set_has_servername();
-  if (servername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    servername_ = new ::std::string;
+inline void struct_serverList::set_ip(const char* value, size_t size) {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
   }
-  servername_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:struct_serverList.serverName)
+  ip_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:struct_serverList.ip)
 }
-inline ::std::string* struct_serverList::mutable_servername() {
-  set_has_servername();
-  if (servername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    servername_ = new ::std::string;
+inline ::std::string* struct_serverList::mutable_ip() {
+  set_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    ip_ = new ::std::string;
   }
-  // @@protoc_insertion_point(field_mutable:struct_serverList.serverName)
-  return servername_;
+  // @@protoc_insertion_point(field_mutable:struct_serverList.ip)
+  return ip_;
 }
-inline ::std::string* struct_serverList::release_servername() {
-  clear_has_servername();
-  if (servername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+inline ::std::string* struct_serverList::release_ip() {
+  clear_has_ip();
+  if (ip_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     return NULL;
   } else {
-    ::std::string* temp = servername_;
-    servername_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    ::std::string* temp = ip_;
+    ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     return temp;
   }
 }
-inline void struct_serverList::set_allocated_servername(::std::string* servername) {
-  if (servername_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete servername_;
+inline void struct_serverList::set_allocated_ip(::std::string* ip) {
+  if (ip_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete ip_;
   }
-  if (servername) {
-    set_has_servername();
-    servername_ = servername;
+  if (ip) {
+    set_has_ip();
+    ip_ = ip;
   } else {
-    clear_has_servername();
-    servername_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_ip();
+    ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  // @@protoc_insertion_point(field_set_allocated:struct_serverList.serverName)
+  // @@protoc_insertion_point(field_set_allocated:struct_serverList.ip)
 }
 
-// optional int32 serverId = 2;
-inline bool struct_serverList::has_serverid() const {
+// optional uint32 port = 2;
+inline bool struct_serverList::has_port() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void struct_serverList::set_has_serverid() {
+inline void struct_serverList::set_has_port() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void struct_serverList::clear_has_serverid() {
+inline void struct_serverList::clear_has_port() {
   _has_bits_[0] &= ~0x00000002u;
 }
+inline void struct_serverList::clear_port() {
+  port_ = 0u;
+  clear_has_port();
+}
+inline ::google::protobuf::uint32 struct_serverList::port() const {
+  // @@protoc_insertion_point(field_get:struct_serverList.port)
+  return port_;
+}
+inline void struct_serverList::set_port(::google::protobuf::uint32 value) {
+  set_has_port();
+  port_ = value;
+  // @@protoc_insertion_point(field_set:struct_serverList.port)
+}
+
+// optional uint32 serverId = 3;
+inline bool struct_serverList::has_serverid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void struct_serverList::set_has_serverid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void struct_serverList::clear_has_serverid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
 inline void struct_serverList::clear_serverid() {
-  serverid_ = 0;
+  serverid_ = 0u;
   clear_has_serverid();
 }
-inline ::google::protobuf::int32 struct_serverList::serverid() const {
+inline ::google::protobuf::uint32 struct_serverList::serverid() const {
   // @@protoc_insertion_point(field_get:struct_serverList.serverId)
   return serverid_;
 }
-inline void struct_serverList::set_serverid(::google::protobuf::int32 value) {
+inline void struct_serverList::set_serverid(::google::protobuf::uint32 value) {
   set_has_serverid();
   serverid_ = value;
   // @@protoc_insertion_point(field_set:struct_serverList.serverId)
+}
+
+// -------------------------------------------------------------------
+
+// struct_PlayerSimpleInfo
+
+// optional uint64 id = 1;
+inline bool struct_PlayerSimpleInfo::has_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void struct_PlayerSimpleInfo::set_has_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void struct_PlayerSimpleInfo::clear_has_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void struct_PlayerSimpleInfo::clear_id() {
+  id_ = GOOGLE_ULONGLONG(0);
+  clear_has_id();
+}
+inline ::google::protobuf::uint64 struct_PlayerSimpleInfo::id() const {
+  // @@protoc_insertion_point(field_get:struct_PlayerSimpleInfo.id)
+  return id_;
+}
+inline void struct_PlayerSimpleInfo::set_id(::google::protobuf::uint64 value) {
+  set_has_id();
+  id_ = value;
+  // @@protoc_insertion_point(field_set:struct_PlayerSimpleInfo.id)
+}
+
+// optional string name = 2;
+inline bool struct_PlayerSimpleInfo::has_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void struct_PlayerSimpleInfo::set_has_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void struct_PlayerSimpleInfo::clear_has_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void struct_PlayerSimpleInfo::clear_name() {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& struct_PlayerSimpleInfo::name() const {
+  // @@protoc_insertion_point(field_get:struct_PlayerSimpleInfo.name)
+  return *name_;
+}
+inline void struct_PlayerSimpleInfo::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set:struct_PlayerSimpleInfo.name)
+}
+inline void struct_PlayerSimpleInfo::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set_char:struct_PlayerSimpleInfo.name)
+}
+inline void struct_PlayerSimpleInfo::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:struct_PlayerSimpleInfo.name)
+}
+inline ::std::string* struct_PlayerSimpleInfo::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:struct_PlayerSimpleInfo.name)
+  return name_;
+}
+inline ::std::string* struct_PlayerSimpleInfo::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void struct_PlayerSimpleInfo::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete name_;
+  }
+  if (name) {
+    set_has_name();
+    name_ = name;
+  } else {
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:struct_PlayerSimpleInfo.name)
+}
+
+// optional uint32 level = 3;
+inline bool struct_PlayerSimpleInfo::has_level() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void struct_PlayerSimpleInfo::set_has_level() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void struct_PlayerSimpleInfo::clear_has_level() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void struct_PlayerSimpleInfo::clear_level() {
+  level_ = 0u;
+  clear_has_level();
+}
+inline ::google::protobuf::uint32 struct_PlayerSimpleInfo::level() const {
+  // @@protoc_insertion_point(field_get:struct_PlayerSimpleInfo.level)
+  return level_;
+}
+inline void struct_PlayerSimpleInfo::set_level(::google::protobuf::uint32 value) {
+  set_has_level();
+  level_ = value;
+  // @@protoc_insertion_point(field_set:struct_PlayerSimpleInfo.level)
+}
+
+// -------------------------------------------------------------------
+
+// struct_PlayerDetailInfo
+
+// optional uint64 id = 1;
+inline bool struct_PlayerDetailInfo::has_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void struct_PlayerDetailInfo::set_has_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void struct_PlayerDetailInfo::clear_has_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void struct_PlayerDetailInfo::clear_id() {
+  id_ = GOOGLE_ULONGLONG(0);
+  clear_has_id();
+}
+inline ::google::protobuf::uint64 struct_PlayerDetailInfo::id() const {
+  // @@protoc_insertion_point(field_get:struct_PlayerDetailInfo.id)
+  return id_;
+}
+inline void struct_PlayerDetailInfo::set_id(::google::protobuf::uint64 value) {
+  set_has_id();
+  id_ = value;
+  // @@protoc_insertion_point(field_set:struct_PlayerDetailInfo.id)
+}
+
+// optional string name = 2;
+inline bool struct_PlayerDetailInfo::has_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void struct_PlayerDetailInfo::set_has_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void struct_PlayerDetailInfo::clear_has_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void struct_PlayerDetailInfo::clear_name() {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& struct_PlayerDetailInfo::name() const {
+  // @@protoc_insertion_point(field_get:struct_PlayerDetailInfo.name)
+  return *name_;
+}
+inline void struct_PlayerDetailInfo::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set:struct_PlayerDetailInfo.name)
+}
+inline void struct_PlayerDetailInfo::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set_char:struct_PlayerDetailInfo.name)
+}
+inline void struct_PlayerDetailInfo::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:struct_PlayerDetailInfo.name)
+}
+inline ::std::string* struct_PlayerDetailInfo::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:struct_PlayerDetailInfo.name)
+  return name_;
+}
+inline ::std::string* struct_PlayerDetailInfo::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void struct_PlayerDetailInfo::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete name_;
+  }
+  if (name) {
+    set_has_name();
+    name_ = name;
+  } else {
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:struct_PlayerDetailInfo.name)
+}
+
+// optional uint32 level = 3;
+inline bool struct_PlayerDetailInfo::has_level() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void struct_PlayerDetailInfo::set_has_level() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void struct_PlayerDetailInfo::clear_has_level() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void struct_PlayerDetailInfo::clear_level() {
+  level_ = 0u;
+  clear_has_level();
+}
+inline ::google::protobuf::uint32 struct_PlayerDetailInfo::level() const {
+  // @@protoc_insertion_point(field_get:struct_PlayerDetailInfo.level)
+  return level_;
+}
+inline void struct_PlayerDetailInfo::set_level(::google::protobuf::uint32 value) {
+  set_has_level();
+  level_ = value;
+  // @@protoc_insertion_point(field_set:struct_PlayerDetailInfo.level)
+}
+
+// -------------------------------------------------------------------
+
+// struct_ChatInfo
+
+// optional uint32 channelId = 1;
+inline bool struct_ChatInfo::has_channelid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void struct_ChatInfo::set_has_channelid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void struct_ChatInfo::clear_has_channelid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void struct_ChatInfo::clear_channelid() {
+  channelid_ = 0u;
+  clear_has_channelid();
+}
+inline ::google::protobuf::uint32 struct_ChatInfo::channelid() const {
+  // @@protoc_insertion_point(field_get:struct_ChatInfo.channelId)
+  return channelid_;
+}
+inline void struct_ChatInfo::set_channelid(::google::protobuf::uint32 value) {
+  set_has_channelid();
+  channelid_ = value;
+  // @@protoc_insertion_point(field_set:struct_ChatInfo.channelId)
+}
+
+// optional .struct_PlayerSimpleInfo Sender = 2;
+inline bool struct_ChatInfo::has_sender() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void struct_ChatInfo::set_has_sender() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void struct_ChatInfo::clear_has_sender() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void struct_ChatInfo::clear_sender() {
+  if (sender_ != NULL) sender_->::struct_PlayerSimpleInfo::Clear();
+  clear_has_sender();
+}
+inline const ::struct_PlayerSimpleInfo& struct_ChatInfo::sender() const {
+  // @@protoc_insertion_point(field_get:struct_ChatInfo.Sender)
+  return sender_ != NULL ? *sender_ : *default_instance_->sender_;
+}
+inline ::struct_PlayerSimpleInfo* struct_ChatInfo::mutable_sender() {
+  set_has_sender();
+  if (sender_ == NULL) sender_ = new ::struct_PlayerSimpleInfo;
+  // @@protoc_insertion_point(field_mutable:struct_ChatInfo.Sender)
+  return sender_;
+}
+inline ::struct_PlayerSimpleInfo* struct_ChatInfo::release_sender() {
+  clear_has_sender();
+  ::struct_PlayerSimpleInfo* temp = sender_;
+  sender_ = NULL;
+  return temp;
+}
+inline void struct_ChatInfo::set_allocated_sender(::struct_PlayerSimpleInfo* sender) {
+  delete sender_;
+  sender_ = sender;
+  if (sender) {
+    set_has_sender();
+  } else {
+    clear_has_sender();
+  }
+  // @@protoc_insertion_point(field_set_allocated:struct_ChatInfo.Sender)
+}
+
+// optional .struct_PlayerSimpleInfo Receiver = 3;
+inline bool struct_ChatInfo::has_receiver() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void struct_ChatInfo::set_has_receiver() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void struct_ChatInfo::clear_has_receiver() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void struct_ChatInfo::clear_receiver() {
+  if (receiver_ != NULL) receiver_->::struct_PlayerSimpleInfo::Clear();
+  clear_has_receiver();
+}
+inline const ::struct_PlayerSimpleInfo& struct_ChatInfo::receiver() const {
+  // @@protoc_insertion_point(field_get:struct_ChatInfo.Receiver)
+  return receiver_ != NULL ? *receiver_ : *default_instance_->receiver_;
+}
+inline ::struct_PlayerSimpleInfo* struct_ChatInfo::mutable_receiver() {
+  set_has_receiver();
+  if (receiver_ == NULL) receiver_ = new ::struct_PlayerSimpleInfo;
+  // @@protoc_insertion_point(field_mutable:struct_ChatInfo.Receiver)
+  return receiver_;
+}
+inline ::struct_PlayerSimpleInfo* struct_ChatInfo::release_receiver() {
+  clear_has_receiver();
+  ::struct_PlayerSimpleInfo* temp = receiver_;
+  receiver_ = NULL;
+  return temp;
+}
+inline void struct_ChatInfo::set_allocated_receiver(::struct_PlayerSimpleInfo* receiver) {
+  delete receiver_;
+  receiver_ = receiver;
+  if (receiver) {
+    set_has_receiver();
+  } else {
+    clear_has_receiver();
+  }
+  // @@protoc_insertion_point(field_set_allocated:struct_ChatInfo.Receiver)
+}
+
+// optional string TalkMsg = 4;
+inline bool struct_ChatInfo::has_talkmsg() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void struct_ChatInfo::set_has_talkmsg() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void struct_ChatInfo::clear_has_talkmsg() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void struct_ChatInfo::clear_talkmsg() {
+  if (talkmsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    talkmsg_->clear();
+  }
+  clear_has_talkmsg();
+}
+inline const ::std::string& struct_ChatInfo::talkmsg() const {
+  // @@protoc_insertion_point(field_get:struct_ChatInfo.TalkMsg)
+  return *talkmsg_;
+}
+inline void struct_ChatInfo::set_talkmsg(const ::std::string& value) {
+  set_has_talkmsg();
+  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    talkmsg_ = new ::std::string;
+  }
+  talkmsg_->assign(value);
+  // @@protoc_insertion_point(field_set:struct_ChatInfo.TalkMsg)
+}
+inline void struct_ChatInfo::set_talkmsg(const char* value) {
+  set_has_talkmsg();
+  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    talkmsg_ = new ::std::string;
+  }
+  talkmsg_->assign(value);
+  // @@protoc_insertion_point(field_set_char:struct_ChatInfo.TalkMsg)
+}
+inline void struct_ChatInfo::set_talkmsg(const char* value, size_t size) {
+  set_has_talkmsg();
+  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    talkmsg_ = new ::std::string;
+  }
+  talkmsg_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:struct_ChatInfo.TalkMsg)
+}
+inline ::std::string* struct_ChatInfo::mutable_talkmsg() {
+  set_has_talkmsg();
+  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    talkmsg_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:struct_ChatInfo.TalkMsg)
+  return talkmsg_;
+}
+inline ::std::string* struct_ChatInfo::release_talkmsg() {
+  clear_has_talkmsg();
+  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = talkmsg_;
+    talkmsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void struct_ChatInfo::set_allocated_talkmsg(::std::string* talkmsg) {
+  if (talkmsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete talkmsg_;
+  }
+  if (talkmsg) {
+    set_has_talkmsg();
+    talkmsg_ = talkmsg;
+  } else {
+    clear_has_talkmsg();
+    talkmsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:struct_ChatInfo.TalkMsg)
+}
+
+// optional uint64 time = 5;
+inline bool struct_ChatInfo::has_time() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void struct_ChatInfo::set_has_time() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void struct_ChatInfo::clear_has_time() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void struct_ChatInfo::clear_time() {
+  time_ = GOOGLE_ULONGLONG(0);
+  clear_has_time();
+}
+inline ::google::protobuf::uint64 struct_ChatInfo::time() const {
+  // @@protoc_insertion_point(field_get:struct_ChatInfo.time)
+  return time_;
+}
+inline void struct_ChatInfo::set_time(::google::protobuf::uint64 value) {
+  set_has_time();
+  time_ = value;
+  // @@protoc_insertion_point(field_set:struct_ChatInfo.time)
 }
 
 

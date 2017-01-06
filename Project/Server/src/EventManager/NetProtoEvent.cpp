@@ -1,47 +1,43 @@
 /*
  * NetProtoEvent.cpp
- *
- *  Created on: Mar 25, 2016
- *      Author: xuke
+ * 3d month
+ * Created on: Mar 25, 2016
+ * Author: xuke
  */
 
 #include "NetProtoEvent.h"
 
 namespace basic
 {
-
-//1100
+//1100:Chat
 int Proto_Rec_Chat(const NetEventPackage mProtobuf)
 {
-	ClientSendData mChatinfo;
+	csChatData mChatinfo;
 	mChatinfo.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
-	xk_Debug::Log()<<"解析数据："<<mChatinfo.sendername()<<" | "<<mChatinfo.talkmsg()<<endl;
+	xk_Debug::Log()<<"Receive Chat Info："<<mChatinfo.channelid()<<" | "<<mChatinfo.talkmsg()<<endl;
 
 	if(mProtobuf.mClient!=0)
 	{
 		vector<ClientInfoPool*> mClientList= ClientManagerPool::getSingle()->GetClientPool();
 		for(auto a:mClientList)
 		{
-			ServerSendData mdata=ServerSendData();
-			mdata.set_nickname("server");
-			mdata.set_talkmsg("shou dao");
-			//mProtobuf.mClient->SendData((int)Chat,&mdata);
-			a->SendData((int)Chat,&mdata);
+			scChatData mdata=scChatData();
+			mdata.set_result(1);
+			a->SendData(PROTO_CHAT,&mdata);
 		}
-
 	}else
 	{
-		xk_Debug::Log()<<"事件发送者不存在"<<endl;
+		xk_Debug::Log()<<"Client is no Find"<<endl;
 	}
 	return 0;
 }
 
-//1101
+//1101:RegisterAccount
 int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf)
 {
 	csRegisterAccount mdata;
 	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
-	xk_Debug::Log()<<"解析注册账号数据："<<mdata.accountname()<<" | "<<mdata.password()<<" | "<<mdata.repeatpassword()<<endl;
+	xk_Debug::Log()<<"Receive Register Account："<<mdata.accountname()<<" | "<<mdata.password()<<" | "<<mdata.repeatpassword()<<endl;
 
 	scRegisterAccount mSendData;
 	if(mdata.password()==mdata.repeatpassword())
@@ -64,14 +60,14 @@ int Proto_Recevie_RegisterAccount(const NetEventPackage mProtobuf)
 		mSendData.set_result(false);
 	}
 
-	mProtobuf.mClient->SendData(RegisterAccount,&mSendData);
+	mProtobuf.mClient->SendData(PROTO_REGISTERACCOUNT,&mSendData);
 }
-//1102
+//1102,AccountLogin
 int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
 {
 	csLoginGame mdata;
 	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
-	cout<<"解析登陆数据："<<mdata.accountname()<<" | "<<mdata.password()<<endl;
+	cout<<"Receive Account Login Info："<<mdata.accountname()<<" | "<<mdata.password()<<endl;
 
 	game_login* m_game_login=new game_login();
 	m_game_login->set_key_account_value(mdata.accountname());
@@ -81,47 +77,45 @@ int Proto_Receive_LoginGame(const NetEventPackage mProtobuf)
 		if(m_game_login->get_key_account_value()==mdata.accountname() && m_game_login->get_password_value()==mdata.password())
 		{
 			mSendData.set_result(true);
-			cout<<"登陆成功"<<endl;
+			cout<<"Login Success"<<endl;
 		}else
 		{
 			mSendData.set_result(false);
-			cout<<"登陆失败"<<endl;
+			cout<<"Login Failed"<<endl;
 		}
 	}
 	else
 	{
-		cout<<"账户名不正确"<<endl;
+		cout<<"Account No Find"<<endl;
 		mSendData.set_result(false);
-		cout<<"登陆失败"<<endl;
+		cout<<"Login Failed"<<endl;
 	}
-	mProtobuf.mClient->SendData(Login,&mSendData);
+	mProtobuf.mClient->SendData(PROTO_LOGIN,&mSendData);
 	delete m_game_login;
 }
-//1103
-int Proto_Receive_ServerList(const NetEventPackage mProtobuf)
+//1103:SelectServer
+int Proto_Receive_SelectServer(const NetEventPackage mProtobuf)
 {
-	csServerList mdata;
+	csSelectServer mdata;
 	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
-	cout<<"解析服务器列表数据"<<endl;
+	cout<<"Receive Select Server:"<<mdata.id()<<endl;
 
-	scServerList mSendData;
-	mProtobuf.mClient->SendData(SelectServer,&mSendData);
-
-
+	scSelectServer mSendData;
+	mSendData.set_result(1);
+	mSendData.set_action(2);
+	mProtobuf.mClient->SendData(PROTO_SELECTSERVER,&mSendData);
 }
-int Proto_Receive_EnterGame(const NetEventPackage mProtobuf)
+//1104:CreateRole
+int Proto_Receive_CreateRole(const NetEventPackage mProtobuf)
 {
-	csEnterGame mdata;
+	csCreateRole mdata;
 	mdata.ParseFromArray(mProtobuf.protobuf_msg,mProtobuf.protobuf_Length);
-	cout<<"解析登陆服务器数据： "<<mdata.serverid()<<endl;
+	cout<<"Receive CreateRole： "<<mdata.name()<<mdata.sex()<<mdata.profession()<<endl;
 
-
-	scEnterGame mSendData;
-	mSendData.set_serverid(mdata.serverid());
-
-	mProtobuf.mClient->SendData(EnterGame,&mSendData);
+	scCreateRole mSendData;
+	mSendData.set_result(1);
+	mProtobuf.mClient->SendData(PROTO_CREATEROLE,&mSendData);
 }
-
 
 }
 

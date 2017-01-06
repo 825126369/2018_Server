@@ -32,27 +32,27 @@ void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
 void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
 void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
-class ClientSendData;
-class ServerSendData;
+class csChatData;
+class scChatData;
 class csRegisterAccount;
 class scRegisterAccount;
 class csLoginGame;
 class scLoginGame;
-class csServerList;
-class scServerList;
-class csEnterGame;
-class scEnterGame;
+class csSelectServer;
+class scSelectServer;
+class csCreateRole;
+class scCreateRole;
 
 // ===================================================================
 
-class ClientSendData : public ::google::protobuf::Message {
+class csChatData : public ::google::protobuf::Message {
  public:
-  ClientSendData();
-  virtual ~ClientSendData();
+  csChatData();
+  virtual ~csChatData();
 
-  ClientSendData(const ClientSendData& from);
+  csChatData(const csChatData& from);
 
-  inline ClientSendData& operator=(const ClientSendData& from) {
+  inline csChatData& operator=(const csChatData& from) {
     CopyFrom(from);
     return *this;
   }
@@ -66,17 +66,17 @@ class ClientSendData : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ClientSendData& default_instance();
+  static const csChatData& default_instance();
 
-  void Swap(ClientSendData* other);
+  void Swap(csChatData* other);
 
   // implements Message ----------------------------------------------
 
-  ClientSendData* New() const;
+  csChatData* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const ClientSendData& from);
-  void MergeFrom(const ClientSendData& from);
+  void CopyFrom(const csChatData& from);
+  void MergeFrom(const csChatData& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -98,19 +98,14 @@ class ClientSendData : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string SenderName = 1;
-  inline bool has_sendername() const;
-  inline void clear_sendername();
-  static const int kSenderNameFieldNumber = 1;
-  inline const ::std::string& sendername() const;
-  inline void set_sendername(const ::std::string& value);
-  inline void set_sendername(const char* value);
-  inline void set_sendername(const char* value, size_t size);
-  inline ::std::string* mutable_sendername();
-  inline ::std::string* release_sendername();
-  inline void set_allocated_sendername(::std::string* sendername);
+  // optional uint32 channelId = 1;
+  inline bool has_channelid() const;
+  inline void clear_channelid();
+  static const int kChannelIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 channelid() const;
+  inline void set_channelid(::google::protobuf::uint32 value);
 
-  // optional string TalkMsg = 2;
+  // optional string talkMsg = 2;
   inline bool has_talkmsg() const;
   inline void clear_talkmsg();
   static const int kTalkMsgFieldNumber = 2;
@@ -122,36 +117,46 @@ class ClientSendData : public ::google::protobuf::Message {
   inline ::std::string* release_talkmsg();
   inline void set_allocated_talkmsg(::std::string* talkmsg);
 
-  // @@protoc_insertion_point(class_scope:ClientSendData)
+  // optional uint64 otherId = 3;
+  inline bool has_otherid() const;
+  inline void clear_otherid();
+  static const int kOtherIdFieldNumber = 3;
+  inline ::google::protobuf::uint64 otherid() const;
+  inline void set_otherid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:csChatData)
  private:
-  inline void set_has_sendername();
-  inline void clear_has_sendername();
+  inline void set_has_channelid();
+  inline void clear_has_channelid();
   inline void set_has_talkmsg();
   inline void clear_has_talkmsg();
+  inline void set_has_otherid();
+  inline void clear_has_otherid();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::std::string* sendername_;
   ::std::string* talkmsg_;
+  ::google::protobuf::uint64 otherid_;
+  ::google::protobuf::uint32 channelid_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
   void InitAsDefaultInstance();
-  static ClientSendData* default_instance_;
+  static csChatData* default_instance_;
 };
 // -------------------------------------------------------------------
 
-class ServerSendData : public ::google::protobuf::Message {
+class scChatData : public ::google::protobuf::Message {
  public:
-  ServerSendData();
-  virtual ~ServerSendData();
+  scChatData();
+  virtual ~scChatData();
 
-  ServerSendData(const ServerSendData& from);
+  scChatData(const scChatData& from);
 
-  inline ServerSendData& operator=(const ServerSendData& from) {
+  inline scChatData& operator=(const scChatData& from) {
     CopyFrom(from);
     return *this;
   }
@@ -165,17 +170,17 @@ class ServerSendData : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ServerSendData& default_instance();
+  static const scChatData& default_instance();
 
-  void Swap(ServerSendData* other);
+  void Swap(scChatData* other);
 
   // implements Message ----------------------------------------------
 
-  ServerSendData* New() const;
+  scChatData* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const ServerSendData& from);
-  void MergeFrom(const ServerSendData& from);
+  void CopyFrom(const scChatData& from);
+  void MergeFrom(const scChatData& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -197,79 +202,41 @@ class ServerSendData : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string Result = 1;
+  // optional uint32 result = 1;
   inline bool has_result() const;
   inline void clear_result();
   static const int kResultFieldNumber = 1;
-  inline const ::std::string& result() const;
-  inline void set_result(const ::std::string& value);
-  inline void set_result(const char* value);
-  inline void set_result(const char* value, size_t size);
-  inline ::std::string* mutable_result();
-  inline ::std::string* release_result();
-  inline void set_allocated_result(::std::string* result);
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
 
-  // optional string NickName = 2;
-  inline bool has_nickname() const;
-  inline void clear_nickname();
-  static const int kNickNameFieldNumber = 2;
-  inline const ::std::string& nickname() const;
-  inline void set_nickname(const ::std::string& value);
-  inline void set_nickname(const char* value);
-  inline void set_nickname(const char* value, size_t size);
-  inline ::std::string* mutable_nickname();
-  inline ::std::string* release_nickname();
-  inline void set_allocated_nickname(::std::string* nickname);
+  // optional .struct_ChatInfo chatInfo = 2;
+  inline bool has_chatinfo() const;
+  inline void clear_chatinfo();
+  static const int kChatInfoFieldNumber = 2;
+  inline const ::struct_ChatInfo& chatinfo() const;
+  inline ::struct_ChatInfo* mutable_chatinfo();
+  inline ::struct_ChatInfo* release_chatinfo();
+  inline void set_allocated_chatinfo(::struct_ChatInfo* chatinfo);
 
-  // optional string TalkMsg = 3;
-  inline bool has_talkmsg() const;
-  inline void clear_talkmsg();
-  static const int kTalkMsgFieldNumber = 3;
-  inline const ::std::string& talkmsg() const;
-  inline void set_talkmsg(const ::std::string& value);
-  inline void set_talkmsg(const char* value);
-  inline void set_talkmsg(const char* value, size_t size);
-  inline ::std::string* mutable_talkmsg();
-  inline ::std::string* release_talkmsg();
-  inline void set_allocated_talkmsg(::std::string* talkmsg);
-
-  // optional string TalkTime = 4;
-  inline bool has_talktime() const;
-  inline void clear_talktime();
-  static const int kTalkTimeFieldNumber = 4;
-  inline const ::std::string& talktime() const;
-  inline void set_talktime(const ::std::string& value);
-  inline void set_talktime(const char* value);
-  inline void set_talktime(const char* value, size_t size);
-  inline ::std::string* mutable_talktime();
-  inline ::std::string* release_talktime();
-  inline void set_allocated_talktime(::std::string* talktime);
-
-  // @@protoc_insertion_point(class_scope:ServerSendData)
+  // @@protoc_insertion_point(class_scope:scChatData)
  private:
   inline void set_has_result();
   inline void clear_has_result();
-  inline void set_has_nickname();
-  inline void clear_has_nickname();
-  inline void set_has_talkmsg();
-  inline void clear_has_talkmsg();
-  inline void set_has_talktime();
-  inline void clear_has_talktime();
+  inline void set_has_chatinfo();
+  inline void clear_has_chatinfo();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::std::string* result_;
-  ::std::string* nickname_;
-  ::std::string* talkmsg_;
-  ::std::string* talktime_;
+  ::struct_ChatInfo* chatinfo_;
+  ::google::protobuf::uint32 result_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
   void InitAsDefaultInstance();
-  static ServerSendData* default_instance_;
+  static scChatData* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -440,12 +407,12 @@ class scRegisterAccount : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional bool result = 1;
+  // optional uint32 result = 1;
   inline bool has_result() const;
   inline void clear_result();
   static const int kResultFieldNumber = 1;
-  inline bool result() const;
-  inline void set_result(bool value);
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:scRegisterAccount)
  private:
@@ -456,7 +423,7 @@ class scRegisterAccount : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  bool result_;
+  ::google::protobuf::uint32 result_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
@@ -618,12 +585,12 @@ class scLoginGame : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional bool result = 1;
+  // optional uint32 result = 1;
   inline bool has_result() const;
   inline void clear_result();
   static const int kResultFieldNumber = 1;
-  inline bool result() const;
-  inline void set_result(bool value);
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:scLoginGame)
  private:
@@ -634,7 +601,7 @@ class scLoginGame : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  bool result_;
+  ::google::protobuf::uint32 result_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
@@ -644,14 +611,14 @@ class scLoginGame : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class csServerList : public ::google::protobuf::Message {
+class csSelectServer : public ::google::protobuf::Message {
  public:
-  csServerList();
-  virtual ~csServerList();
+  csSelectServer();
+  virtual ~csSelectServer();
 
-  csServerList(const csServerList& from);
+  csSelectServer(const csSelectServer& from);
 
-  inline csServerList& operator=(const csServerList& from) {
+  inline csSelectServer& operator=(const csSelectServer& from) {
     CopyFrom(from);
     return *this;
   }
@@ -665,17 +632,17 @@ class csServerList : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const csServerList& default_instance();
+  static const csSelectServer& default_instance();
 
-  void Swap(csServerList* other);
+  void Swap(csSelectServer* other);
 
   // implements Message ----------------------------------------------
 
-  csServerList* New() const;
+  csSelectServer* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const csServerList& from);
-  void MergeFrom(const csServerList& from);
+  void CopyFrom(const csSelectServer& from);
+  void MergeFrom(const csSelectServer& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -697,30 +664,40 @@ class csServerList : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:csServerList)
+  // optional uint32 id = 1;
+  inline bool has_id() const;
+  inline void clear_id();
+  static const int kIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 id() const;
+  inline void set_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:csSelectServer)
  private:
+  inline void set_has_id();
+  inline void clear_has_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
+  ::google::protobuf::uint32 id_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
   void InitAsDefaultInstance();
-  static csServerList* default_instance_;
+  static csSelectServer* default_instance_;
 };
 // -------------------------------------------------------------------
 
-class scServerList : public ::google::protobuf::Message {
+class scSelectServer : public ::google::protobuf::Message {
  public:
-  scServerList();
-  virtual ~scServerList();
+  scSelectServer();
+  virtual ~scSelectServer();
 
-  scServerList(const scServerList& from);
+  scSelectServer(const scSelectServer& from);
 
-  inline scServerList& operator=(const scServerList& from) {
+  inline scSelectServer& operator=(const scSelectServer& from) {
     CopyFrom(from);
     return *this;
   }
@@ -734,17 +711,17 @@ class scServerList : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const scServerList& default_instance();
+  static const scSelectServer& default_instance();
 
-  void Swap(scServerList* other);
+  void Swap(scSelectServer* other);
 
   // implements Message ----------------------------------------------
 
-  scServerList* New() const;
+  scSelectServer* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const scServerList& from);
-  void MergeFrom(const scServerList& from);
+  void CopyFrom(const scSelectServer& from);
+  void MergeFrom(const scSelectServer& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -766,43 +743,50 @@ class scServerList : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // repeated .struct_serverList ServerList = 1;
-  inline int serverlist_size() const;
-  inline void clear_serverlist();
-  static const int kServerListFieldNumber = 1;
-  inline const ::struct_serverList& serverlist(int index) const;
-  inline ::struct_serverList* mutable_serverlist(int index);
-  inline ::struct_serverList* add_serverlist();
-  inline const ::google::protobuf::RepeatedPtrField< ::struct_serverList >&
-      serverlist() const;
-  inline ::google::protobuf::RepeatedPtrField< ::struct_serverList >*
-      mutable_serverlist();
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:scServerList)
+  // optional uint32 action = 2;
+  inline bool has_action() const;
+  inline void clear_action();
+  static const int kActionFieldNumber = 2;
+  inline ::google::protobuf::uint32 action() const;
+  inline void set_action(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:scSelectServer)
  private:
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_action();
+  inline void clear_has_action();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::RepeatedPtrField< ::struct_serverList > serverlist_;
+  ::google::protobuf::uint32 result_;
+  ::google::protobuf::uint32 action_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
   void InitAsDefaultInstance();
-  static scServerList* default_instance_;
+  static scSelectServer* default_instance_;
 };
 // -------------------------------------------------------------------
 
-class csEnterGame : public ::google::protobuf::Message {
+class csCreateRole : public ::google::protobuf::Message {
  public:
-  csEnterGame();
-  virtual ~csEnterGame();
+  csCreateRole();
+  virtual ~csCreateRole();
 
-  csEnterGame(const csEnterGame& from);
+  csCreateRole(const csCreateRole& from);
 
-  inline csEnterGame& operator=(const csEnterGame& from) {
+  inline csCreateRole& operator=(const csCreateRole& from) {
     CopyFrom(from);
     return *this;
   }
@@ -816,17 +800,17 @@ class csEnterGame : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const csEnterGame& default_instance();
+  static const csCreateRole& default_instance();
 
-  void Swap(csEnterGame* other);
+  void Swap(csCreateRole* other);
 
   // implements Message ----------------------------------------------
 
-  csEnterGame* New() const;
+  csCreateRole* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const csEnterGame& from);
-  void MergeFrom(const csEnterGame& from);
+  void CopyFrom(const csCreateRole& from);
+  void MergeFrom(const csCreateRole& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -848,40 +832,65 @@ class csEnterGame : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional int32 ServerId = 1;
-  inline bool has_serverid() const;
-  inline void clear_serverid();
-  static const int kServerIdFieldNumber = 1;
-  inline ::google::protobuf::int32 serverid() const;
-  inline void set_serverid(::google::protobuf::int32 value);
+  // optional string name = 1;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 1;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
 
-  // @@protoc_insertion_point(class_scope:csEnterGame)
+  // optional uint32 sex = 2;
+  inline bool has_sex() const;
+  inline void clear_sex();
+  static const int kSexFieldNumber = 2;
+  inline ::google::protobuf::uint32 sex() const;
+  inline void set_sex(::google::protobuf::uint32 value);
+
+  // optional uint32 profession = 3;
+  inline bool has_profession() const;
+  inline void clear_profession();
+  static const int kProfessionFieldNumber = 3;
+  inline ::google::protobuf::uint32 profession() const;
+  inline void set_profession(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:csCreateRole)
  private:
-  inline void set_has_serverid();
-  inline void clear_has_serverid();
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_sex();
+  inline void clear_has_sex();
+  inline void set_has_profession();
+  inline void clear_has_profession();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 serverid_;
+  ::std::string* name_;
+  ::google::protobuf::uint32 sex_;
+  ::google::protobuf::uint32 profession_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
   void InitAsDefaultInstance();
-  static csEnterGame* default_instance_;
+  static csCreateRole* default_instance_;
 };
 // -------------------------------------------------------------------
 
-class scEnterGame : public ::google::protobuf::Message {
+class scCreateRole : public ::google::protobuf::Message {
  public:
-  scEnterGame();
-  virtual ~scEnterGame();
+  scCreateRole();
+  virtual ~scCreateRole();
 
-  scEnterGame(const scEnterGame& from);
+  scCreateRole(const scCreateRole& from);
 
-  inline scEnterGame& operator=(const scEnterGame& from) {
+  inline scCreateRole& operator=(const scCreateRole& from) {
     CopyFrom(from);
     return *this;
   }
@@ -895,17 +904,17 @@ class scEnterGame : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const scEnterGame& default_instance();
+  static const scCreateRole& default_instance();
 
-  void Swap(scEnterGame* other);
+  void Swap(scCreateRole* other);
 
   // implements Message ----------------------------------------------
 
-  scEnterGame* New() const;
+  scCreateRole* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const scEnterGame& from);
-  void MergeFrom(const scEnterGame& from);
+  void CopyFrom(const scCreateRole& from);
+  void MergeFrom(const scCreateRole& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -927,166 +936,114 @@ class scEnterGame : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional int32 ServerId = 1;
-  inline bool has_serverid() const;
-  inline void clear_serverid();
-  static const int kServerIdFieldNumber = 1;
-  inline ::google::protobuf::int32 serverid() const;
-  inline void set_serverid(::google::protobuf::int32 value);
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:scEnterGame)
+  // @@protoc_insertion_point(class_scope:scCreateRole)
  private:
-  inline void set_has_serverid();
-  inline void clear_has_serverid();
+  inline void set_has_result();
+  inline void clear_has_result();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 serverid_;
+  ::google::protobuf::uint32 result_;
   friend void  protobuf_AddDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_AssignDesc_proto_5fmessage_5ftwo_2eproto();
   friend void protobuf_ShutdownFile_proto_5fmessage_5ftwo_2eproto();
 
   void InitAsDefaultInstance();
-  static scEnterGame* default_instance_;
+  static scCreateRole* default_instance_;
 };
 // ===================================================================
 
 
 // ===================================================================
 
-// ClientSendData
+// csChatData
 
-// optional string SenderName = 1;
-inline bool ClientSendData::has_sendername() const {
+// optional uint32 channelId = 1;
+inline bool csChatData::has_channelid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void ClientSendData::set_has_sendername() {
+inline void csChatData::set_has_channelid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void ClientSendData::clear_has_sendername() {
+inline void csChatData::clear_has_channelid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void ClientSendData::clear_sendername() {
-  if (sendername_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    sendername_->clear();
-  }
-  clear_has_sendername();
+inline void csChatData::clear_channelid() {
+  channelid_ = 0u;
+  clear_has_channelid();
 }
-inline const ::std::string& ClientSendData::sendername() const {
-  // @@protoc_insertion_point(field_get:ClientSendData.SenderName)
-  return *sendername_;
+inline ::google::protobuf::uint32 csChatData::channelid() const {
+  // @@protoc_insertion_point(field_get:csChatData.channelId)
+  return channelid_;
 }
-inline void ClientSendData::set_sendername(const ::std::string& value) {
-  set_has_sendername();
-  if (sendername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    sendername_ = new ::std::string;
-  }
-  sendername_->assign(value);
-  // @@protoc_insertion_point(field_set:ClientSendData.SenderName)
-}
-inline void ClientSendData::set_sendername(const char* value) {
-  set_has_sendername();
-  if (sendername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    sendername_ = new ::std::string;
-  }
-  sendername_->assign(value);
-  // @@protoc_insertion_point(field_set_char:ClientSendData.SenderName)
-}
-inline void ClientSendData::set_sendername(const char* value, size_t size) {
-  set_has_sendername();
-  if (sendername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    sendername_ = new ::std::string;
-  }
-  sendername_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ClientSendData.SenderName)
-}
-inline ::std::string* ClientSendData::mutable_sendername() {
-  set_has_sendername();
-  if (sendername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    sendername_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:ClientSendData.SenderName)
-  return sendername_;
-}
-inline ::std::string* ClientSendData::release_sendername() {
-  clear_has_sendername();
-  if (sendername_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = sendername_;
-    sendername_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void ClientSendData::set_allocated_sendername(::std::string* sendername) {
-  if (sendername_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete sendername_;
-  }
-  if (sendername) {
-    set_has_sendername();
-    sendername_ = sendername;
-  } else {
-    clear_has_sendername();
-    sendername_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:ClientSendData.SenderName)
+inline void csChatData::set_channelid(::google::protobuf::uint32 value) {
+  set_has_channelid();
+  channelid_ = value;
+  // @@protoc_insertion_point(field_set:csChatData.channelId)
 }
 
-// optional string TalkMsg = 2;
-inline bool ClientSendData::has_talkmsg() const {
+// optional string talkMsg = 2;
+inline bool csChatData::has_talkmsg() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void ClientSendData::set_has_talkmsg() {
+inline void csChatData::set_has_talkmsg() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void ClientSendData::clear_has_talkmsg() {
+inline void csChatData::clear_has_talkmsg() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void ClientSendData::clear_talkmsg() {
+inline void csChatData::clear_talkmsg() {
   if (talkmsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     talkmsg_->clear();
   }
   clear_has_talkmsg();
 }
-inline const ::std::string& ClientSendData::talkmsg() const {
-  // @@protoc_insertion_point(field_get:ClientSendData.TalkMsg)
+inline const ::std::string& csChatData::talkmsg() const {
+  // @@protoc_insertion_point(field_get:csChatData.talkMsg)
   return *talkmsg_;
 }
-inline void ClientSendData::set_talkmsg(const ::std::string& value) {
+inline void csChatData::set_talkmsg(const ::std::string& value) {
   set_has_talkmsg();
   if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     talkmsg_ = new ::std::string;
   }
   talkmsg_->assign(value);
-  // @@protoc_insertion_point(field_set:ClientSendData.TalkMsg)
+  // @@protoc_insertion_point(field_set:csChatData.talkMsg)
 }
-inline void ClientSendData::set_talkmsg(const char* value) {
+inline void csChatData::set_talkmsg(const char* value) {
   set_has_talkmsg();
   if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     talkmsg_ = new ::std::string;
   }
   talkmsg_->assign(value);
-  // @@protoc_insertion_point(field_set_char:ClientSendData.TalkMsg)
+  // @@protoc_insertion_point(field_set_char:csChatData.talkMsg)
 }
-inline void ClientSendData::set_talkmsg(const char* value, size_t size) {
+inline void csChatData::set_talkmsg(const char* value, size_t size) {
   set_has_talkmsg();
   if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     talkmsg_ = new ::std::string;
   }
   talkmsg_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ClientSendData.TalkMsg)
+  // @@protoc_insertion_point(field_set_pointer:csChatData.talkMsg)
 }
-inline ::std::string* ClientSendData::mutable_talkmsg() {
+inline ::std::string* csChatData::mutable_talkmsg() {
   set_has_talkmsg();
   if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     talkmsg_ = new ::std::string;
   }
-  // @@protoc_insertion_point(field_mutable:ClientSendData.TalkMsg)
+  // @@protoc_insertion_point(field_mutable:csChatData.talkMsg)
   return talkmsg_;
 }
-inline ::std::string* ClientSendData::release_talkmsg() {
+inline ::std::string* csChatData::release_talkmsg() {
   clear_has_talkmsg();
   if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     return NULL;
@@ -1096,7 +1053,7 @@ inline ::std::string* ClientSendData::release_talkmsg() {
     return temp;
   }
 }
-inline void ClientSendData::set_allocated_talkmsg(::std::string* talkmsg) {
+inline void csChatData::set_allocated_talkmsg(::std::string* talkmsg) {
   if (talkmsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete talkmsg_;
   }
@@ -1107,315 +1064,100 @@ inline void ClientSendData::set_allocated_talkmsg(::std::string* talkmsg) {
     clear_has_talkmsg();
     talkmsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  // @@protoc_insertion_point(field_set_allocated:ClientSendData.TalkMsg)
+  // @@protoc_insertion_point(field_set_allocated:csChatData.talkMsg)
 }
 
-// -------------------------------------------------------------------
-
-// ServerSendData
-
-// optional string Result = 1;
-inline bool ServerSendData::has_result() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void ServerSendData::set_has_result() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void ServerSendData::clear_has_result() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void ServerSendData::clear_result() {
-  if (result_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    result_->clear();
-  }
-  clear_has_result();
-}
-inline const ::std::string& ServerSendData::result() const {
-  // @@protoc_insertion_point(field_get:ServerSendData.Result)
-  return *result_;
-}
-inline void ServerSendData::set_result(const ::std::string& value) {
-  set_has_result();
-  if (result_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    result_ = new ::std::string;
-  }
-  result_->assign(value);
-  // @@protoc_insertion_point(field_set:ServerSendData.Result)
-}
-inline void ServerSendData::set_result(const char* value) {
-  set_has_result();
-  if (result_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    result_ = new ::std::string;
-  }
-  result_->assign(value);
-  // @@protoc_insertion_point(field_set_char:ServerSendData.Result)
-}
-inline void ServerSendData::set_result(const char* value, size_t size) {
-  set_has_result();
-  if (result_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    result_ = new ::std::string;
-  }
-  result_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ServerSendData.Result)
-}
-inline ::std::string* ServerSendData::mutable_result() {
-  set_has_result();
-  if (result_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    result_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:ServerSendData.Result)
-  return result_;
-}
-inline ::std::string* ServerSendData::release_result() {
-  clear_has_result();
-  if (result_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = result_;
-    result_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void ServerSendData::set_allocated_result(::std::string* result) {
-  if (result_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete result_;
-  }
-  if (result) {
-    set_has_result();
-    result_ = result;
-  } else {
-    clear_has_result();
-    result_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:ServerSendData.Result)
-}
-
-// optional string NickName = 2;
-inline bool ServerSendData::has_nickname() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void ServerSendData::set_has_nickname() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void ServerSendData::clear_has_nickname() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void ServerSendData::clear_nickname() {
-  if (nickname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    nickname_->clear();
-  }
-  clear_has_nickname();
-}
-inline const ::std::string& ServerSendData::nickname() const {
-  // @@protoc_insertion_point(field_get:ServerSendData.NickName)
-  return *nickname_;
-}
-inline void ServerSendData::set_nickname(const ::std::string& value) {
-  set_has_nickname();
-  if (nickname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    nickname_ = new ::std::string;
-  }
-  nickname_->assign(value);
-  // @@protoc_insertion_point(field_set:ServerSendData.NickName)
-}
-inline void ServerSendData::set_nickname(const char* value) {
-  set_has_nickname();
-  if (nickname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    nickname_ = new ::std::string;
-  }
-  nickname_->assign(value);
-  // @@protoc_insertion_point(field_set_char:ServerSendData.NickName)
-}
-inline void ServerSendData::set_nickname(const char* value, size_t size) {
-  set_has_nickname();
-  if (nickname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    nickname_ = new ::std::string;
-  }
-  nickname_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ServerSendData.NickName)
-}
-inline ::std::string* ServerSendData::mutable_nickname() {
-  set_has_nickname();
-  if (nickname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    nickname_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:ServerSendData.NickName)
-  return nickname_;
-}
-inline ::std::string* ServerSendData::release_nickname() {
-  clear_has_nickname();
-  if (nickname_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = nickname_;
-    nickname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void ServerSendData::set_allocated_nickname(::std::string* nickname) {
-  if (nickname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete nickname_;
-  }
-  if (nickname) {
-    set_has_nickname();
-    nickname_ = nickname;
-  } else {
-    clear_has_nickname();
-    nickname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:ServerSendData.NickName)
-}
-
-// optional string TalkMsg = 3;
-inline bool ServerSendData::has_talkmsg() const {
+// optional uint64 otherId = 3;
+inline bool csChatData::has_otherid() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void ServerSendData::set_has_talkmsg() {
+inline void csChatData::set_has_otherid() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void ServerSendData::clear_has_talkmsg() {
+inline void csChatData::clear_has_otherid() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void ServerSendData::clear_talkmsg() {
-  if (talkmsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talkmsg_->clear();
-  }
-  clear_has_talkmsg();
+inline void csChatData::clear_otherid() {
+  otherid_ = GOOGLE_ULONGLONG(0);
+  clear_has_otherid();
 }
-inline const ::std::string& ServerSendData::talkmsg() const {
-  // @@protoc_insertion_point(field_get:ServerSendData.TalkMsg)
-  return *talkmsg_;
+inline ::google::protobuf::uint64 csChatData::otherid() const {
+  // @@protoc_insertion_point(field_get:csChatData.otherId)
+  return otherid_;
 }
-inline void ServerSendData::set_talkmsg(const ::std::string& value) {
-  set_has_talkmsg();
-  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talkmsg_ = new ::std::string;
-  }
-  talkmsg_->assign(value);
-  // @@protoc_insertion_point(field_set:ServerSendData.TalkMsg)
-}
-inline void ServerSendData::set_talkmsg(const char* value) {
-  set_has_talkmsg();
-  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talkmsg_ = new ::std::string;
-  }
-  talkmsg_->assign(value);
-  // @@protoc_insertion_point(field_set_char:ServerSendData.TalkMsg)
-}
-inline void ServerSendData::set_talkmsg(const char* value, size_t size) {
-  set_has_talkmsg();
-  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talkmsg_ = new ::std::string;
-  }
-  talkmsg_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ServerSendData.TalkMsg)
-}
-inline ::std::string* ServerSendData::mutable_talkmsg() {
-  set_has_talkmsg();
-  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talkmsg_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:ServerSendData.TalkMsg)
-  return talkmsg_;
-}
-inline ::std::string* ServerSendData::release_talkmsg() {
-  clear_has_talkmsg();
-  if (talkmsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = talkmsg_;
-    talkmsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void ServerSendData::set_allocated_talkmsg(::std::string* talkmsg) {
-  if (talkmsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete talkmsg_;
-  }
-  if (talkmsg) {
-    set_has_talkmsg();
-    talkmsg_ = talkmsg;
-  } else {
-    clear_has_talkmsg();
-    talkmsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:ServerSendData.TalkMsg)
+inline void csChatData::set_otherid(::google::protobuf::uint64 value) {
+  set_has_otherid();
+  otherid_ = value;
+  // @@protoc_insertion_point(field_set:csChatData.otherId)
 }
 
-// optional string TalkTime = 4;
-inline bool ServerSendData::has_talktime() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+// -------------------------------------------------------------------
+
+// scChatData
+
+// optional uint32 result = 1;
+inline bool scChatData::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void ServerSendData::set_has_talktime() {
-  _has_bits_[0] |= 0x00000008u;
+inline void scChatData::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
 }
-inline void ServerSendData::clear_has_talktime() {
-  _has_bits_[0] &= ~0x00000008u;
+inline void scChatData::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
 }
-inline void ServerSendData::clear_talktime() {
-  if (talktime_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talktime_->clear();
-  }
-  clear_has_talktime();
+inline void scChatData::clear_result() {
+  result_ = 0u;
+  clear_has_result();
 }
-inline const ::std::string& ServerSendData::talktime() const {
-  // @@protoc_insertion_point(field_get:ServerSendData.TalkTime)
-  return *talktime_;
+inline ::google::protobuf::uint32 scChatData::result() const {
+  // @@protoc_insertion_point(field_get:scChatData.result)
+  return result_;
 }
-inline void ServerSendData::set_talktime(const ::std::string& value) {
-  set_has_talktime();
-  if (talktime_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talktime_ = new ::std::string;
-  }
-  talktime_->assign(value);
-  // @@protoc_insertion_point(field_set:ServerSendData.TalkTime)
+inline void scChatData::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:scChatData.result)
 }
-inline void ServerSendData::set_talktime(const char* value) {
-  set_has_talktime();
-  if (talktime_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talktime_ = new ::std::string;
-  }
-  talktime_->assign(value);
-  // @@protoc_insertion_point(field_set_char:ServerSendData.TalkTime)
+
+// optional .struct_ChatInfo chatInfo = 2;
+inline bool scChatData::has_chatinfo() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void ServerSendData::set_talktime(const char* value, size_t size) {
-  set_has_talktime();
-  if (talktime_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talktime_ = new ::std::string;
-  }
-  talktime_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ServerSendData.TalkTime)
+inline void scChatData::set_has_chatinfo() {
+  _has_bits_[0] |= 0x00000002u;
 }
-inline ::std::string* ServerSendData::mutable_talktime() {
-  set_has_talktime();
-  if (talktime_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    talktime_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:ServerSendData.TalkTime)
-  return talktime_;
+inline void scChatData::clear_has_chatinfo() {
+  _has_bits_[0] &= ~0x00000002u;
 }
-inline ::std::string* ServerSendData::release_talktime() {
-  clear_has_talktime();
-  if (talktime_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
+inline void scChatData::clear_chatinfo() {
+  if (chatinfo_ != NULL) chatinfo_->::struct_ChatInfo::Clear();
+  clear_has_chatinfo();
+}
+inline const ::struct_ChatInfo& scChatData::chatinfo() const {
+  // @@protoc_insertion_point(field_get:scChatData.chatInfo)
+  return chatinfo_ != NULL ? *chatinfo_ : *default_instance_->chatinfo_;
+}
+inline ::struct_ChatInfo* scChatData::mutable_chatinfo() {
+  set_has_chatinfo();
+  if (chatinfo_ == NULL) chatinfo_ = new ::struct_ChatInfo;
+  // @@protoc_insertion_point(field_mutable:scChatData.chatInfo)
+  return chatinfo_;
+}
+inline ::struct_ChatInfo* scChatData::release_chatinfo() {
+  clear_has_chatinfo();
+  ::struct_ChatInfo* temp = chatinfo_;
+  chatinfo_ = NULL;
+  return temp;
+}
+inline void scChatData::set_allocated_chatinfo(::struct_ChatInfo* chatinfo) {
+  delete chatinfo_;
+  chatinfo_ = chatinfo;
+  if (chatinfo) {
+    set_has_chatinfo();
   } else {
-    ::std::string* temp = talktime_;
-    talktime_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
+    clear_has_chatinfo();
   }
-}
-inline void ServerSendData::set_allocated_talktime(::std::string* talktime) {
-  if (talktime_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete talktime_;
-  }
-  if (talktime) {
-    set_has_talktime();
-    talktime_ = talktime;
-  } else {
-    clear_has_talktime();
-    talktime_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:ServerSendData.TalkTime)
+  // @@protoc_insertion_point(field_set_allocated:scChatData.chatInfo)
 }
 
 // -------------------------------------------------------------------
@@ -1654,7 +1396,7 @@ inline void csRegisterAccount::set_allocated_repeatpassword(::std::string* repea
 
 // scRegisterAccount
 
-// optional bool result = 1;
+// optional uint32 result = 1;
 inline bool scRegisterAccount::has_result() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1665,14 +1407,14 @@ inline void scRegisterAccount::clear_has_result() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void scRegisterAccount::clear_result() {
-  result_ = false;
+  result_ = 0u;
   clear_has_result();
 }
-inline bool scRegisterAccount::result() const {
+inline ::google::protobuf::uint32 scRegisterAccount::result() const {
   // @@protoc_insertion_point(field_get:scRegisterAccount.result)
   return result_;
 }
-inline void scRegisterAccount::set_result(bool value) {
+inline void scRegisterAccount::set_result(::google::protobuf::uint32 value) {
   set_has_result();
   result_ = value;
   // @@protoc_insertion_point(field_set:scRegisterAccount.result)
@@ -1838,7 +1580,7 @@ inline void csLoginGame::set_allocated_password(::std::string* password) {
 
 // scLoginGame
 
-// optional bool result = 1;
+// optional uint32 result = 1;
 inline bool scLoginGame::has_result() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1849,14 +1591,14 @@ inline void scLoginGame::clear_has_result() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void scLoginGame::clear_result() {
-  result_ = false;
+  result_ = 0u;
   clear_has_result();
 }
-inline bool scLoginGame::result() const {
+inline ::google::protobuf::uint32 scLoginGame::result() const {
   // @@protoc_insertion_point(field_get:scLoginGame.result)
   return result_;
 }
-inline void scLoginGame::set_result(bool value) {
+inline void scLoginGame::set_result(::google::protobuf::uint32 value) {
   set_has_result();
   result_ = value;
   // @@protoc_insertion_point(field_set:scLoginGame.result)
@@ -1864,96 +1606,238 @@ inline void scLoginGame::set_result(bool value) {
 
 // -------------------------------------------------------------------
 
-// csServerList
+// csSelectServer
 
-// -------------------------------------------------------------------
-
-// scServerList
-
-// repeated .struct_serverList ServerList = 1;
-inline int scServerList::serverlist_size() const {
-  return serverlist_.size();
-}
-inline void scServerList::clear_serverlist() {
-  serverlist_.Clear();
-}
-inline const ::struct_serverList& scServerList::serverlist(int index) const {
-  // @@protoc_insertion_point(field_get:scServerList.ServerList)
-  return serverlist_.Get(index);
-}
-inline ::struct_serverList* scServerList::mutable_serverlist(int index) {
-  // @@protoc_insertion_point(field_mutable:scServerList.ServerList)
-  return serverlist_.Mutable(index);
-}
-inline ::struct_serverList* scServerList::add_serverlist() {
-  // @@protoc_insertion_point(field_add:scServerList.ServerList)
-  return serverlist_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::struct_serverList >&
-scServerList::serverlist() const {
-  // @@protoc_insertion_point(field_list:scServerList.ServerList)
-  return serverlist_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::struct_serverList >*
-scServerList::mutable_serverlist() {
-  // @@protoc_insertion_point(field_mutable_list:scServerList.ServerList)
-  return &serverlist_;
-}
-
-// -------------------------------------------------------------------
-
-// csEnterGame
-
-// optional int32 ServerId = 1;
-inline bool csEnterGame::has_serverid() const {
+// optional uint32 id = 1;
+inline bool csSelectServer::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void csEnterGame::set_has_serverid() {
+inline void csSelectServer::set_has_id() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void csEnterGame::clear_has_serverid() {
+inline void csSelectServer::clear_has_id() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void csEnterGame::clear_serverid() {
-  serverid_ = 0;
-  clear_has_serverid();
+inline void csSelectServer::clear_id() {
+  id_ = 0u;
+  clear_has_id();
 }
-inline ::google::protobuf::int32 csEnterGame::serverid() const {
-  // @@protoc_insertion_point(field_get:csEnterGame.ServerId)
-  return serverid_;
+inline ::google::protobuf::uint32 csSelectServer::id() const {
+  // @@protoc_insertion_point(field_get:csSelectServer.id)
+  return id_;
 }
-inline void csEnterGame::set_serverid(::google::protobuf::int32 value) {
-  set_has_serverid();
-  serverid_ = value;
-  // @@protoc_insertion_point(field_set:csEnterGame.ServerId)
+inline void csSelectServer::set_id(::google::protobuf::uint32 value) {
+  set_has_id();
+  id_ = value;
+  // @@protoc_insertion_point(field_set:csSelectServer.id)
 }
 
 // -------------------------------------------------------------------
 
-// scEnterGame
+// scSelectServer
 
-// optional int32 ServerId = 1;
-inline bool scEnterGame::has_serverid() const {
+// optional uint32 result = 1;
+inline bool scSelectServer::has_result() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void scEnterGame::set_has_serverid() {
+inline void scSelectServer::set_has_result() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void scEnterGame::clear_has_serverid() {
+inline void scSelectServer::clear_has_result() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void scEnterGame::clear_serverid() {
-  serverid_ = 0;
-  clear_has_serverid();
+inline void scSelectServer::clear_result() {
+  result_ = 0u;
+  clear_has_result();
 }
-inline ::google::protobuf::int32 scEnterGame::serverid() const {
-  // @@protoc_insertion_point(field_get:scEnterGame.ServerId)
-  return serverid_;
+inline ::google::protobuf::uint32 scSelectServer::result() const {
+  // @@protoc_insertion_point(field_get:scSelectServer.result)
+  return result_;
 }
-inline void scEnterGame::set_serverid(::google::protobuf::int32 value) {
-  set_has_serverid();
-  serverid_ = value;
-  // @@protoc_insertion_point(field_set:scEnterGame.ServerId)
+inline void scSelectServer::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:scSelectServer.result)
+}
+
+// optional uint32 action = 2;
+inline bool scSelectServer::has_action() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void scSelectServer::set_has_action() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void scSelectServer::clear_has_action() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void scSelectServer::clear_action() {
+  action_ = 0u;
+  clear_has_action();
+}
+inline ::google::protobuf::uint32 scSelectServer::action() const {
+  // @@protoc_insertion_point(field_get:scSelectServer.action)
+  return action_;
+}
+inline void scSelectServer::set_action(::google::protobuf::uint32 value) {
+  set_has_action();
+  action_ = value;
+  // @@protoc_insertion_point(field_set:scSelectServer.action)
+}
+
+// -------------------------------------------------------------------
+
+// csCreateRole
+
+// optional string name = 1;
+inline bool csCreateRole::has_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void csCreateRole::set_has_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void csCreateRole::clear_has_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void csCreateRole::clear_name() {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& csCreateRole::name() const {
+  // @@protoc_insertion_point(field_get:csCreateRole.name)
+  return *name_;
+}
+inline void csCreateRole::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set:csCreateRole.name)
+}
+inline void csCreateRole::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set_char:csCreateRole.name)
+}
+inline void csCreateRole::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:csCreateRole.name)
+}
+inline ::std::string* csCreateRole::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:csCreateRole.name)
+  return name_;
+}
+inline ::std::string* csCreateRole::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void csCreateRole::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete name_;
+  }
+  if (name) {
+    set_has_name();
+    name_ = name;
+  } else {
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:csCreateRole.name)
+}
+
+// optional uint32 sex = 2;
+inline bool csCreateRole::has_sex() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void csCreateRole::set_has_sex() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void csCreateRole::clear_has_sex() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void csCreateRole::clear_sex() {
+  sex_ = 0u;
+  clear_has_sex();
+}
+inline ::google::protobuf::uint32 csCreateRole::sex() const {
+  // @@protoc_insertion_point(field_get:csCreateRole.sex)
+  return sex_;
+}
+inline void csCreateRole::set_sex(::google::protobuf::uint32 value) {
+  set_has_sex();
+  sex_ = value;
+  // @@protoc_insertion_point(field_set:csCreateRole.sex)
+}
+
+// optional uint32 profession = 3;
+inline bool csCreateRole::has_profession() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void csCreateRole::set_has_profession() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void csCreateRole::clear_has_profession() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void csCreateRole::clear_profession() {
+  profession_ = 0u;
+  clear_has_profession();
+}
+inline ::google::protobuf::uint32 csCreateRole::profession() const {
+  // @@protoc_insertion_point(field_get:csCreateRole.profession)
+  return profession_;
+}
+inline void csCreateRole::set_profession(::google::protobuf::uint32 value) {
+  set_has_profession();
+  profession_ = value;
+  // @@protoc_insertion_point(field_set:csCreateRole.profession)
+}
+
+// -------------------------------------------------------------------
+
+// scCreateRole
+
+// optional uint32 result = 1;
+inline bool scCreateRole::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void scCreateRole::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void scCreateRole::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void scCreateRole::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 scCreateRole::result() const {
+  // @@protoc_insertion_point(field_get:scCreateRole.result)
+  return result_;
+}
+inline void scCreateRole::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:scCreateRole.result)
 }
 
 

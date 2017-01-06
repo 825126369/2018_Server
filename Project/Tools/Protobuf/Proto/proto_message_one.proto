@@ -1,0 +1,14 @@
+import "proto_struct.proto";    
+ 
+//5001,Push Chat Info
+message pushChatInfo
+{
+	optional uint32 result 				=1;//1:ok 2:error
+	optional struct_ChatInfo chatInfo 	=2;
+}
+//5002
+message pushPlayerInfo
+{
+	optional uint32 result 						=1;
+	optional struct_PlayerDetailInfo playerInfo =2;
+}

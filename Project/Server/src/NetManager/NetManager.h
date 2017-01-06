@@ -10,7 +10,7 @@
 #include "NetDefine.h"
 #include "NetEventManager.h"
 #include <cstring>
-#include "EncryptionManager.h":
+#include "EncryptionManager.h"
 #include "libev_NetManager.h"
 using namespace std;
 namespace basic

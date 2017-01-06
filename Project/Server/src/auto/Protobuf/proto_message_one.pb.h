@@ -20,8 +20,11 @@
 #endif
 
 #include <google/protobuf/generated_message_util.h>
+#include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/unknown_field_set.h>
+#include "proto_struct.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Internal implementation detail -- do not call these.
@@ -29,14 +32,331 @@ void  protobuf_AddDesc_proto_5fmessage_5fone_2eproto();
 void protobuf_AssignDesc_proto_5fmessage_5fone_2eproto();
 void protobuf_ShutdownFile_proto_5fmessage_5fone_2eproto();
 
+class pushChatInfo;
+class pushPlayerInfo;
 
+// ===================================================================
+
+class pushChatInfo : public ::google::protobuf::Message {
+ public:
+  pushChatInfo();
+  virtual ~pushChatInfo();
+
+  pushChatInfo(const pushChatInfo& from);
+
+  inline pushChatInfo& operator=(const pushChatInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const pushChatInfo& default_instance();
+
+  void Swap(pushChatInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  pushChatInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const pushChatInfo& from);
+  void MergeFrom(const pushChatInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional .struct_ChatInfo chatInfo = 2;
+  inline bool has_chatinfo() const;
+  inline void clear_chatinfo();
+  static const int kChatInfoFieldNumber = 2;
+  inline const ::struct_ChatInfo& chatinfo() const;
+  inline ::struct_ChatInfo* mutable_chatinfo();
+  inline ::struct_ChatInfo* release_chatinfo();
+  inline void set_allocated_chatinfo(::struct_ChatInfo* chatinfo);
+
+  // @@protoc_insertion_point(class_scope:pushChatInfo)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_chatinfo();
+  inline void clear_has_chatinfo();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::struct_ChatInfo* chatinfo_;
+  ::google::protobuf::uint32 result_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5fone_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5fone_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5fone_2eproto();
+
+  void InitAsDefaultInstance();
+  static pushChatInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class pushPlayerInfo : public ::google::protobuf::Message {
+ public:
+  pushPlayerInfo();
+  virtual ~pushPlayerInfo();
+
+  pushPlayerInfo(const pushPlayerInfo& from);
+
+  inline pushPlayerInfo& operator=(const pushPlayerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const pushPlayerInfo& default_instance();
+
+  void Swap(pushPlayerInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  pushPlayerInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const pushPlayerInfo& from);
+  void MergeFrom(const pushPlayerInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional .struct_PlayerDetailInfo playerInfo = 2;
+  inline bool has_playerinfo() const;
+  inline void clear_playerinfo();
+  static const int kPlayerInfoFieldNumber = 2;
+  inline const ::struct_PlayerDetailInfo& playerinfo() const;
+  inline ::struct_PlayerDetailInfo* mutable_playerinfo();
+  inline ::struct_PlayerDetailInfo* release_playerinfo();
+  inline void set_allocated_playerinfo(::struct_PlayerDetailInfo* playerinfo);
+
+  // @@protoc_insertion_point(class_scope:pushPlayerInfo)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_playerinfo();
+  inline void clear_has_playerinfo();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::struct_PlayerDetailInfo* playerinfo_;
+  ::google::protobuf::uint32 result_;
+  friend void  protobuf_AddDesc_proto_5fmessage_5fone_2eproto();
+  friend void protobuf_AssignDesc_proto_5fmessage_5fone_2eproto();
+  friend void protobuf_ShutdownFile_proto_5fmessage_5fone_2eproto();
+
+  void InitAsDefaultInstance();
+  static pushPlayerInfo* default_instance_;
+};
 // ===================================================================
 
 
 // ===================================================================
 
+// pushChatInfo
 
-// ===================================================================
+// optional uint32 result = 1;
+inline bool pushChatInfo::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void pushChatInfo::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void pushChatInfo::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void pushChatInfo::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 pushChatInfo::result() const {
+  // @@protoc_insertion_point(field_get:pushChatInfo.result)
+  return result_;
+}
+inline void pushChatInfo::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:pushChatInfo.result)
+}
+
+// optional .struct_ChatInfo chatInfo = 2;
+inline bool pushChatInfo::has_chatinfo() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void pushChatInfo::set_has_chatinfo() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void pushChatInfo::clear_has_chatinfo() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void pushChatInfo::clear_chatinfo() {
+  if (chatinfo_ != NULL) chatinfo_->::struct_ChatInfo::Clear();
+  clear_has_chatinfo();
+}
+inline const ::struct_ChatInfo& pushChatInfo::chatinfo() const {
+  // @@protoc_insertion_point(field_get:pushChatInfo.chatInfo)
+  return chatinfo_ != NULL ? *chatinfo_ : *default_instance_->chatinfo_;
+}
+inline ::struct_ChatInfo* pushChatInfo::mutable_chatinfo() {
+  set_has_chatinfo();
+  if (chatinfo_ == NULL) chatinfo_ = new ::struct_ChatInfo;
+  // @@protoc_insertion_point(field_mutable:pushChatInfo.chatInfo)
+  return chatinfo_;
+}
+inline ::struct_ChatInfo* pushChatInfo::release_chatinfo() {
+  clear_has_chatinfo();
+  ::struct_ChatInfo* temp = chatinfo_;
+  chatinfo_ = NULL;
+  return temp;
+}
+inline void pushChatInfo::set_allocated_chatinfo(::struct_ChatInfo* chatinfo) {
+  delete chatinfo_;
+  chatinfo_ = chatinfo;
+  if (chatinfo) {
+    set_has_chatinfo();
+  } else {
+    clear_has_chatinfo();
+  }
+  // @@protoc_insertion_point(field_set_allocated:pushChatInfo.chatInfo)
+}
+
+// -------------------------------------------------------------------
+
+// pushPlayerInfo
+
+// optional uint32 result = 1;
+inline bool pushPlayerInfo::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void pushPlayerInfo::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void pushPlayerInfo::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void pushPlayerInfo::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 pushPlayerInfo::result() const {
+  // @@protoc_insertion_point(field_get:pushPlayerInfo.result)
+  return result_;
+}
+inline void pushPlayerInfo::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:pushPlayerInfo.result)
+}
+
+// optional .struct_PlayerDetailInfo playerInfo = 2;
+inline bool pushPlayerInfo::has_playerinfo() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void pushPlayerInfo::set_has_playerinfo() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void pushPlayerInfo::clear_has_playerinfo() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void pushPlayerInfo::clear_playerinfo() {
+  if (playerinfo_ != NULL) playerinfo_->::struct_PlayerDetailInfo::Clear();
+  clear_has_playerinfo();
+}
+inline const ::struct_PlayerDetailInfo& pushPlayerInfo::playerinfo() const {
+  // @@protoc_insertion_point(field_get:pushPlayerInfo.playerInfo)
+  return playerinfo_ != NULL ? *playerinfo_ : *default_instance_->playerinfo_;
+}
+inline ::struct_PlayerDetailInfo* pushPlayerInfo::mutable_playerinfo() {
+  set_has_playerinfo();
+  if (playerinfo_ == NULL) playerinfo_ = new ::struct_PlayerDetailInfo;
+  // @@protoc_insertion_point(field_mutable:pushPlayerInfo.playerInfo)
+  return playerinfo_;
+}
+inline ::struct_PlayerDetailInfo* pushPlayerInfo::release_playerinfo() {
+  clear_has_playerinfo();
+  ::struct_PlayerDetailInfo* temp = playerinfo_;
+  playerinfo_ = NULL;
+  return temp;
+}
+inline void pushPlayerInfo::set_allocated_playerinfo(::struct_PlayerDetailInfo* playerinfo) {
+  delete playerinfo_;
+  playerinfo_ = playerinfo;
+  if (playerinfo) {
+    set_has_playerinfo();
+  } else {
+    clear_has_playerinfo();
+  }
+  // @@protoc_insertion_point(field_set_allocated:pushPlayerInfo.playerInfo)
+}
 
 
 // @@protoc_insertion_point(namespace_scope)

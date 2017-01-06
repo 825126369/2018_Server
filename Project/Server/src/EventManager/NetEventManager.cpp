@@ -54,16 +54,16 @@ int NetEventManager::Init()
 {
 	cout<<"Net Event Register Begin"<<endl;
 	ProtoEventReceiveDic=new map<ProtoCommand,RecFun>;
-	//1100
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(Chat,Proto_Rec_Chat));
-	//1101:注册账号
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(RegisterAccount,Proto_Recevie_RegisterAccount));
-	//1102:登陆账户
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(Login,Proto_Receive_LoginGame));
-	//1103：得到服务器列表
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(SelectServer,Proto_Receive_ServerList));
-	//1104：进入游戏服务器
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(EnterGame,Proto_Receive_EnterGame));
+	//1100:Chat
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_CHAT,Proto_Rec_Chat));
+	//1101:Register Account
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_REGISTERACCOUNT,Proto_Recevie_RegisterAccount));
+	//1102:Account Login
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_LOGIN,Proto_Receive_LoginGame));
+	//1103:Select Server
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_SELECTSERVER,Proto_Receive_SelectServer));
+	//1104:CreateRole
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_CREATEROLE,Proto_Receive_CreateRole));
 	return 0;
 }
 
