@@ -4,10 +4,9 @@
  *  Created on: Mar 16, 2016
  *      Author: xuke
  */
-#include "NetThreadManager.h"
+#include "NetManager.h"
 #include "MariaDBSystem.h"
 #include "ConfigTableManager.h"
-#include "DbTable.h"
 using namespace std;
 using namespace basic;
 int main(int arg,char **argc)

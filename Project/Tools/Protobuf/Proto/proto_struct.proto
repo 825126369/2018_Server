@@ -5,6 +5,14 @@ message struct_serverList
 	optional uint32 serverId 	=3;
 }
 
+message struct_ItemInfo
+{
+	optional uint64 id 			=1;
+	optional uint32 pos 		=2;
+	optional uint32 configId 	=3;
+	optional uint32 cout 		=4;
+}
+
 message struct_PlayerSimpleInfo
 {
 	optional uint64 id 			 =1;
@@ -17,6 +25,20 @@ message struct_PlayerDetailInfo
 	optional uint64 id  		=1;
 	optional string name  		=2;
 	optional uint32 level 		=3;
+	optional uint64 modelId 	=4;
+	repeated struct_ItemInfo equipList 	=5;//role
+}
+
+message struct_PlayerBagInfo
+{
+	optional uint32 maxCout 	=1;
+	repeated struct_ItemInfo  itemList	=2;	
+}
+
+message struct_LOL_HeroDetailInfo
+{
+	optional uint64 id 		=1;
+	optional uint32 configId 	=2;
 }
 
 message struct_ChatInfo

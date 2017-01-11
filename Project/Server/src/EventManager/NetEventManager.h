@@ -8,6 +8,7 @@
 #ifndef SRC_EVENTMANAGER_NETEVENTMANAGER_H_
 #define SRC_EVENTMANAGER_NETEVENTMANAGER_H_
 #include "NetProtoEvent.h"
+using namespace xk_protobuf_data;
 namespace basic
 {
 class NetEventPackage;

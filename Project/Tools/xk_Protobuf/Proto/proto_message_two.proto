@@ -1,0 +1,92 @@
+syntax="proto3";
+package xk_protobuf_data;
+import "proto_struct.proto";
+
+//1100 C->S ChatInfo
+message csChatData
+{
+	 uint32 channelId=1;
+	 string talkMsg =2;	
+	 uint64 otherId =3;			
+}
+//1100 S->C 
+message scChatData
+{
+	 uint32 result				= 1;		
+	 struct_ChatInfo  chatInfo  = 2;
+}
+//1101 C->S RegisterAccount
+message csRegisterAccount
+{
+	 string accountName  		=1;
+	 string password     		=2;
+	 string repeatPassword 		=3;
+}
+//1101 S->C
+message scRegisterAccount
+{
+	 uint32 result  	=1;	
+}
+//1102 C->S
+message csLoginGame
+{
+	 string accountName 	=1;
+	 string password 		=2;
+}
+//1102,5002,S->C
+message scLoginGame
+{
+	uint32 result    =1;
+	uint32 lastSelecServerId =2;
+	repeated uint32 beforeLoginRecordServerList =3;
+}
+//1103,C->S
+message csSelectServer
+{
+	uint32 id  	=1;
+}
+//1103,S->C
+message scSelectServer
+{
+	uint32 result 	=1;
+	uint64 LastSelectRoleId =2;
+	repeated struct_PlayerDetailInfo roleList =3;
+}
+//1104,C->S 
+message csCreateRole
+{
+	string name 		=1;
+	uint32 sex 		=2;
+	uint32 profession 	=3; 		
+}
+//1104,5002,S->C
+message scCreateRole
+{
+	uint32 result  =1;
+	struct_PlayerDetailInfo role =2; 
+}
+//1105,C->S
+message csSelectRole
+{
+	uint64 roleId 	=1;
+}
+//1105,S->C
+message scSelectRole
+{
+	uint32 result 	=1;	
+}
+
+message csEnterMap
+{
+	uint32 configId =1;
+} 
+
+message scEnterMap
+{
+	uint32 result 	=1;
+}
+
+
+
+
+

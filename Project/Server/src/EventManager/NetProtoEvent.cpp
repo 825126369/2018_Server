@@ -102,7 +102,6 @@ int Proto_Receive_SelectServer(const NetEventPackage mProtobuf)
 
 	scSelectServer mSendData;
 	mSendData.set_result(1);
-	mSendData.set_action(2);
 	mProtobuf.mClient->SendData(PROTO_SELECTSERVER,&mSendData);
 }
 //1104:CreateRole

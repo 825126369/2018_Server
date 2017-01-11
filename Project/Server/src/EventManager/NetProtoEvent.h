@@ -15,6 +15,8 @@
 #include "xkDebug.h"
 #include "NetManager.h"
 #include "DbTable.h"
+
+using namespace xk_protobuf_data;
 namespace basic
 {
 

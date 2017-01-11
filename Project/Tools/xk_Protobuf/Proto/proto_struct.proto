@@ -1,0 +1,53 @@
+syntax="proto3";
+package xk_protobuf_data;
+message struct_serverList
+{
+	string ip 			=1;
+	uint32 port 		=2;
+	uint32 serverId 	=3;
+}
+
+message struct_ItemInfo
+{
+	uint64 id 			=1;
+	uint32 pos 		=2;
+	uint32 configId 	=3;
+	uint32 cout 		=4;
+}
+
+message struct_PlayerSimpleInfo
+{
+	uint64 id 			 =1;
+	string name  		 =2;
+	uint32 level   	 =3; 
+}
+
+message struct_PlayerDetailInfo
+{
+	uint64 id  		=1;
+	string name  		=2;
+	uint32 level 		=3;
+	uint64 modelId 	=4;
+	repeated struct_ItemInfo equipList 	=5;//role
+}
+
+message struct_PlayerBagInfo
+{
+	uint32 maxCout 	=1;
+	repeated struct_ItemInfo  itemList	=2;	
+}
+
+message struct_LOL_HeroDetailInfo
+{
+	uint64 id 		=1;
+	uint32 configId 	=2;
+}
+
+message struct_ChatInfo
+{
+	uint32 channelId 					= 1;
+	struct_PlayerSimpleInfo Sender		= 2;	
+	struct_PlayerSimpleInfo Receiver 	= 3;
+	string TalkMsg						= 4;		
+	uint64 time						= 5;	
+}

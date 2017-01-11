@@ -1,6 +1,6 @@
 gg:=g++
-Libs:=-lprotobuf -lprotoc -lcrypto -lxml2 -lpthread -lssl -L /usr/local/lib/mariadb -lmariadb -lev
-HeadPath:=-I src -I src/auto/ConfigTable -I src/auto/DbTable -I src/auto/Protobuf -I src/ConfigTableManager -I src/DebugManager -I src/EncryptionManager -I src/EventManager -I src/MariaDBManager -I src/NetManager -I /usr/include/libxml2 -I /usr/local/include/mariadb -I /usr/local/include/google/protobuf -I /usr/local/include/google/protobuf/compiler -I /usr/local/include/google/protobuf/io -I /usr/local/include/google/protobuf/stubs -I /usr/local/include/libev
+Libs:=-lprotobuf -lcrypto -lxml2 -lpthread -L /usr/local/lib/mariadb -lmariadb -lev
+HeadPath:=-I src -I src/auto/ConfigTable -I src/auto/DbTable -I src/auto/Protobuf -I src/ConfigTableManager -I src/DebugManager -I src/EncryptionManager -I src/EventManager -I src/MariaDBManager -I src/NetManager -I /usr/include/libxml2 -I /usr/local/include/mariadb -I /usr/local/include/google/protobuf -I /usr/local/include/libev
 CFLAG:=-g3 -Wall -std=c++11 $(HeadPath)
 outDir:=out/
 RootDir:=src

@@ -12,3 +12,9 @@ message pushPlayerInfo
 	optional uint32 result 						=1;
 	optional struct_PlayerDetailInfo playerInfo =2;
 }
+
+message pushOhterPlayerInfo
+{
+	optional uint32 result 	=1;
+	optional struct_PlayerDetailInfo playerInfo =2;
+}

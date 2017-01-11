@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
@@ -16,6 +17,8 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 
+namespace xk_protobuf_data {
+
 namespace {
 
 const ::google::protobuf::EnumDescriptor* ProtoCommand_descriptor_ = NULL;
@@ -23,6 +26,7 @@ const ::google::protobuf::EnumDescriptor* ProtoCommand_descriptor_ = NULL;
 }  // namespace
 
 
+void protobuf_AssignDesc_proto_5fcommand_2eproto() GOOGLE_ATTRIBUTE_COLD;
 void protobuf_AssignDesc_proto_5fcommand_2eproto() {
   protobuf_AddDesc_proto_5fcommand_2eproto();
   const ::google::protobuf::FileDescriptor* file =
@@ -35,11 +39,12 @@ void protobuf_AssignDesc_proto_5fcommand_2eproto() {
 namespace {
 
 GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AssignDescriptors_once_);
-inline void protobuf_AssignDescriptorsOnce() {
+void protobuf_AssignDescriptorsOnce() {
   ::google::protobuf::GoogleOnceInit(&protobuf_AssignDescriptors_once_,
                  &protobuf_AssignDesc_proto_5fcommand_2eproto);
 }
 
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
 }
@@ -49,24 +54,38 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_proto_5fcommand_2eproto() {
 }
 
-void protobuf_AddDesc_proto_5fcommand_2eproto() {
-  static bool already_here = false;
-  if (already_here) return;
-  already_here = true;
+void protobuf_InitDefaults_proto_5fcommand_2eproto_impl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
+}
+
+GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_InitDefaults_proto_5fcommand_2eproto_once_);
+void protobuf_InitDefaults_proto_5fcommand_2eproto() {
+  ::google::protobuf::GoogleOnceInit(&protobuf_InitDefaults_proto_5fcommand_2eproto_once_,
+                 &protobuf_InitDefaults_proto_5fcommand_2eproto_impl);
+}
+void protobuf_AddDesc_proto_5fcommand_2eproto_impl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  protobuf_InitDefaults_proto_5fcommand_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\023proto_command.proto*\263\001\n\014ProtoCommand\022\017"
-    "\n\nPROTO_CHAT\020\314\010\022\032\n\025PROTO_REGISTERACCOUNT"
-    "\020\315\010\022\020\n\013PROTO_LOGIN\020\316\010\022\027\n\022PROTO_SELECTSER"
-    "VER\020\317\010\022\025\n\020PROTO_CREATEROLE\020\320\010\022\030\n\023PROTO_P"
-    "USH_CHATINFO\020\211\'\022\032\n\025PROTO_PUSH_PLAYERINFO"
-    "\020\212\'", 203);
+    "\n\023proto_command.proto\022\020xk_protobuf_data*"
+    "\332\001\n\014ProtoCommand\022\016\n\nPROTO_NONE\020\000\022\017\n\nPROT"
+    "O_CHAT\020\314\010\022\032\n\025PROTO_REGISTERACCOUNT\020\315\010\022\020\n"
+    "\013PROTO_LOGIN\020\316\010\022\027\n\022PROTO_SELECTSERVER\020\317\010"
+    "\022\025\n\020PROTO_CREATEROLE\020\320\010\022\025\n\020PROTO_SELECTR"
+    "OLE\020\321\010\022\030\n\023PROTO_PUSH_CHATINFO\020\211\'\022\032\n\025PROT"
+    "O_PUSH_PLAYERINFO\020\212\'b\006proto3", 268);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "proto_command.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_proto_5fcommand_2eproto);
 }
 
+GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AddDesc_proto_5fcommand_2eproto_once_);
+void protobuf_AddDesc_proto_5fcommand_2eproto() {
+  ::google::protobuf::GoogleOnceInit(&protobuf_AddDesc_proto_5fcommand_2eproto_once_,
+                 &protobuf_AddDesc_proto_5fcommand_2eproto_impl);
+}
 // Force AddDescriptors() to be called at static initialization time.
 struct StaticDescriptorInitializer_proto_5fcommand_2eproto {
   StaticDescriptorInitializer_proto_5fcommand_2eproto() {
@@ -78,12 +97,14 @@ const ::google::protobuf::EnumDescriptor* ProtoCommand_descriptor() {
   return ProtoCommand_descriptor_;
 }
 bool ProtoCommand_IsValid(int value) {
-  switch(value) {
+  switch (value) {
+    case 0:
     case 1100:
     case 1101:
     case 1102:
     case 1103:
     case 1104:
+    case 1105:
     case 5001:
     case 5002:
       return true;
@@ -94,5 +115,7 @@ bool ProtoCommand_IsValid(int value) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+
+}  // namespace xk_protobuf_data
 
 // @@protoc_insertion_point(global_scope)

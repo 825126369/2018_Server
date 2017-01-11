@@ -1,5 +1,8 @@
+syntax="proto3";
+package xk_protobuf_data;
 enum ProtoCommand
 {
+	PROTO_NONE=0;
 	PROTO_CHAT=1100;
 	PROTO_REGISTERACCOUNT=1101;
 	PROTO_LOGIN=1102;

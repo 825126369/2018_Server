@@ -1,0 +1,21 @@
+syntax="proto3";
+package xk_protobuf_data;
+import "proto_struct.proto";     
+//5001,Push Chat Info
+message pushChatInfo
+{
+	uint32 result 				=1;//1:ok 2:error
+	struct_ChatInfo chatInfo 	=2;
+}
+//5002
+message pushPlayerInfo
+{
+	uint32 result 						=1;
+	struct_PlayerDetailInfo playerInfo =2;
+}
+
+message pushOhterPlayerInfo
+{
+	uint32 result 	=1;
+	struct_PlayerDetailInfo playerInfo =2;
+}
