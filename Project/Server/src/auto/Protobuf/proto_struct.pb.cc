@@ -87,9 +87,11 @@ void protobuf_AssignDesc_proto_5fstruct_2eproto() {
       sizeof(struct_ItemInfo),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_ItemInfo, _internal_metadata_));
   struct_PlayerSimpleInfo_descriptor_ = file->message_type(2);
-  static const int struct_PlayerSimpleInfo_offsets_[3] = {
+  static const int struct_PlayerSimpleInfo_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerSimpleInfo, id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerSimpleInfo, name_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerSimpleInfo, gender_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerSimpleInfo, profession_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerSimpleInfo, level_),
   };
   struct_PlayerSimpleInfo_reflection_ =
@@ -103,11 +105,12 @@ void protobuf_AssignDesc_proto_5fstruct_2eproto() {
       sizeof(struct_PlayerSimpleInfo),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerSimpleInfo, _internal_metadata_));
   struct_PlayerDetailInfo_descriptor_ = file->message_type(3);
-  static const int struct_PlayerDetailInfo_offsets_[5] = {
+  static const int struct_PlayerDetailInfo_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, name_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, gender_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, profession_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, level_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, modelid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(struct_PlayerDetailInfo, equiplist_),
   };
   struct_PlayerDetailInfo_reflection_ =
@@ -253,21 +256,22 @@ void protobuf_AddDesc_proto_5fstruct_2eproto_impl() {
     "\n\021struct_serverList\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030"
     "\002 \001(\r\022\020\n\010serverId\030\003 \001(\r\"J\n\017struct_ItemIn"
     "fo\022\n\n\002id\030\001 \001(\004\022\013\n\003pos\030\002 \001(\r\022\020\n\010configId\030"
-    "\003 \001(\r\022\014\n\004cout\030\004 \001(\r\"B\n\027struct_PlayerSimp"
-    "leInfo\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\r\n\005leve"
-    "l\030\003 \001(\r\"\211\001\n\027struct_PlayerDetailInfo\022\n\n\002i"
-    "d\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\r\n\005level\030\003 \001(\r\022\017\n\007"
-    "modelId\030\004 \001(\004\0224\n\tequipList\030\005 \003(\0132!.xk_pr"
-    "otobuf_data.struct_ItemInfo\"\\\n\024struct_Pl"
-    "ayerBagInfo\022\017\n\007maxCout\030\001 \001(\r\0223\n\010itemList"
-    "\030\002 \003(\0132!.xk_protobuf_data.struct_ItemInf"
-    "o\"9\n\031struct_LOL_HeroDetailInfo\022\n\n\002id\030\001 \001"
-    "(\004\022\020\n\010configId\030\002 \001(\r\"\273\001\n\017struct_ChatInfo"
-    "\022\021\n\tchannelId\030\001 \001(\r\0229\n\006Sender\030\002 \001(\0132).xk"
-    "_protobuf_data.struct_PlayerSimpleInfo\022;"
-    "\n\010Receiver\030\003 \001(\0132).xk_protobuf_data.stru"
-    "ct_PlayerSimpleInfo\022\017\n\007TalkMsg\030\004 \001(\t\022\014\n\004"
-    "time\030\005 \001(\004b\006proto3", 738);
+    "\003 \001(\r\022\014\n\004cout\030\004 \001(\r\"f\n\027struct_PlayerSimp"
+    "leInfo\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\016\n\006gend"
+    "er\030\003 \001(\r\022\022\n\nprofession\030\004 \001(\r\022\r\n\005level\030\005 "
+    "\001(\r\"\234\001\n\027struct_PlayerDetailInfo\022\n\n\002id\030\001 "
+    "\001(\004\022\014\n\004name\030\002 \001(\t\022\016\n\006gender\030\003 \001(\r\022\022\n\npro"
+    "fession\030\004 \001(\r\022\r\n\005level\030\005 \001(\r\0224\n\tequipLis"
+    "t\030\006 \003(\0132!.xk_protobuf_data.struct_ItemIn"
+    "fo\"\\\n\024struct_PlayerBagInfo\022\017\n\007maxCout\030\001 "
+    "\001(\r\0223\n\010itemList\030\002 \003(\0132!.xk_protobuf_data"
+    ".struct_ItemInfo\"9\n\031struct_LOL_HeroDetai"
+    "lInfo\022\n\n\002id\030\001 \001(\004\022\020\n\010configId\030\002 \001(\r\"\273\001\n\017"
+    "struct_ChatInfo\022\021\n\tchannelId\030\001 \001(\r\0229\n\006Se"
+    "nder\030\002 \001(\0132).xk_protobuf_data.struct_Pla"
+    "yerSimpleInfo\022;\n\010Receiver\030\003 \001(\0132).xk_pro"
+    "tobuf_data.struct_PlayerSimpleInfo\022\017\n\007Ta"
+    "lkMsg\030\004 \001(\t\022\014\n\004time\030\005 \001(\004b\006proto3", 793);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "proto_struct.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_proto_5fstruct_2eproto);
@@ -1132,6 +1136,8 @@ inline const struct_ItemInfo* struct_ItemInfo::internal_default_instance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int struct_PlayerSimpleInfo::kIdFieldNumber;
 const int struct_PlayerSimpleInfo::kNameFieldNumber;
+const int struct_PlayerSimpleInfo::kGenderFieldNumber;
+const int struct_PlayerSimpleInfo::kProfessionFieldNumber;
 const int struct_PlayerSimpleInfo::kLevelFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -1257,13 +1263,43 @@ bool struct_PlayerSimpleInfo::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_level;
+        if (input->ExpectTag(24)) goto parse_gender;
         break;
       }
 
-      // optional uint32 level = 3;
+      // optional uint32 gender = 3;
       case 3: {
         if (tag == 24) {
+         parse_gender:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gender_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_profession;
+        break;
+      }
+
+      // optional uint32 profession = 4;
+      case 4: {
+        if (tag == 32) {
+         parse_profession:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &profession_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(40)) goto parse_level;
+        break;
+      }
+
+      // optional uint32 level = 5;
+      case 5: {
+        if (tag == 40) {
          parse_level:
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -1315,9 +1351,19 @@ void struct_PlayerSimpleInfo::SerializeWithCachedSizes(
       2, this->name(), output);
   }
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  if (this->gender() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->gender(), output);
+  }
+
+  // optional uint32 profession = 4;
+  if (this->profession() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->profession(), output);
+  }
+
+  // optional uint32 level = 5;
   if (this->level() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->level(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->level(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:xk_protobuf_data.struct_PlayerSimpleInfo)
@@ -1343,9 +1389,19 @@ void struct_PlayerSimpleInfo::SerializeWithCachedSizes(
         2, this->name(), target);
   }
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  if (this->gender() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->gender(), target);
+  }
+
+  // optional uint32 profession = 4;
+  if (this->profession() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->profession(), target);
+  }
+
+  // optional uint32 level = 5;
   if (this->level() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->level(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->level(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:xk_protobuf_data.struct_PlayerSimpleInfo)
@@ -1370,7 +1426,21 @@ size_t struct_PlayerSimpleInfo::ByteSizeLong() const {
         this->name());
   }
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  if (this->gender() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->gender());
+  }
+
+  // optional uint32 profession = 4;
+  if (this->profession() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->profession());
+  }
+
+  // optional uint32 level = 5;
   if (this->level() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -1417,6 +1487,12 @@ void struct_PlayerSimpleInfo::UnsafeMergeFrom(const struct_PlayerSimpleInfo& fro
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
+  if (from.gender() != 0) {
+    set_gender(from.gender());
+  }
+  if (from.profession() != 0) {
+    set_profession(from.profession());
+  }
   if (from.level() != 0) {
     set_level(from.level());
   }
@@ -1448,6 +1524,8 @@ void struct_PlayerSimpleInfo::Swap(struct_PlayerSimpleInfo* other) {
 void struct_PlayerSimpleInfo::InternalSwap(struct_PlayerSimpleInfo* other) {
   std::swap(id_, other->id_);
   name_.Swap(&other->name_);
+  std::swap(gender_, other->gender_);
+  std::swap(profession_, other->profession_);
   std::swap(level_, other->level_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -1522,7 +1600,35 @@ void struct_PlayerSimpleInfo::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:xk_protobuf_data.struct_PlayerSimpleInfo.name)
 }
 
-// optional uint32 level = 3;
+// optional uint32 gender = 3;
+void struct_PlayerSimpleInfo::clear_gender() {
+  gender_ = 0u;
+}
+::google::protobuf::uint32 struct_PlayerSimpleInfo::gender() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerSimpleInfo.gender)
+  return gender_;
+}
+void struct_PlayerSimpleInfo::set_gender(::google::protobuf::uint32 value) {
+  
+  gender_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerSimpleInfo.gender)
+}
+
+// optional uint32 profession = 4;
+void struct_PlayerSimpleInfo::clear_profession() {
+  profession_ = 0u;
+}
+::google::protobuf::uint32 struct_PlayerSimpleInfo::profession() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerSimpleInfo.profession)
+  return profession_;
+}
+void struct_PlayerSimpleInfo::set_profession(::google::protobuf::uint32 value) {
+  
+  profession_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerSimpleInfo.profession)
+}
+
+// optional uint32 level = 5;
 void struct_PlayerSimpleInfo::clear_level() {
   level_ = 0u;
 }
@@ -1546,8 +1652,9 @@ inline const struct_PlayerSimpleInfo* struct_PlayerSimpleInfo::internal_default_
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int struct_PlayerDetailInfo::kIdFieldNumber;
 const int struct_PlayerDetailInfo::kNameFieldNumber;
+const int struct_PlayerDetailInfo::kGenderFieldNumber;
+const int struct_PlayerDetailInfo::kProfessionFieldNumber;
 const int struct_PlayerDetailInfo::kLevelFieldNumber;
-const int struct_PlayerDetailInfo::kModelIdFieldNumber;
 const int struct_PlayerDetailInfo::kEquipListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -1674,13 +1781,43 @@ bool struct_PlayerDetailInfo::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_level;
+        if (input->ExpectTag(24)) goto parse_gender;
         break;
       }
 
-      // optional uint32 level = 3;
+      // optional uint32 gender = 3;
       case 3: {
         if (tag == 24) {
+         parse_gender:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gender_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_profession;
+        break;
+      }
+
+      // optional uint32 profession = 4;
+      case 4: {
+        if (tag == 32) {
+         parse_profession:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &profession_)));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(40)) goto parse_level;
+        break;
+      }
+
+      // optional uint32 level = 5;
+      case 5: {
+        if (tag == 40) {
          parse_level:
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -1689,28 +1826,13 @@ bool struct_PlayerDetailInfo::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_modelId;
+        if (input->ExpectTag(50)) goto parse_equipList;
         break;
       }
 
-      // optional uint64 modelId = 4;
-      case 4: {
-        if (tag == 32) {
-         parse_modelId:
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &modelid_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(42)) goto parse_equipList;
-        break;
-      }
-
-      // repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
-      case 5: {
-        if (tag == 42) {
+      // repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
+      case 6: {
+        if (tag == 50) {
          parse_equipList:
           DO_(input->IncrementRecursionDepth());
          parse_loop_equipList:
@@ -1719,7 +1841,7 @@ bool struct_PlayerDetailInfo::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(42)) goto parse_loop_equipList;
+        if (input->ExpectTag(50)) goto parse_loop_equipList;
         input->UnsafeDecrementRecursionDepth();
         if (input->ExpectAtEnd()) goto success;
         break;
@@ -1764,20 +1886,25 @@ void struct_PlayerDetailInfo::SerializeWithCachedSizes(
       2, this->name(), output);
   }
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  if (this->gender() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->gender(), output);
+  }
+
+  // optional uint32 profession = 4;
+  if (this->profession() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->profession(), output);
+  }
+
+  // optional uint32 level = 5;
   if (this->level() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->level(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->level(), output);
   }
 
-  // optional uint64 modelId = 4;
-  if (this->modelid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(4, this->modelid(), output);
-  }
-
-  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
+  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
   for (unsigned int i = 0, n = this->equiplist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->equiplist(i), output);
+      6, this->equiplist(i), output);
   }
 
   // @@protoc_insertion_point(serialize_end:xk_protobuf_data.struct_PlayerDetailInfo)
@@ -1803,21 +1930,26 @@ void struct_PlayerDetailInfo::SerializeWithCachedSizes(
         2, this->name(), target);
   }
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  if (this->gender() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->gender(), target);
+  }
+
+  // optional uint32 profession = 4;
+  if (this->profession() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->profession(), target);
+  }
+
+  // optional uint32 level = 5;
   if (this->level() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->level(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->level(), target);
   }
 
-  // optional uint64 modelId = 4;
-  if (this->modelid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(4, this->modelid(), target);
-  }
-
-  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
+  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
   for (unsigned int i = 0, n = this->equiplist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        5, this->equiplist(i), false, target);
+        6, this->equiplist(i), false, target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:xk_protobuf_data.struct_PlayerDetailInfo)
@@ -1842,21 +1974,28 @@ size_t struct_PlayerDetailInfo::ByteSizeLong() const {
         this->name());
   }
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  if (this->gender() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->gender());
+  }
+
+  // optional uint32 profession = 4;
+  if (this->profession() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->profession());
+  }
+
+  // optional uint32 level = 5;
   if (this->level() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->level());
   }
 
-  // optional uint64 modelId = 4;
-  if (this->modelid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->modelid());
-  }
-
-  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
+  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
   {
     unsigned int count = this->equiplist_size();
     total_size += 1UL * count;
@@ -1908,11 +2047,14 @@ void struct_PlayerDetailInfo::UnsafeMergeFrom(const struct_PlayerDetailInfo& fro
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
+  if (from.gender() != 0) {
+    set_gender(from.gender());
+  }
+  if (from.profession() != 0) {
+    set_profession(from.profession());
+  }
   if (from.level() != 0) {
     set_level(from.level());
-  }
-  if (from.modelid() != 0) {
-    set_modelid(from.modelid());
   }
 }
 
@@ -1942,8 +2084,9 @@ void struct_PlayerDetailInfo::Swap(struct_PlayerDetailInfo* other) {
 void struct_PlayerDetailInfo::InternalSwap(struct_PlayerDetailInfo* other) {
   std::swap(id_, other->id_);
   name_.Swap(&other->name_);
+  std::swap(gender_, other->gender_);
+  std::swap(profession_, other->profession_);
   std::swap(level_, other->level_);
-  std::swap(modelid_, other->modelid_);
   equiplist_.UnsafeArenaSwap(&other->equiplist_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -2018,7 +2161,35 @@ void struct_PlayerDetailInfo::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:xk_protobuf_data.struct_PlayerDetailInfo.name)
 }
 
-// optional uint32 level = 3;
+// optional uint32 gender = 3;
+void struct_PlayerDetailInfo::clear_gender() {
+  gender_ = 0u;
+}
+::google::protobuf::uint32 struct_PlayerDetailInfo::gender() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerDetailInfo.gender)
+  return gender_;
+}
+void struct_PlayerDetailInfo::set_gender(::google::protobuf::uint32 value) {
+  
+  gender_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.gender)
+}
+
+// optional uint32 profession = 4;
+void struct_PlayerDetailInfo::clear_profession() {
+  profession_ = 0u;
+}
+::google::protobuf::uint32 struct_PlayerDetailInfo::profession() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerDetailInfo.profession)
+  return profession_;
+}
+void struct_PlayerDetailInfo::set_profession(::google::protobuf::uint32 value) {
+  
+  profession_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.profession)
+}
+
+// optional uint32 level = 5;
 void struct_PlayerDetailInfo::clear_level() {
   level_ = 0u;
 }
@@ -2032,21 +2203,7 @@ void struct_PlayerDetailInfo::set_level(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.level)
 }
 
-// optional uint64 modelId = 4;
-void struct_PlayerDetailInfo::clear_modelid() {
-  modelid_ = GOOGLE_ULONGLONG(0);
-}
-::google::protobuf::uint64 struct_PlayerDetailInfo::modelid() const {
-  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerDetailInfo.modelId)
-  return modelid_;
-}
-void struct_PlayerDetailInfo::set_modelid(::google::protobuf::uint64 value) {
-  
-  modelid_ = value;
-  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.modelId)
-}
-
-// repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
+// repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
 int struct_PlayerDetailInfo::equiplist_size() const {
   return equiplist_.size();
 }

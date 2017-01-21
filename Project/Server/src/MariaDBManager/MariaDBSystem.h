@@ -13,7 +13,9 @@
 #include <sstream>
 #include <map>
 #include <vector>
-#include "../MariaDBManager/MariaDBManagerThread.h"
+#include "MariaDBManagerThread.h"
+#include <google/protobuf/message.h>
+#include <typeinfo>
 using namespace std;
 namespace basic
 {
@@ -103,16 +105,66 @@ protected:
 	virtual string get_database_value()=0;
 	virtual string get_tablename_value()=0;
 	virtual string get_primarykeyname_value()=0;
+
 	template<typename in_type, typename out_type>
-	out_type convert(const in_type t)
-	{
+	out_type convert(in_type t)
+	{			
 		static stringstream stream;
-		stream << t; //向流中传值
-		out_type result; //这里存储转换结果
-		stream >> result; //向result中写入值
+		stream << t; //give stream value
+		out_type result={}; //init result
+		stream >> result; //write result
 		stream.clear();
 		return result;
 	}
+
+	template<typename T>
+	string Serialize(T* t)
+	{
+		if(t!=NULL)
+		{	
+			google::protobuf::Message* m=static_cast<google::protobuf::Message*>(t);
+			const size_t protobuf_Length=m->ByteSize();
+			unsigned char* buffer=new unsigned char[protobuf_Length];
+			m->SerializeToArray(buffer,protobuf_Length);
+			string stream={};
+			char* buffer1=new char[protobuf_Length];
+			for(int i=0;i<protobuf_Length;i++)
+			{
+				buffer1[i]=static_cast<char>(buffer[i]);		
+			}
+			stream=buffer1;
+			delete[] buffer;
+			delete[] buffer1;
+			return stream;	
+		}else
+		{
+			return "";
+		}
+	}
+
+	template<typename T>
+	T* DeSerialize(string stream)
+	{
+		cout<<"DeSerialize......."<<endl;
+		if(stream!="" && stream.length()>0)
+		{	
+			const size_t protobuf_Length=stream.length();
+			unsigned char* buffer=new unsigned char[protobuf_Length];
+			for(int i=0;i<protobuf_Length;i++)
+			{
+				buffer[i]=stream[i];
+			}
+			google::protobuf::Message* m=new T();
+			m->ParseFromArray(buffer,protobuf_Length);
+			delete[] buffer;
+			return static_cast<T*>(m);
+		}else
+		{
+			return NULL;
+		}	
+	}
+
+	
 protected:
 	string primarykeyvalue;
 	bool orCreatedDb;

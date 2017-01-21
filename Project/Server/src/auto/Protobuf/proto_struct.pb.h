@@ -339,9 +339,21 @@ class struct_PlayerSimpleInfo : public ::google::protobuf::Message /* @@protoc_i
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  void clear_gender();
+  static const int kGenderFieldNumber = 3;
+  ::google::protobuf::uint32 gender() const;
+  void set_gender(::google::protobuf::uint32 value);
+
+  // optional uint32 profession = 4;
+  void clear_profession();
+  static const int kProfessionFieldNumber = 4;
+  ::google::protobuf::uint32 profession() const;
+  void set_profession(::google::protobuf::uint32 value);
+
+  // optional uint32 level = 5;
   void clear_level();
-  static const int kLevelFieldNumber = 3;
+  static const int kLevelFieldNumber = 5;
   ::google::protobuf::uint32 level() const;
   void set_level(::google::protobuf::uint32 value);
 
@@ -351,6 +363,8 @@ class struct_PlayerSimpleInfo : public ::google::protobuf::Message /* @@protoc_i
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 id_;
+  ::google::protobuf::uint32 gender_;
+  ::google::protobuf::uint32 profession_;
   ::google::protobuf::uint32 level_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_proto_5fstruct_2eproto_impl();
@@ -444,22 +458,28 @@ class struct_PlayerDetailInfo : public ::google::protobuf::Message /* @@protoc_i
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // optional uint32 level = 3;
+  // optional uint32 gender = 3;
+  void clear_gender();
+  static const int kGenderFieldNumber = 3;
+  ::google::protobuf::uint32 gender() const;
+  void set_gender(::google::protobuf::uint32 value);
+
+  // optional uint32 profession = 4;
+  void clear_profession();
+  static const int kProfessionFieldNumber = 4;
+  ::google::protobuf::uint32 profession() const;
+  void set_profession(::google::protobuf::uint32 value);
+
+  // optional uint32 level = 5;
   void clear_level();
-  static const int kLevelFieldNumber = 3;
+  static const int kLevelFieldNumber = 5;
   ::google::protobuf::uint32 level() const;
   void set_level(::google::protobuf::uint32 value);
 
-  // optional uint64 modelId = 4;
-  void clear_modelid();
-  static const int kModelIdFieldNumber = 4;
-  ::google::protobuf::uint64 modelid() const;
-  void set_modelid(::google::protobuf::uint64 value);
-
-  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
+  // repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
   int equiplist_size() const;
   void clear_equiplist();
-  static const int kEquipListFieldNumber = 5;
+  static const int kEquipListFieldNumber = 6;
   const ::xk_protobuf_data::struct_ItemInfo& equiplist(int index) const;
   ::xk_protobuf_data::struct_ItemInfo* mutable_equiplist(int index);
   ::xk_protobuf_data::struct_ItemInfo* add_equiplist();
@@ -475,7 +495,8 @@ class struct_PlayerDetailInfo : public ::google::protobuf::Message /* @@protoc_i
   ::google::protobuf::RepeatedPtrField< ::xk_protobuf_data::struct_ItemInfo > equiplist_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 id_;
-  ::google::protobuf::uint64 modelid_;
+  ::google::protobuf::uint32 gender_;
+  ::google::protobuf::uint32 profession_;
   ::google::protobuf::uint32 level_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_proto_5fstruct_2eproto_impl();
@@ -1012,7 +1033,35 @@ inline void struct_PlayerSimpleInfo::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:xk_protobuf_data.struct_PlayerSimpleInfo.name)
 }
 
-// optional uint32 level = 3;
+// optional uint32 gender = 3;
+inline void struct_PlayerSimpleInfo::clear_gender() {
+  gender_ = 0u;
+}
+inline ::google::protobuf::uint32 struct_PlayerSimpleInfo::gender() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerSimpleInfo.gender)
+  return gender_;
+}
+inline void struct_PlayerSimpleInfo::set_gender(::google::protobuf::uint32 value) {
+  
+  gender_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerSimpleInfo.gender)
+}
+
+// optional uint32 profession = 4;
+inline void struct_PlayerSimpleInfo::clear_profession() {
+  profession_ = 0u;
+}
+inline ::google::protobuf::uint32 struct_PlayerSimpleInfo::profession() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerSimpleInfo.profession)
+  return profession_;
+}
+inline void struct_PlayerSimpleInfo::set_profession(::google::protobuf::uint32 value) {
+  
+  profession_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerSimpleInfo.profession)
+}
+
+// optional uint32 level = 5;
 inline void struct_PlayerSimpleInfo::clear_level() {
   level_ = 0u;
 }
@@ -1091,7 +1140,35 @@ inline void struct_PlayerDetailInfo::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:xk_protobuf_data.struct_PlayerDetailInfo.name)
 }
 
-// optional uint32 level = 3;
+// optional uint32 gender = 3;
+inline void struct_PlayerDetailInfo::clear_gender() {
+  gender_ = 0u;
+}
+inline ::google::protobuf::uint32 struct_PlayerDetailInfo::gender() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerDetailInfo.gender)
+  return gender_;
+}
+inline void struct_PlayerDetailInfo::set_gender(::google::protobuf::uint32 value) {
+  
+  gender_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.gender)
+}
+
+// optional uint32 profession = 4;
+inline void struct_PlayerDetailInfo::clear_profession() {
+  profession_ = 0u;
+}
+inline ::google::protobuf::uint32 struct_PlayerDetailInfo::profession() const {
+  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerDetailInfo.profession)
+  return profession_;
+}
+inline void struct_PlayerDetailInfo::set_profession(::google::protobuf::uint32 value) {
+  
+  profession_ = value;
+  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.profession)
+}
+
+// optional uint32 level = 5;
 inline void struct_PlayerDetailInfo::clear_level() {
   level_ = 0u;
 }
@@ -1105,21 +1182,7 @@ inline void struct_PlayerDetailInfo::set_level(::google::protobuf::uint32 value)
   // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.level)
 }
 
-// optional uint64 modelId = 4;
-inline void struct_PlayerDetailInfo::clear_modelid() {
-  modelid_ = GOOGLE_ULONGLONG(0);
-}
-inline ::google::protobuf::uint64 struct_PlayerDetailInfo::modelid() const {
-  // @@protoc_insertion_point(field_get:xk_protobuf_data.struct_PlayerDetailInfo.modelId)
-  return modelid_;
-}
-inline void struct_PlayerDetailInfo::set_modelid(::google::protobuf::uint64 value) {
-  
-  modelid_ = value;
-  // @@protoc_insertion_point(field_set:xk_protobuf_data.struct_PlayerDetailInfo.modelId)
-}
-
-// repeated .xk_protobuf_data.struct_ItemInfo equipList = 5;
+// repeated .xk_protobuf_data.struct_ItemInfo equipList = 6;
 inline int struct_PlayerDetailInfo::equiplist_size() const {
   return equiplist_.size();
 }

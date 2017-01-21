@@ -129,7 +129,7 @@ int MariaDBSystem::ExcuteSqlCommand(string command)
 	}
 	return 0;
 }
-
+//NoBody to use this
 int MariaDBSystem::GetResultCollection(string command)
 {
 	ExcuteSqlCommand(command);
@@ -168,7 +168,7 @@ string MariaDBSystem::getSinglefield(string command)
 		ExcuteSqlCommand(command);
 		MYSQL_RES* res=GetQueryResultCollection();
 		MYSQL_ROW row;
-		if (res)
+		if (res!=NULL)
 		{
 			int i=0;
 			while (true)
@@ -186,9 +186,9 @@ string MariaDBSystem::getSinglefield(string command)
 					break;
 				}
 				i++;
-			}
+			}		
+			mysql_free_result(res);
 		}
-		mysql_free_result(res);
 		return value;
 }
 
@@ -198,7 +198,7 @@ vector<string> MariaDBSystem::getMultiplefield(string command)
 		ExcuteSqlCommand(command);
 		MYSQL_RES* res=GetQueryResultCollection();
 		MYSQL_ROW row;
-		if (res)
+		if (res!=NULL)
 		{
 			int i=0;
 			while (true)
@@ -221,8 +221,8 @@ vector<string> MariaDBSystem::getMultiplefield(string command)
 				}
 				i++;
 			}
+			mysql_free_result(res);
 		}
-		mysql_free_result(res);
 		return result;
 }
 DbTableBase::DbTableBase()

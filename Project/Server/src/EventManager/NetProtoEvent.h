@@ -12,10 +12,14 @@
 #include "proto_message_one.pb.h"
 #include "proto_message_two.pb.h"
 #include "proto_struct.pb.h"
+#include "db_protobuf.pb.h"
+#include "db_protobuf_struct.pb.h";
 #include "xkDebug.h"
 #include "NetManager.h"
 #include "DbTable.h"
-
+#include "xk_utils.h"
+#include <string>
+using namespace std;
 using namespace xk_protobuf_data;
 namespace basic
 {
@@ -31,6 +35,8 @@ int Proto_Receive_LoginGame(const NetEventPackage mProtobuf);
 int Proto_Receive_SelectServer(const NetEventPackage mProtobuf);
 //1104,创建角色
 int Proto_Receive_CreateRole(const NetEventPackage mProtobuf);
+//1105,选择角色
+int Proto_Receive_SelectRole(const NetEventPackage mProtobuf);
 }
 
 #endif /* SRC_BASICMODULE_NETMANAGER_NETPROTOEVENT_H_ */

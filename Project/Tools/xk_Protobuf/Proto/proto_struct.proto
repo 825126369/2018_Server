@@ -10,25 +10,29 @@ message struct_serverList
 message struct_ItemInfo
 {
 	uint64 id 			=1;
-	uint32 pos 		=2;
+	uint32 pos 			=2;
 	uint32 configId 	=3;
 	uint32 cout 		=4;
 }
 
 message struct_PlayerSimpleInfo
 {
-	uint64 id 			 =1;
-	string name  		 =2;
-	uint32 level   	 =3; 
+	uint64 id 			=1;
+	string name  		=2;
+	uint32 gender 		=3;
+	uint32 profession 	=4;
+	uint32 level   	 	=5;
+ 
 }
 
 message struct_PlayerDetailInfo
 {
-	uint64 id  		=1;
+	uint64 id  		 	=1;
 	string name  		=2;
-	uint32 level 		=3;
-	uint64 modelId 	=4;
-	repeated struct_ItemInfo equipList 	=5;//role
+	uint32 gender 		=3;
+	uint32 profession 	=4;
+	uint32 level 		=5;
+	repeated struct_ItemInfo equipList 	=6;//role
 }
 
 message struct_PlayerBagInfo

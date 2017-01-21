@@ -1,0 +1,11 @@
+syntax="proto3";
+package db_protobuf;
+
+message serverinfo
+{
+	uint64 serverId=1;	
+	repeated uint64 roleId=2;
+	uint64 lastLoginRoleId=3; 
+}
+
+

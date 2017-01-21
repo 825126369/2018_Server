@@ -64,6 +64,8 @@ int NetEventManager::Init()
 	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_SELECTSERVER,Proto_Receive_SelectServer));
 	//1104:CreateRole
 	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_CREATEROLE,Proto_Receive_CreateRole));
+	//1105:SelectRole
+	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_SELECTROLE,Proto_Receive_SelectRole));
 	return 0;
 }
 

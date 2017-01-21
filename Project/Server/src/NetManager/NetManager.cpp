@@ -470,13 +470,13 @@ void NetPackageReceivePool::ReceiveNetMsg(const unsigned char* msg,const int Len
 	{
 		if(mInputStream!=NULL && InputStreamLength>0)
 		{
-		if(i<InputStreamLength)
-		{
-			mInputStream1[i]=mInputStream[i];
-		}else
-		{
-			mInputStream1[i]=msg[i-InputStreamLength];
-		}
+			if(i<InputStreamLength)
+			{
+				mInputStream1[i]=mInputStream[i];
+			}else
+			{
+				mInputStream1[i]=msg[i-InputStreamLength];
+			}
 		}else
 		{
 			mInputStream1[i]=msg[i];
@@ -488,9 +488,7 @@ void NetPackageReceivePool::ReceiveNetMsg(const unsigned char* msg,const int Len
 }
 void NetPackageReceivePool::GetPackage()
 {
-
 	SetData(mInputStream,InputStreamLength);
-
 	if(bodyData!=NULL)
 	{
 			int removeLength=bodyLength+stream_head_Length+msg_head_Length+stream_tail_Length;
@@ -648,7 +646,7 @@ NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)
 		strcpy(ivStr1,ivStr);
 		unsigned char* msg= Encryption_AES::getSingle()->Decryption_CBC(msg1,msg1Length,(unsigned char*)keyStr,(unsigned char*)ivStr1);
 		int msgLength=Encryption_AES::getSingle()->GetStreamLength(msg,msg1Length);
-		delete ivStr1;
+		delete[] ivStr1;
 
 		cout<<"receive obviousText ByteStream，Length:"<<msgLength<<endl;
 		for(int i=0;i<msgLength;i++)
@@ -667,7 +665,7 @@ NetInputStream::NetInputStream(const unsigned char* msg1,const int msg1Length)
 			buffer[i]=msg[i+command_Length];
 		}
 
-		delete msg;
+		delete[] msg;
 }
 
 NetOutStream:: NetOutStream(const int command,const int Length,const unsigned char* data)
@@ -710,12 +708,12 @@ NetOutStream:: NetOutStream(const int command,const int Length,const unsigned ch
 				msgStream1[i]=msg_Length-sumLength;
 			}
 		}
-		delete msgStream;
+		delete[] msgStream;
 		char* ivStr1=new char[16];
 		strcpy(ivStr1,ivStr);
 		this->msg= Encryption_AES::getSingle()->Encryption_CBC(msgStream1,msg_Length,(unsigned char*)keyStr,(unsigned char*)ivStr1);
-		delete ivStr1;
-		delete msgStream1;
+		delete[] ivStr1;
+		delete[] msgStream1;
 }
 
 } /* namespace basic */

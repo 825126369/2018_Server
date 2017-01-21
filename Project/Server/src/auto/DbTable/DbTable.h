@@ -2,7 +2,12 @@
 #define SRC_MARIADBMANAGER_DBTABLE_H
 #include <string>
 #include "MariaDBSystem.h"
-namespace basic{
+#include "db_protobuf.pb.h"
+#include "db_protobuf_struct.pb.h"
+using namespace db_protobuf;
+using namespace std;
+namespace basic
+{
 class game_login:public DbTableBase
 {
 public:
@@ -47,10 +52,10 @@ public:
 	bool has_key_account_value();
 	string get_key_account_value();
 
-	int set_money_value(int value);
-	int get_money_value();
+	int set_money_value(unsigned int value);
+	unsigned int get_money_value();
 
-	int set_all_value(int money_value);
+	int set_all_value(unsigned int money_value);
 	int get_all_value();
 protected:
 	virtual string get_database_value();
@@ -59,7 +64,7 @@ protected:
 private:
 	string account;
 	bool OrGetDb_account;
-	int money;
+	unsigned int money;
 	bool OrGetDb_money;
 	static string database;
 	static string tablename;
@@ -71,44 +76,40 @@ class game_role:public DbTableBase
 {
 public:
 	game_role();
-	game_role(int roleId_value);
-	game_role(int roleId_value,bool OrAutoCreateDb);
+	game_role(unsigned int roleId_value);
+	game_role(unsigned int roleId_value,bool OrAutoCreateDb);
 
-	int set_key_roleId_value(int value,bool orAutoCreateDb=false);
+	int set_key_roleId_value(unsigned int value,bool orAutoCreateDb=false);
 	int create_key_roleId_value();
 	bool has_key_roleId_value();
-	int get_key_roleId_value();
+	unsigned int get_key_roleId_value();
 
 	int set_name_value(string value);
 	string get_name_value();
-	int set_gender_value(int value);
-	int get_gender_value();
-	int set_profession_value(int value);
-	int get_profession_value();
-	int set_level_value(int value);
-	int get_level_value();
-	int set_equipBin_value(string value);
-	string get_equipBin_value();
+	int set_gender_value(unsigned int value);
+	unsigned int get_gender_value();
+	int set_profession_value(unsigned int value);
+	unsigned int get_profession_value();
+	int set_level_value(unsigned int value);
+	unsigned int get_level_value();
 
-	int set_all_value(string name_value,int gender_value,int profession_value,int level_value,string equipBin_value);
+	int set_all_value(string name_value,unsigned int gender_value,unsigned int profession_value,unsigned int level_value);
 	int get_all_value();
 protected:
 	virtual string get_database_value();
 	virtual string get_tablename_value();
 	virtual string get_primarykeyname_value();
 private:
-	int roleId;
+	unsigned int roleId;
 	bool OrGetDb_roleId;
 	string name;
 	bool OrGetDb_name;
-	int gender;
+	unsigned int gender;
 	bool OrGetDb_gender;
-	int profession;
+	unsigned int profession;
 	bool OrGetDb_profession;
-	int level;
+	unsigned int level;
 	bool OrGetDb_level;
-	string equipBin;
-	bool OrGetDb_equipBin;
 	static string database;
 	static string tablename;
 	static string primarykeyname;
@@ -127,12 +128,12 @@ public:
 	bool has_key_account_value();
 	string get_key_account_value();
 
-	int set_loginallserverinfo_value(string value);
-	string get_loginallserverinfo_value();
-	int set_lastloginserverid_value(int value);
-	int get_lastloginserverid_value();
+	int set_custom_db_loginallserverinfo_value(db_loginallserverinfo* value);
+	db_loginallserverinfo* get_custom_db_loginallserverinfo_value();
+	int set_lastloginserverid_value(unsigned int value);
+	unsigned int get_lastloginserverid_value();
 
-	int set_all_value(string loginallserverinfo_value,int lastloginserverid_value);
+	int set_all_value(db_loginallserverinfo* custom_db_loginallserverinfo_value,unsigned int lastloginserverid_value);
 	int get_all_value();
 protected:
 	virtual string get_database_value();
@@ -141,46 +142,10 @@ protected:
 private:
 	string account;
 	bool OrGetDb_account;
-	string loginallserverinfo;
-	bool OrGetDb_loginallserverinfo;
-	int lastloginserverid;
+	db_loginallserverinfo* custom_db_loginallserverinfo;
+	bool OrGetDb_custom_db_loginallserverinfo;
+	unsigned int lastloginserverid;
 	bool OrGetDb_lastloginserverid;
-	static string database;
-	static string tablename;
-	static string primarykeyname;
-public:
-	static int classId;
-};
-class game_template:public DbTableBase
-{
-public:
-	game_template();
-	game_template(int intId_value);
-	game_template(int intId_value,bool OrAutoCreateDb);
-
-	int set_key_intId_value(int value,bool orAutoCreateDb=false);
-	int create_key_intId_value();
-	bool has_key_intId_value();
-	int get_key_intId_value();
-
-	int set_stringId_value(string value);
-	string get_stringId_value();
-	int set_binaryId_value(string value);
-	string get_binaryId_value();
-
-	int set_all_value(string stringId_value,string binaryId_value);
-	int get_all_value();
-protected:
-	virtual string get_database_value();
-	virtual string get_tablename_value();
-	virtual string get_primarykeyname_value();
-private:
-	int intId;
-	bool OrGetDb_intId;
-	string stringId;
-	bool OrGetDb_stringId;
-	string binaryId;
-	bool OrGetDb_binaryId;
 	static string database;
 	static string tablename;
 	static string primarykeyname;

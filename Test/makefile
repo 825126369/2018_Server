@@ -1,18 +1,18 @@
 gg:=g++
-Head:=-I src -I /usr/local/include/libev
-Lib:=-lev
+Head:=-I src -I /usr/local/include/google/protobuf 
+Lib:=-lprotobuf
 CFLAG:=-g3 -W -std=c++11 $(Head) -c
 VPATH:=src
 .PHONY: all install uninstall clean
-all:server.exe client.exe
+all:main.exe
 clean:
 	rm *.d *.o
-server.exe:server.o
+main.exe:main.o db_protobuf.pb.o db_protobuf_struct.pb.o
 	$(gg) $^ -o $@ $(Lib)
-client.exe:client.o
-	$(gg) $^ -o $@ $(Lib)
-include server.d client.d
+include main.d db_protobuf.pb.d db_protobuf_struct.pb.d
 %.d:%.cpp
-	$(gg) $(CFLAG) -MM $< >$@;   
+	$(gg) $(CFLAG) -MM $< >$@; 
+%.d:%.cc
+	$(gg) $(CFLAG) -MM $< >$@;	
 %.o:
 	$(gg) $(CFLAG) -o $@ $<	

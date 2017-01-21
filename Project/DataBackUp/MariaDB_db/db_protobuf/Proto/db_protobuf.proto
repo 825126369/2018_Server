@@ -1,0 +1,10 @@
+syntax="proto3";
+package db_protobuf;
+import "db_protobuf_struct.proto";
+
+//game_server:loginallserverinfo
+message db_loginallserverinfo
+{
+	repeated serverinfo allserverinfo=1;
+}
+

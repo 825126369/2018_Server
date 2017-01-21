@@ -138,20 +138,20 @@ int game_money::set_key_account_value(string account_value,bool orAutoCreateDb)
 		create_key_account_value();
 	}
 }
-int game_money::set_money_value(int value)
+int game_money::set_money_value(unsigned int value)
 {
 	money=value;
 	OrGetDb_money=true;
-	string str=DbTableBase::convert<int,string>(value);
+	string str=DbTableBase::convert<unsigned int,string>(money);
 	DbTableBase::set_field_value("money",str);
  	return 0;
 }
-int game_money::get_money_value()
+unsigned int game_money::get_money_value()
 {
 	if(OrGetDb_money==false)
 	{
 		string str=get_field_value("money");
-		int value=DbTableBase::convert<string,int>(str);
+		unsigned int value=DbTableBase::convert<string,unsigned int>(str);
 		money=value;
 		OrGetDb_money=true;
 	}
@@ -179,14 +179,14 @@ int game_money::get_all_value()
 	vector<string> result(fieldlist,fieldlist+length);
 	vector<string> valuelist=DbTableBase::get_all_value(result);
 	OrGetDb_money=true;
-	money=DbTableBase::convert<string,int>(valuelist[0]);
+	money=DbTableBase::convert<string,unsigned int>(valuelist[0]);
 	return 0;
 }
-int game_money::set_all_value(int money_value)
+int game_money::set_all_value(unsigned int money_value)
 {
 	money=money_value;
 	OrGetDb_money=true;
-	string moneyStr=DbTableBase::convert<int,string>(money_value);
+	string moneyStr=DbTableBase::convert<unsigned int,string>(money);
 	string fieldlist[]={"money",moneyStr};
 	size_t length=sizeof(fieldlist)/sizeof(string);
 	vector<string> result(fieldlist,fieldlist+length);
@@ -220,12 +220,12 @@ bool game_role::has_key_roleId_value()
 	get_key_roleId_value();
 	return OrGetDb_roleId;
 }
-int game_role::get_key_roleId_value()
+unsigned int game_role::get_key_roleId_value()
 {
 	if(OrGetDb_roleId==false)
 	{
 		string str=get_field_value("roleId");
-		int value=DbTableBase::convert<string,int>(str);
+		unsigned int value=DbTableBase::convert<string,unsigned int>(str);
 		roleId=value;
 		if(str==primarykeyvalue && str!="")
 		{
@@ -234,10 +234,10 @@ int game_role::get_key_roleId_value()
 	}
 	return roleId;
 }
-int game_role::set_key_roleId_value(int roleId_value,bool orAutoCreateDb)
+int game_role::set_key_roleId_value(unsigned int roleId_value,bool orAutoCreateDb)
 {
 	roleId=roleId_value;
-	string str=DbTableBase::convert<int,string>(roleId_value);
+	string str=DbTableBase::convert<unsigned int,string>(roleId_value);
 	primarykeyvalue=str;
 	if(orAutoCreateDb==true && has_key_roleId_value()==false)
 	{
@@ -261,79 +261,62 @@ string game_role::get_name_value()
 	}
 	return name;
 }
-int game_role::set_gender_value(int value)
+int game_role::set_gender_value(unsigned int value)
 {
 	gender=value;
 	OrGetDb_gender=true;
-	string str=DbTableBase::convert<int,string>(value);
+	string str=DbTableBase::convert<unsigned int,string>(gender);
 	DbTableBase::set_field_value("gender",str);
  	return 0;
 }
-int game_role::get_gender_value()
+unsigned int game_role::get_gender_value()
 {
 	if(OrGetDb_gender==false)
 	{
 		string str=get_field_value("gender");
-		int value=DbTableBase::convert<string,int>(str);
+		unsigned int value=DbTableBase::convert<string,unsigned int>(str);
 		gender=value;
 		OrGetDb_gender=true;
 	}
 	return gender;
 }
-int game_role::set_profession_value(int value)
+int game_role::set_profession_value(unsigned int value)
 {
 	profession=value;
 	OrGetDb_profession=true;
-	string str=DbTableBase::convert<int,string>(value);
+	string str=DbTableBase::convert<unsigned int,string>(profession);
 	DbTableBase::set_field_value("profession",str);
  	return 0;
 }
-int game_role::get_profession_value()
+unsigned int game_role::get_profession_value()
 {
 	if(OrGetDb_profession==false)
 	{
 		string str=get_field_value("profession");
-		int value=DbTableBase::convert<string,int>(str);
+		unsigned int value=DbTableBase::convert<string,unsigned int>(str);
 		profession=value;
 		OrGetDb_profession=true;
 	}
 	return profession;
 }
-int game_role::set_level_value(int value)
+int game_role::set_level_value(unsigned int value)
 {
 	level=value;
 	OrGetDb_level=true;
-	string str=DbTableBase::convert<int,string>(value);
+	string str=DbTableBase::convert<unsigned int,string>(level);
 	DbTableBase::set_field_value("level",str);
  	return 0;
 }
-int game_role::get_level_value()
+unsigned int game_role::get_level_value()
 {
 	if(OrGetDb_level==false)
 	{
 		string str=get_field_value("level");
-		int value=DbTableBase::convert<string,int>(str);
+		unsigned int value=DbTableBase::convert<string,unsigned int>(str);
 		level=value;
 		OrGetDb_level=true;
 	}
 	return level;
-}
-int game_role::set_equipBin_value(string value)
-{
-	equipBin=value;
-	OrGetDb_equipBin=true;
-	set_field_value("equipBin",value);
-	return 0;
-}
-string game_role::get_equipBin_value()
-{
-	if(OrGetDb_equipBin==false)
-	{
-		string str=get_field_value("equipBin");
-		equipBin=str;
-		OrGetDb_equipBin=true;
-	}
-	return equipBin;
 }
 game_role::game_role()
 {
@@ -342,54 +325,48 @@ game_role::game_role()
 	OrGetDb_gender=false;
 	OrGetDb_profession=false;
 	OrGetDb_level=false;
-	OrGetDb_equipBin=false;
 }
-game_role::game_role(int roleId_value)
+game_role::game_role(unsigned int roleId_value)
 {
 	set_key_roleId_value(roleId_value,false);
 	game_role();
 }
-game_role::game_role(int roleId_value,bool OrAutoCreate)
+game_role::game_role(unsigned int roleId_value,bool OrAutoCreate)
 {
 	set_key_roleId_value(roleId_value,OrAutoCreate);
 	game_role();
 }
 int game_role::get_all_value()
 {
-	string fieldlist[]={"name","gender","profession","level","equipBin"};
+	string fieldlist[]={"name","gender","profession","level"};
 	size_t length=sizeof(fieldlist)/sizeof(string);
 	vector<string> result(fieldlist,fieldlist+length);
 	vector<string> valuelist=DbTableBase::get_all_value(result);
 	OrGetDb_name=true;
 	name=valuelist[0];
 	OrGetDb_gender=true;
-	gender=DbTableBase::convert<string,int>(valuelist[1]);
+	gender=DbTableBase::convert<string,unsigned int>(valuelist[1]);
 	OrGetDb_profession=true;
-	profession=DbTableBase::convert<string,int>(valuelist[2]);
+	profession=DbTableBase::convert<string,unsigned int>(valuelist[2]);
 	OrGetDb_level=true;
-	level=DbTableBase::convert<string,int>(valuelist[3]);
-	OrGetDb_equipBin=true;
-	equipBin=valuelist[4];
+	level=DbTableBase::convert<string,unsigned int>(valuelist[3]);
 	return 0;
 }
-int game_role::set_all_value(string name_value,int gender_value,int profession_value,int level_value,string equipBin_value)
+int game_role::set_all_value(string name_value,unsigned int gender_value,unsigned int profession_value,unsigned int level_value)
 {
 	name=name_value;
 	OrGetDb_name=true;
 	string nameStr=name_value;
 	gender=gender_value;
 	OrGetDb_gender=true;
-	string genderStr=DbTableBase::convert<int,string>(gender_value);
+	string genderStr=DbTableBase::convert<unsigned int,string>(gender);
 	profession=profession_value;
 	OrGetDb_profession=true;
-	string professionStr=DbTableBase::convert<int,string>(profession_value);
+	string professionStr=DbTableBase::convert<unsigned int,string>(profession);
 	level=level_value;
 	OrGetDb_level=true;
-	string levelStr=DbTableBase::convert<int,string>(level_value);
-	equipBin=equipBin_value;
-	OrGetDb_equipBin=true;
-	string equipBinStr=equipBin_value;
-	string fieldlist[]={"name",nameStr,"gender",genderStr,"profession",professionStr,"level",levelStr,"equipBin",equipBinStr};
+	string levelStr=DbTableBase::convert<unsigned int,string>(level);
+	string fieldlist[]={"name",nameStr,"gender",genderStr,"profession",professionStr,"level",levelStr};
 	size_t length=sizeof(fieldlist)/sizeof(string);
 	vector<string> result(fieldlist,fieldlist+length);
 	DbTableBase::set_all_value(result);
@@ -444,37 +421,39 @@ int game_server::set_key_account_value(string account_value,bool orAutoCreateDb)
 		create_key_account_value();
 	}
 }
-int game_server::set_loginallserverinfo_value(string value)
+int game_server::set_custom_db_loginallserverinfo_value(db_loginallserverinfo* value)
 {
-	loginallserverinfo=value;
-	OrGetDb_loginallserverinfo=true;
-	set_field_value("loginallserverinfo",value);
-	return 0;
+	custom_db_loginallserverinfo=value;
+	OrGetDb_custom_db_loginallserverinfo=true;
+	string str=DbTableBase::Serialize<db_loginallserverinfo>(custom_db_loginallserverinfo);
+	DbTableBase::set_field_value("custom_db_loginallserverinfo",str);
+ 	return 0;
 }
-string game_server::get_loginallserverinfo_value()
+db_loginallserverinfo* game_server::get_custom_db_loginallserverinfo_value()
 {
-	if(OrGetDb_loginallserverinfo==false)
+	if(OrGetDb_custom_db_loginallserverinfo==false)
 	{
-		string str=get_field_value("loginallserverinfo");
-		loginallserverinfo=str;
-		OrGetDb_loginallserverinfo=true;
+		string str=get_field_value("custom_db_loginallserverinfo");
+		db_loginallserverinfo* value=DbTableBase::DeSerialize<db_loginallserverinfo>(str);
+		custom_db_loginallserverinfo=value;
+		OrGetDb_custom_db_loginallserverinfo=true;
 	}
-	return loginallserverinfo;
+	return custom_db_loginallserverinfo;
 }
-int game_server::set_lastloginserverid_value(int value)
+int game_server::set_lastloginserverid_value(unsigned int value)
 {
 	lastloginserverid=value;
 	OrGetDb_lastloginserverid=true;
-	string str=DbTableBase::convert<int,string>(value);
+	string str=DbTableBase::convert<unsigned int,string>(lastloginserverid);
 	DbTableBase::set_field_value("lastloginserverid",str);
  	return 0;
 }
-int game_server::get_lastloginserverid_value()
+unsigned int game_server::get_lastloginserverid_value()
 {
 	if(OrGetDb_lastloginserverid==false)
 	{
 		string str=get_field_value("lastloginserverid");
-		int value=DbTableBase::convert<string,int>(str);
+		unsigned int value=DbTableBase::convert<string,unsigned int>(str);
 		lastloginserverid=value;
 		OrGetDb_lastloginserverid=true;
 	}
@@ -483,7 +462,7 @@ int game_server::get_lastloginserverid_value()
 game_server::game_server()
 {
 	OrGetDb_account=false;
-	OrGetDb_loginallserverinfo=false;
+	OrGetDb_custom_db_loginallserverinfo=false;
 	OrGetDb_lastloginserverid=false;
 }
 game_server::game_server(string account_value)
@@ -498,25 +477,25 @@ game_server::game_server(string account_value,bool OrAutoCreate)
 }
 int game_server::get_all_value()
 {
-	string fieldlist[]={"loginallserverinfo","lastloginserverid"};
+	string fieldlist[]={"custom_db_loginallserverinfo","lastloginserverid"};
 	size_t length=sizeof(fieldlist)/sizeof(string);
 	vector<string> result(fieldlist,fieldlist+length);
 	vector<string> valuelist=DbTableBase::get_all_value(result);
-	OrGetDb_loginallserverinfo=true;
-	loginallserverinfo=valuelist[0];
+	OrGetDb_custom_db_loginallserverinfo=true;
+	custom_db_loginallserverinfo=DbTableBase::DeSerialize<db_loginallserverinfo>(valuelist[0]);
 	OrGetDb_lastloginserverid=true;
-	lastloginserverid=DbTableBase::convert<string,int>(valuelist[1]);
+	lastloginserverid=DbTableBase::convert<string,unsigned int>(valuelist[1]);
 	return 0;
 }
-int game_server::set_all_value(string loginallserverinfo_value,int lastloginserverid_value)
+int game_server::set_all_value(db_loginallserverinfo* custom_db_loginallserverinfo_value,unsigned int lastloginserverid_value)
 {
-	loginallserverinfo=loginallserverinfo_value;
-	OrGetDb_loginallserverinfo=true;
-	string loginallserverinfoStr=loginallserverinfo_value;
+	custom_db_loginallserverinfo=custom_db_loginallserverinfo_value;
+	OrGetDb_custom_db_loginallserverinfo=true;
+	string custom_db_loginallserverinfoStr=DbTableBase::Serialize<db_loginallserverinfo>(custom_db_loginallserverinfo);
 	lastloginserverid=lastloginserverid_value;
 	OrGetDb_lastloginserverid=true;
-	string lastloginserveridStr=DbTableBase::convert<int,string>(lastloginserverid_value);
-	string fieldlist[]={"loginallserverinfo",loginallserverinfoStr,"lastloginserverid",lastloginserveridStr};
+	string lastloginserveridStr=DbTableBase::convert<unsigned int,string>(lastloginserverid);
+	string fieldlist[]={"custom_db_loginallserverinfo",custom_db_loginallserverinfoStr,"lastloginserverid",lastloginserveridStr};
 	size_t length=sizeof(fieldlist)/sizeof(string);
 	vector<string> result(fieldlist,fieldlist+length);
 	DbTableBase::set_all_value(result);
@@ -531,133 +510,6 @@ string game_server::get_tablename_value()
 	return tablename;
 }
 string game_server::get_primarykeyname_value()
-{
-	return primarykeyname;
-}
-
-string game_template::database="game";
-string game_template::tablename="game_template";
-string game_template::primarykeyname="intId";
-int game_template::classId=105;
-int game_template::create_key_intId_value()
-{
-	CreatePrimaryKey("intId",primarykeyvalue);
-	return 0;
-}
-bool game_template::has_key_intId_value()
-{
-	get_key_intId_value();
-	return OrGetDb_intId;
-}
-int game_template::get_key_intId_value()
-{
-	if(OrGetDb_intId==false)
-	{
-		string str=get_field_value("intId");
-		int value=DbTableBase::convert<string,int>(str);
-		intId=value;
-		if(str==primarykeyvalue && str!="")
-		{
-			OrGetDb_intId=true;
-		}
-	}
-	return intId;
-}
-int game_template::set_key_intId_value(int intId_value,bool orAutoCreateDb)
-{
-	intId=intId_value;
-	string str=DbTableBase::convert<int,string>(intId_value);
-	primarykeyvalue=str;
-	if(orAutoCreateDb==true && has_key_intId_value()==false)
-	{
-		create_key_intId_value();
-	}
-}
-int game_template::set_stringId_value(string value)
-{
-	stringId=value;
-	OrGetDb_stringId=true;
-	set_field_value("stringId",value);
-	return 0;
-}
-string game_template::get_stringId_value()
-{
-	if(OrGetDb_stringId==false)
-	{
-		string str=get_field_value("stringId");
-		stringId=str;
-		OrGetDb_stringId=true;
-	}
-	return stringId;
-}
-int game_template::set_binaryId_value(string value)
-{
-	binaryId=value;
-	OrGetDb_binaryId=true;
-	set_field_value("binaryId",value);
-	return 0;
-}
-string game_template::get_binaryId_value()
-{
-	if(OrGetDb_binaryId==false)
-	{
-		string str=get_field_value("binaryId");
-		binaryId=str;
-		OrGetDb_binaryId=true;
-	}
-	return binaryId;
-}
-game_template::game_template()
-{
-	OrGetDb_intId=false;
-	OrGetDb_stringId=false;
-	OrGetDb_binaryId=false;
-}
-game_template::game_template(int intId_value)
-{
-	set_key_intId_value(intId_value,false);
-	game_template();
-}
-game_template::game_template(int intId_value,bool OrAutoCreate)
-{
-	set_key_intId_value(intId_value,OrAutoCreate);
-	game_template();
-}
-int game_template::get_all_value()
-{
-	string fieldlist[]={"stringId","binaryId"};
-	size_t length=sizeof(fieldlist)/sizeof(string);
-	vector<string> result(fieldlist,fieldlist+length);
-	vector<string> valuelist=DbTableBase::get_all_value(result);
-	OrGetDb_stringId=true;
-	stringId=valuelist[0];
-	OrGetDb_binaryId=true;
-	binaryId=valuelist[1];
-	return 0;
-}
-int game_template::set_all_value(string stringId_value,string binaryId_value)
-{
-	stringId=stringId_value;
-	OrGetDb_stringId=true;
-	string stringIdStr=stringId_value;
-	binaryId=binaryId_value;
-	OrGetDb_binaryId=true;
-	string binaryIdStr=binaryId_value;
-	string fieldlist[]={"stringId",stringIdStr,"binaryId",binaryIdStr};
-	size_t length=sizeof(fieldlist)/sizeof(string);
-	vector<string> result(fieldlist,fieldlist+length);
-	DbTableBase::set_all_value(result);
-	return 0;
-}
-string game_template::get_database_value()
-{
-	return database;
-}
-string game_template::get_tablename_value()
-{
-	return tablename;
-}
-string game_template::get_primarykeyname_value()
 {
 	return primarykeyname;
 }

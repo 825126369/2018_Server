@@ -24,7 +24,7 @@ private:
 	virtual ~NetEventManager();
 private:
 	static NetEventManager* single;
-	map<ProtoCommand,RecFun> *ProtoEventReceiveDic;
+	map<ProtoCommand,RecFun>* ProtoEventReceiveDic;
 };
 
 } /* namespace basic */

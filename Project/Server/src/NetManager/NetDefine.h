@@ -16,8 +16,8 @@ namespace basic
 class NetPackageReceivePool;
 struct  socket_class
 {
-		struct sockaddr_in  _addr;
-		int _fd;
+	struct sockaddr_in  _addr;
+	int _fd;
 };
 class ClientInfo
 {
@@ -25,7 +25,6 @@ public:
 	socket_class* mSocketInfo;
 	DbTableManager mDbManager;
 	~ClientInfo();
-
 };
 
 
