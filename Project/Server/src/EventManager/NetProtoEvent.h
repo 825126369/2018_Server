@@ -13,7 +13,7 @@
 #include "proto_message_two.pb.h"
 #include "proto_struct.pb.h"
 #include "db_protobuf.pb.h"
-#include "db_protobuf_struct.pb.h";
+#include "db_protobuf_struct.pb.h"
 #include "xkDebug.h"
 #include "NetManager.h"
 #include "DbTable.h"

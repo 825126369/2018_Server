@@ -7,10 +7,12 @@
 #include "NetManager.h"
 #include "MariaDBSystem.h"
 #include "ConfigTableManager.h"
+#include "Environment.h"
 using namespace std;
 using namespace basic;
 int main(int arg,char **argc)
 {
+	CheckEnvironment();	
 	MariaDBSystem::getSingle()->Init();
 	NetEventManager::getSingle()->Init();
 	ConfigTableManager::getSingle()->Init();
