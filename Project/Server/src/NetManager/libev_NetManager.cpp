@@ -22,13 +22,13 @@ int libev_NetManager_Init()
 
 void libev_accept_cb(struct ev_loop *loop,ev_io *w,int revents)
 {
+		cout<<"accept_cb begin..."<<endl;
 		socket_class* client=new socket_class;
 		if(NetManager::getSingle()->NetAcceptClient_NoBlock(*client)==-1)
 		{
 			return;
 		}
 		ClientManagerPool::getSingle()->InitClient(client);
-		//cout<<"accept_cb begin..."<<endl;
 		int fd=client->_fd;
 
 		ev_io* receive_w=new ev_io;
@@ -44,7 +44,7 @@ void libev_accept_cb(struct ev_loop *loop,ev_io *w,int revents)
 }
 void libev_receive_cb(struct ev_loop *loop,ev_io *w,int revents)
 {
-		//cout<<"receive_cb Page Begin"<<endl;
+		cout<<"receive_cb Page Begin"<<endl;
 		int fd=(*w).fd;
 		ClientInfoPool* mClient=ClientManagerPool::getSingle()->GetClient(fd);
 		if(mClient!=NULL)
@@ -53,16 +53,8 @@ void libev_receive_cb(struct ev_loop *loop,ev_io *w,int revents)
 		}else
 		{
 			ev_io_stop (loop,w);
-			cout<<"stop IO watcher:"<<fd<<endl;
-			if(w!=NULL)
-			{
-				cerr<<"watcher：no free Memory"<<endl;
-			}else
-			{
-				cout<<"watcher is free Memory"<<endl;
-			}
+			cout<<"stop IO watcher:"<<fd<<endl;	
 		}
-		//cout<<"receive_cb Page End"<<endl;
 }
 void libev_send_cb(struct ev_loop *loop,ev_io *w,int revents)
 {
