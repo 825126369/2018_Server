@@ -7,41 +7,25 @@
 
 #include "NetEventManager.h"
 
-namespace basic {
+namespace basic 
+{
 
-NetEventManager* NetEventManager::single=new NetEventManager;
-
-NetEventManager::NetEventManager() {
-
-
+NetEventManager::NetEventManager() 
+{
+	NetEventReceiveDic=new map<ProtoCommand,RecFun>;
 }
 
-NetEventManager::~NetEventManager()
+NetEventManager::~NetEventManager() 
 {
-	delete ProtoEventReceiveDic;
+	delete NetEventReceiveDic;
+	NetEventReceiveDic=nullptr;
 }
 
-
-NetEventManager* NetEventManager::getSingle()
+int NetEventManager::handleNetPackage(const NetEventPackage mProtobuf) const
 {
-			if(single==0)
-			{
-				//lock();
-				if(single==0)
-				{
-					single=new NetEventManager();
-				}
-				//unlock();
-			}
-			return single;
-}
-
-int NetEventManager::handleEvent(NetEventPackage mProtobuf)
-{
-	map<ProtoCommand,RecFun>::iterator iter=ProtoEventReceiveDic->find((ProtoCommand)mProtobuf.protobuf_command);
-	if(iter!=ProtoEventReceiveDic->end())
+	map<ProtoCommand,RecFun>::iterator iter=NetEventReceiveDic->find((ProtoCommand)mProtobuf.protobuf_command);
+	if(iter!=NetEventReceiveDic->end())
 	{
-		//socket_class& client=*mClientInfo->mSocketInfo;
 		(*iter).second(mProtobuf);
 	}else
 	{
@@ -50,22 +34,28 @@ int NetEventManager::handleEvent(NetEventPackage mProtobuf)
 	return 0;
 }
 
+int NetEventManager::RegisterNetEvent(const ProtoCommand command,const RecFun Evfun) const
+{
+	NetEventReceiveDic->insert(pair<ProtoCommand,RecFun>(command,Evfun));	
+}
+
 int NetEventManager::Init()
 {
-	cout<<"Net Event Register Begin"<<endl;
-	ProtoEventReceiveDic=new map<ProtoCommand,RecFun>;
 	//1100:Chat
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_CHAT,Proto_Rec_Chat));
+	RegisterNetEvent(PROTO_CHAT,Proto_Rec_Chat);
 	//1101:Register Account
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_REGISTERACCOUNT,Proto_Recevie_RegisterAccount));
+	RegisterNetEvent(PROTO_REGISTERACCOUNT,Proto_Recevie_RegisterAccount);
 	//1102:Account Login
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_LOGIN,Proto_Receive_LoginGame));
+	RegisterNetEvent(PROTO_LOGIN,Proto_Receive_LoginGame);
 	//1103:Select Server
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_SELECTSERVER,Proto_Receive_SelectServer));
+	RegisterNetEvent(PROTO_SELECTSERVER,Proto_Receive_SelectServer);
 	//1104:CreateRole
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_CREATEROLE,Proto_Receive_CreateRole));
+	RegisterNetEvent(PROTO_CREATEROLE,Proto_Receive_CreateRole);
 	//1105:SelectRole
-	ProtoEventReceiveDic->insert(pair<ProtoCommand,RecFun>(PROTO_SELECTROLE,Proto_Receive_SelectRole));
+	RegisterNetEvent(PROTO_SELECTROLE,Proto_Receive_SelectRole);
+
+
+	cout<<"Net Event Register Finish"<<endl;
 	return 0;
 }
 

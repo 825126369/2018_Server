@@ -8,18 +8,7 @@
 #include "NetManager.h"
 
 namespace basic {
-NetManager NetManager::single;
-NetManager::NetManager() {
-	// TODO Auto-generated constructor stub
-}
 
-NetManager::~NetManager() {
-	// TODO Auto-generated destructor stub
-}
-NetManager* NetManager::getSingle()
-{
-	return &single;
-}
 int NetManager::Init()
 {
 	if(InitNet()==-1)
@@ -42,13 +31,13 @@ int NetManager::InitNet()
 	//生成SOCKet描数字
 	if((Server._fd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))==-1)
 	{
-		xk_Debug::LogSystemError("Init Server_fd Error:");
+		LogManager::LogError("Init Server_fd Error:");
 		return -1;
 	}
 	int reuse=1;
     if (setsockopt(Server._fd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse))==-1)
     {
-            xk_Debug::LogSystemError("setsockopet error:");
+            LogManager::LogError("setsockopet error:");
             return -1;
     }
 	//Socket结构封装
@@ -60,12 +49,12 @@ int NetManager::InitNet()
 	//把socket描数字，socket地址结构绑定
 	if(bind(Server._fd,(const struct sockaddr *)&Server._addr,sizeof(Server._addr))==-1)
 	{
-		xk_Debug::LogSystemError("Bind error:");
+		LogManager::LogError("Bind error:");
 		return -1;
 	}
 	if(listen(Server._fd,maxConnectCout)==-1)
 	{
-		xk_Debug::LogSystemError("Listen Error:");
+		LogManager::LogError("Listen Error:");
 		return -1;
 	}
 	xk_Debug::Log()<<"Net Init Finish"<<endl;
@@ -77,7 +66,7 @@ int NetManager::NetAcceptClient_Block(socket_class& client)
 		socklen_t len;
 		if((client._fd=accept(Server._fd,(struct sockaddr*)&(client._addr),&len))==-1)
 		{
-			xk_Debug::LogSystemError("Accept Error:");
+			LogManager::LogError("Accept Error:");
 			return -1;
 		}
 		return 0;
@@ -88,25 +77,19 @@ int NetManager::NetAcceptClient_NoBlock(socket_class& client)
 		socklen_t len;
 		if((client._fd=accept(Server._fd,(struct sockaddr*)&(client._addr),&len),SOCK_NONBLOCK|SOCK_CLOEXEC)==-1)
 		{
-			xk_Debug::LogSystemError("Accept Error:");
+			LogManager::LogError("Accept Error:");
 			return -1;
 		}
-		/*int one = 1;  
-    	if(setsockopt(client._fd, IPPROTO_TCP, TCP_NODELAY, (char*)&one, sizeof(one))==-1); 
-		{
-            xk_Debug::LogSystemError("client setsockopet error:");
-            return -1;
-    	}*/
 		return 0;	
 }
 
-//成功则返回0，错误返回-1
+//Success:0,Error:-1
 int NetManager::CloseNet()
 {
 	//shutdown(server_fd,SHUT_WR);
 	if(close(Server._fd)==-1)
 	{
-		xk_Debug::LogSystemError("Close Server Error:");
+		LogManager::LogError("Close Server Error:");
 		return -1;
 	}
 	xk_Debug::Log()<<"Server Closed"<<endl;
@@ -155,7 +138,7 @@ int ClientInfoPool::NetReceiveMsg_Block()
 		ssize_t receiveMsgLength=recv(client._fd,&msg,1024,0);
 		if(receiveMsgLength==-1)
 		{
-			xk_Debug::LogSystemError("NetReceiveMsg Error:");
+			LogManager::LogError("NetReceiveMsg Error:");
 			CloseNet();
 			printClientinfo();
 			return -1;
@@ -242,7 +225,7 @@ int ClientInfoPool::ParseData(const unsigned char* msg,int msg_Length)
 	mProtobuf.mClient=this;
 	mProtobuf.DeSerializeStream(msg,msg_Length);
 
-	NetEventManager::getSingle()->handleEvent(mProtobuf);
+	NetEventManager::getSingle()->handleNetPackage(mProtobuf);
 	return 0;
 }
 
@@ -261,7 +244,7 @@ int ClientInfoPool::NetSendMsg_Block(const unsigned char* msg,const int Length)
 	static int SendCout=0;
 	const socket_class& client=*mClientInfo->mSocketInfo;
 
-	xk_Debug::Log()<<"发送密文字节流，长度："<<Length<<endl;
+	xk_Debug::Log()<<"Send MiWen Length："<<Length<<endl;
 	for(int i=0;i<Length;i++)
 	{
 		cout<<(int)(msg[i])<<" | ";
@@ -270,12 +253,12 @@ int ClientInfoPool::NetSendMsg_Block(const unsigned char* msg,const int Length)
 
 	if(send(client._fd,msg,Length,0)==-1)
 	{
-		xk_Debug::LogSystemError("Send Error:");
+		LogManager::LogError("Send Error:");
 		return -1;
 	}else
 	{
 		SendCout++;
-		cout<<"发送数目： "<<SendCout<<endl;
+		cout<<"SendCout： "<<SendCout<<endl;
 	}
 	return 0;
 }
@@ -293,14 +276,13 @@ int ClientInfoPool::NetSendMsg_NoBlock(const unsigned char* msg,const int Length
 	xk_Debug::Log()<<endl;
 
     if(send(client._fd,msg,Length,MSG_DONTWAIT)==-1)
-    //if(send(client._fd,msg,Length,0)==-1)
 	{
-		xk_Debug::LogSystemError("Send Error:");
+		LogManager::LogError("Send Error:");
 		return -1;
 	}else
 	{
 		SendCout++;
-		cout<<"发送数目： "<<SendCout<<endl;
+		cout<<"SendCout： "<<SendCout<<endl;
 	}
 	return 0;
 }
@@ -309,64 +291,12 @@ int ClientInfoPool::CloseNet()
 	shutdown(mClientInfo->mSocketInfo->_fd,SHUT_WR);
 	if(close(mClientInfo->mSocketInfo->_fd)==-1)
 	{
-		perror("关闭客户端错误：");
+		perror("Client Client：");
 	}
 }
 int ClientInfoPool::printClientinfo()
 {
 	cout<<"Client:  IoId："<<mClientInfo->mSocketInfo->_fd<<"  IP:"<<inet_ntoa(mClientInfo->mSocketInfo->_addr.sin_addr)<<"  port："<<(ntohs(mClientInfo->mSocketInfo->_addr.sin_port))<<endl;
-}
-
-ClientManagerPool* ClientManagerPool::single=new ClientManagerPool;
-pthread_rwlock_t ClientManagerPool::m_mutex_single_t={};
-bool ClientManagerPool::orInit_mutex_single=false;
-ClientManagerPool::ClientManagerPool()
-{
-		InitLock();
-}
-
-ClientManagerPool::~ClientManagerPool()
-{
-	
-}
-
-ClientManagerPool* ClientManagerPool:: getSingle()
-{
-		if(single==NULL)
-		{
-			if(orInit_mutex_single==false)
-			{
-				if(pthread_rwlock_init(&m_mutex_single_t,NULL)==-1)
-				{
-						cout<<"客户池 互斥锁初始化失败"<<endl;
-				}else
-				{
-					orInit_mutex_single=true;
-				}
-			}
-			pthread_rwlock_wrlock(&m_mutex_single_t); /*获取互斥锁*/
-			if(single==NULL)
-			{
-				single=new ClientManagerPool();
-			}
-			pthread_rwlock_unlock(&m_mutex_single_t); /*获取互斥锁*/
-		}
-		return single;
-}
-
-int ClientManagerPool::InitLock()
-{
-	if(pthread_rwlock_init(&m_mutex_ClientList_t,NULL)==-1)
-	{
-		cerr<<"Init vecotr Lock Error"<<endl;
-		return -1;
-	}
-	if(pthread_rwlock_init(&m_mutex_ClientDic_t,NULL)==-1)
-	{
-		cerr<<"Init Map Loack Error"<<endl;
-		return -1;
-	}	
-	return 0;
 }
 
 int ClientManagerPool::InitClient(socket_class* info)
@@ -378,18 +308,18 @@ int ClientManagerPool::InitClient(socket_class* info)
 
 int ClientManagerPool::AddClient(ClientInfoPool* client)
 {
-	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	mClientList_Mutex.Lock();	
 	ClientList.push_back(client);
-	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	mClientList_Mutex.unLock();
 
-	pthread_rwlock_wrlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	mClientDic_Mutex.Lock();
 	ClientDic.insert(pair<int,ClientInfoPool*>(client->mClientInfo->mSocketInfo->_fd,client));
-	pthread_rwlock_unlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	mClientDic_Mutex.unLock();
 	return 0;
 }
 int ClientManagerPool::RemoveClient(ClientInfoPool* client)
 {
-	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	mClientList_Mutex.Lock();
 	for(vector<ClientInfoPool*>::iterator iter=ClientList.begin();iter!=ClientList.end();)
 	{
 		if((*iter)==client)
@@ -401,8 +331,8 @@ int ClientManagerPool::RemoveClient(ClientInfoPool* client)
 			iter++;
 		}
 	}
-	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
-	pthread_rwlock_wrlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	mClientList_Mutex.Lock();
+	mClientDic_Mutex.Lock();
 	for(map<int,ClientInfoPool*>::iterator iter=ClientDic.begin();iter!=ClientDic.end();iter++)
 	{
 		if((*iter).second==client)
@@ -411,39 +341,36 @@ int ClientManagerPool::RemoveClient(ClientInfoPool* client)
 			break;
 		}
 	}
-	pthread_rwlock_unlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	mClientDic_Mutex.unLock();
 	return 0;
 }
 
 ClientInfoPool* ClientManagerPool::GetClient(int _fd)
 {
-	pthread_rwlock_wrlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	mClientDic_Mutex.Lock();	
 	map<int,ClientInfoPool*>::iterator iter=ClientDic.find(_fd);
 	if(iter!=ClientDic.end())
 	{
 		return ((*iter).second);
 	}
-	pthread_rwlock_unlock(&m_mutex_ClientDic_t); /*获取互斥锁*/
+	mClientDic_Mutex.unLock();
 	return 0;
 }
 
-vector<ClientInfoPool*> ClientManagerPool::GetClientPool()
+vector<ClientInfoPool*>& ClientManagerPool::GetClientPool()
 {
-	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
-	vector<ClientInfoPool*> mlist=ClientList;
-	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
-	return mlist;
+	return ClientList;
 }
 
 int ClientManagerPool::printClientPoolinfo()
 {
 	cout<<"ClientPool Info："<<endl;
-	pthread_rwlock_wrlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	mClientList_Mutex.Lock();
 	for(vector<ClientInfoPool*>::iterator iter=ClientList.begin();iter!=ClientList.end();iter++)
 	{
 		(*(*(iter))).printClientinfo();
 	}
-	pthread_rwlock_unlock(&m_mutex_ClientList_t); /*获取互斥锁*/
+	mClientList_Mutex.unLock();
 	cout<<"Pool capacity："<<ClientList.capacity()<<endl;
 	cout<<"Pool size："<<ClientList.size()<<endl;
 }
@@ -696,7 +623,7 @@ NetOutStream:: NetOutStream(const int command,const int Length,const unsigned ch
 		cout<<endl;
 
 		msg_Length= Encryption_AES::getSingle()->GetCipherLength(sumLength);
-		//填充为PKCS7格式，否则，客户端无法解密
+		//AES:PKCS7
 		unsigned char* msgStream1=new unsigned char[msg_Length];
 		for(int i=0;i<msg_Length;i++)
 		{

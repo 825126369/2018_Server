@@ -7,24 +7,25 @@
 
 #ifndef SRC_EVENTMANAGER_NETEVENTMANAGER_H_
 #define SRC_EVENTMANAGER_NETEVENTMANAGER_H_
+#include "CommonBase.h"
 #include "NetProtoEvent.h"
 using namespace xk_protobuf_data;
 namespace basic
 {
 class NetEventPackage;
 typedef int(*RecFun)(const NetEventPackage);
-class NetEventManager
+class NetEventManager:public Singleton<NetEventManager>
 {
 public:
 	int Init();
-	int handleEvent(NetEventPackage mProtobuf);
-	static NetEventManager* getSingle();
+	int RegisterNetEvent(const ProtoCommand command,const RecFun Evfun) const;
+	int handleNetPackage(const NetEventPackage mProtobuf) const;
+	~NetEventManager();
 private:
+	friend class Singleton<NetEventManager>;
 	NetEventManager();
-	virtual ~NetEventManager();
 private:
-	static NetEventManager* single;
-	map<ProtoCommand,RecFun>* ProtoEventReceiveDic;
+	map<ProtoCommand,RecFun>* NetEventReceiveDic;
 };
 
 } /* namespace basic */

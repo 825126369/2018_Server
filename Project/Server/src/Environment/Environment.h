@@ -3,6 +3,8 @@
 
 #include <climits>
 #include <cassert>
+#include <cstddef>
+#include <iostream>
 void CheckEnvironment();
 
 #endif

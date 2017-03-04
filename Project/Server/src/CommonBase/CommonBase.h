@@ -9,36 +9,84 @@
 #define SRC_COMMONBASE_COMMONBASE_H_
 #include "pthread.h"
 #include <iostream>
+#include <mutex>
 using namespace std;
 namespace basic {
-class LockManager
+
+class Thread_Lock
 {
 private:
-	pthread_rwlock_t  m_cs;
+	pthread_rwlock_t  m_Lock;
 public:
-    LockManager()
+    Thread_Lock()
     {
-    	if(pthread_rwlock_init(&m_cs,NULL)==-1)
+    	if(pthread_rwlock_init(&m_Lock,NULL)==-1)
     	{
-    		cout<<"客户池 互斥锁初始化失败"<<endl;
+    		cout<<"mutex init error"<<endl;
     	}
     }
 
-    void Lock();
-    void unLock();
+    void Lock()
+	{
+		pthread_rwlock_wrlock(&m_Lock); 		
+	}
+    void unLock()
+	{
+		pthread_rwlock_unlock(&m_Lock); 
+	}
 };
+
 template<typename T>
 class Singleton
 {
+protected:
+	Singleton()=default;
+	~Singleton()=default;
+	Singleton(Singleton&& s)=default;
+	Singleton(const Singleton& s)=default;
+	Singleton& operator=(Singleton&& s)=default;
+	Singleton& operator=(const Singleton& s)=default;		
 private:
-	Singleton();
+	friend class CleanUp;
+	class CleanUp
+	{
+		public:
+			~CleanUp()
+			{
+				cout<<"CleanUp delete singleton"<<endl;	
+				lock_guard<mutex> guard(Singleton::sMutex);
+				delete pInstance;
+				pInstance=nullptr;
+			}
+	};
 public:
 	static T* getSingle()
 	{
+		lock_guard<mutex> guard(sMutex);	
+		static CleanUp cleanup;	
 		static T single;
 		return &single;
 	}
+
+	static T* Instance()
+	{
+		lock_guard<mutex> guard(sMutex);	
+		static CleanUp cleanup;
+		if(pInstance==NULL)
+		{
+			pInstance=new T();
+		}
+		return pInstance;
+	}
+private:
+	static std::mutex sMutex;
+	static T* pInstance;
 };
+
+template<typename T>
+T* Singleton<T>::pInstance=nullptr;
+template<typename T>
+std::mutex Singleton<T>::sMutex;
 
 } /* namespace basic */
 

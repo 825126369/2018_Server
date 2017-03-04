@@ -12,6 +12,7 @@
 #include <cstring>
 #include "EncryptionManager.h"
 #include "libev_NetManager.h"
+#include "CommonBase.h"
 using namespace std;
 namespace basic
 {
@@ -24,31 +25,30 @@ class Encryption_AES;
 class NetEncryptionInputStream;
 class NetEncryptionOutStream;
 class NetEncryptionStream;
-class NetManager {
+class NetManager:public Singleton<NetManager> 
+{
 
 public:
-	virtual ~NetManager();
+	~NetManager()=default;
 	int Init();
 	struct socket_class getServerSocketInfo();
 	int CloseNet();
 	int NetAcceptClient_Block(socket_class& client);
 	int NetAcceptClient_NoBlock(socket_class& client);
-	static NetManager* getSingle();
 private:
-	NetManager();
+	NetManager()=default;
+	friend class Singleton<NetManager>;
 	int InitNet();
 	int printServerinfo(const socket_class& _socket);
 private:
 	struct socket_class Server;
-	static NetManager single;
-
 };
 
 class ClientInfoPool
 {
 public:
 	ClientInfoPool(socket_class* socket_r);
-	virtual ~ClientInfoPool();
+    ~ClientInfoPool();
 	int run();
 	int SendData(int command,google::protobuf::Message* msgClass);
 	int printClientinfo();
@@ -66,11 +66,9 @@ private:
 	NetPackageReceivePool* mNetPackageReceivePool;
 };
 
-class ClientManagerPool {
+class ClientManagerPool:public Singleton<ClientManagerPool> {
 
 public:
-	static ClientManagerPool* getSingle();
-
 	int InitClient(socket_class* info);
 
 	int AddClient(ClientInfoPool* client);
@@ -79,34 +77,17 @@ public:
 
 	ClientInfoPool* GetClient(int fd);
 
-	vector<ClientInfoPool*> GetClientPool();
+	vector<ClientInfoPool*>& GetClientPool();
+	~ClientManagerPool()=default;
 private:
 	int printClientPoolinfo();
-	int InitLock();
-	ClientManagerPool();
-	~ClientManagerPool();
-
+	friend class Singleton<ClientManagerPool>;
+	ClientManagerPool()=default;
 private:
-	static ClientManagerPool* single;
-	pthread_rwlock_t m_mutex_ClientList_t;
-	pthread_rwlock_t m_mutex_ClientDic_t;
-	static pthread_rwlock_t m_mutex_single_t;
-	static bool orInit_mutex_single;
+	Thread_Lock mClientList_Mutex;
+	Thread_Lock mClientDic_Mutex;
 	vector<ClientInfoPool*> ClientList;
 	map<int,ClientInfoPool*> ClientDic;
-	//创建单例销毁工人
-	class CGarbo
-	{
-	public:
-		~CGarbo()
-		{
-			if(ClientManagerPool::single!=NULL)
-			{
-				delete ClientManagerPool::single;
-			}
-		}
-	};
-	static CGarbo Garbo;
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~数据包定义~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class  Package
@@ -126,7 +107,6 @@ public:
 	Protobuf(int command,google::protobuf::Message* obj);
 	NetOutStream SerializeMsgObj();
 	int DeSerializeStream(const unsigned char* msg,int Length);
-
 };
 
 class NetEventPackage:public Protobuf
@@ -226,9 +206,6 @@ public:
 	int buffer_Length;
 private:
 	NetEncryptionInputStream mEncryptionInputStream;
-
-
-
 };
 
 class NetOutStream:public NetStream
