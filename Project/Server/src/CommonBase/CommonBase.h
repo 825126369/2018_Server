@@ -131,6 +131,20 @@ public:
 		}
 	}
 };
+
+class RandomManager:public Singleton<RandomManager>
+{
+private:
+	RandomManager()=default;
+	friend class Singleton<RandomManager>;
+public:
+	template<typename T>
+	T getRandom(T min, T max)
+	{
+		srand(static_cast<unsigned int>(time(nullptr)));	
+		return (rand() % static_cast<T>(max + 1 - min)) + min;
+	}
+};
 } /* namespace basic */
 
 
