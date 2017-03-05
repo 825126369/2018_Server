@@ -10,6 +10,9 @@
 #include "pthread.h"
 #include <iostream>
 #include <mutex>
+#include <ctime>
+#include <string>
+#include <cstring>
 using namespace std;
 namespace basic {
 
@@ -88,6 +91,48 @@ T* Singleton<T>::pInstance=nullptr;
 template<typename T>
 std::mutex Singleton<T>::sMutex;
 
+#define TimeZone "China"
+class TimeManager:public Singleton<TimeManager>
+{
+private:
+	TimeManager()=default;
+	friend class Singleton<TimeManager>;
+public:
+	time_t getTime()
+	{
+		return time(NULL);
+	}
+
+	string getTodayTime()
+	{
+		time_t ts=time(NULL);	
+		if(strcmp(TimeZone,"China"))
+		{
+			struct tm* timeinfo=localtime(&ts);	
+			return to_string(timeinfo->tm_hour)+":"+to_string(timeinfo->tm_min)+":"+to_string(timeinfo->tm_sec);
+		}else
+		{
+			struct tm* timeinfo=gmtime(&ts);
+			return asctime(timeinfo);
+		}
+	}
+
+	string getFullTime()
+	{
+		time_t ts=time(NULL);	
+		if(strcmp(TimeZone,"China"))
+		{	
+			struct tm* timeinfo=localtime(&ts);	
+			return asctime(timeinfo);
+		}else
+		{
+			struct tm* timeinfo=gmtime(&ts);
+			return asctime(timeinfo);
+		}
+	}
+};
 } /* namespace basic */
+
+
 
 #endif /* SRC_COMMONBASE_COMMONBASE_H_ */
